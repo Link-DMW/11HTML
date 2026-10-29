@@ -233,7 +233,7 @@
   </footer>
 </div>
 
-<script src="shop_data.js?v=20261029192717"></script>
+<script src="shop_data.js?v=20261029192916"></script>
 <script>
 (function(){
   'use strict';
@@ -882,16 +882,24 @@
     if(key === 'pay') return '¥'+fmtMoney(v);
     return fmtInt(v)+' '+def.unit;
   }
-  function headHTML(title, unit, key, cum, trend){
+  function headHTML(title, unit, key, cum, trend, showPay){
     return '<div class="chart-head">' +
         '<div class="t">'+title+'<em>'+unit+'</em></div>' +
         '<div class="chart-tabs">' +
           (trend === false ? '' : '<button data-cum="1" class="'+(cum?'on':'')+'">总览</button>') +
           '<button data-m="visitors" class="'+(key==='visitors'?'on':'')+'">访客</button>' +
-          '<button data-m="pay" class="'+(key==='pay'?'on':'')+'">支付</button>' +
+          (showPay === false ? '' : '<button data-m="pay" class="'+(key==='pay'?'on':'')+'">支付</button>') +
           '<button data-m="orders" class="'+(key==='orders'?'on':'')+'">订单</button>' +
         '</div>' +
       '</div>';
+  }
+  /* 只有全托数据的店没有 POP 支付，不给它「支付」按钮 */
+  function hasPOP(list){
+    return (list || []).some(function(st){
+      return (st.history || []).some(function(r){
+        return num(r.popPay) > 0 || num(r.popVisitors) > 0 || num(r.popOrders) > 0;
+      });
+    });
   }
   function chartBox(id, s){
     return '<div class="chart" data-chart="'+id+'"><svg viewBox="0 0 880 280">'+s+'</svg></div>';
@@ -907,6 +915,7 @@
 
   function overviewBlock(list, id){
     var times = allTimes(list);
+    var showPay = hasPOP(list);
     if(times.length < 2) return '<div class="chart-empty">采样点太少，画不了</div>';
 
     var g = geom(times), L=g.L, T=g.T, ih=g.ih, W=g.W, R=g.R, rd=g.rd;
@@ -985,7 +994,7 @@
         '<div class="chart-tabs">' +
           '<button data-cum="1" class="on">总览</button>' +
           '<button data-m="visitors">访客</button>' +
-          '<button data-m="pay">支付</button>' +
+          (showPay === false ? '' : '<button data-m="pay">支付</button>') +
           '<button data-m="orders">订单</button>' +
         '</div>' +
       '</div>' + legend + chartBox(id, s);
@@ -1068,6 +1077,8 @@
   }
 
   function chartBlock(list, id){
+    var showPay = hasPOP(list);
+    if(showPay === false && CHART.metric === 'pay') CHART.metric = 'visitors';
     var key=CHART.metric, cum=CHART.cum, def=CMET[key];
     if(list.length > 1) return multiChart(list, id, key, def);
     if(cum) return overviewBlock(list, id);
@@ -1090,7 +1101,7 @@
         var tip = (key === 'pay')
           ? '全托侧没有成交金额字段，只能按「全托余额涨了多少」推算；这家店这段时间余额没动'
           : '这家店这段时间没有采到增量';
-        return headHTML('新增'+def.name, def.unit, key, cum) +
+        return headHTML('新增'+def.name, def.unit, key, cum, true, showPay) +
           '<div class="chart-empty">这段时间没有「新增'+def.name+'」的数据<br>'+
           '<span style="display:inline-block;margin-top:6px;font-size:10.5px;color:rgba(246,227,192,.34)">'+tip+'</span></div>';
       }
@@ -1160,7 +1171,7 @@
     s += resetSvg(g, pts.map(function(p){ return p.t; }));
     s += timeAxisSvg(g);
     CHART.hits[id] = { bars:hits, key:key, cum:cum, unit:def.unit };
-    return headHTML(cum ? (def.name+'走势') : ('新增'+def.name), def.unit, key, cum) + chartBox(id, s);
+    return headHTML(cum ? (def.name+'走势') : ('新增'+def.name), def.unit, key, cum, true, showPay) + chartBox(id, s);
   }
 
   /* 总览：每店一条累计曲线 */
