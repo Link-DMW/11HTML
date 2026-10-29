@@ -233,7 +233,7 @@
   </footer>
 </div>
 
-<script src="shop_data.js?v=20261029192916"></script>
+<script src="shop_data.js?v=20261029193400"></script>
 <script>
 (function(){
   'use strict';
@@ -1276,7 +1276,7 @@
     return '<div class="detail">' +
       chartBlock([s], 'c_' + s.name.replace(/[^a-z0-9]/gi,'')) +
       '<div class="kv">' +
-        '<div>今日支付<b>¥'+fmtMoney(num(s._pay) || num(s.popPay))+'</b></div>' +
+        (hasPOP([s]) ? '<div>今日支付<b>¥'+fmtMoney(num(s._pay) || num(s.popPay))+'</b></div>' : '') +
         '<div>新增访客<b>+'+fmtInt(st.total)+'</b></div>' +
         '<div>订单<b>'+fmtInt(s.popOrders)+'</b></div>' +
         '<div>转化<b>'+num(s.cvr).toFixed(2)+'%</b></div>' +
