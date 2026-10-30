@@ -4,6 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>双十一龙虎榜</title>
+<meta name="description" content="2026 双十一 店铺实时龙虎榜 · 访客 / 支付 / 订单 / 纠纷 逐时更新">
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2064%2064'%3E%3Crect%20width='64'%20height='64'%20rx='14'%20fill='%237d181b'/%3E%3Ctext%20x='32'%20y='43'%20font-family='sans-serif'%20font-size='25'%20font-weight='700'%20text-anchor='middle'%20fill='%23f7d99a'%3E11%3C/text%3E%3C/svg%3E">
 <style>
   *{box-sizing:border-box;margin:0;padding:0}
   :root{
@@ -128,7 +130,7 @@
   summary::-webkit-details-marker{display:none}
   summary:hover{color:var(--gold)}
   .tbl{margin-top:16px;overflow-x:auto}
-  table{width:100%;border-collapse:collapse;font-size:11.5px;min-width:840px}
+  table{width:100%;border-collapse:collapse;font-size:11.5px;min-width:760px}
   th{font-size:9.5px;letter-spacing:.06em;color:var(--cream3);font-weight:400;text-align:right;padding:0 0 8px;border-bottom:1px solid var(--gold-line);white-space:nowrap}
   th:first-child,td:first-child{text-align:left}
   td{padding:8px 0;border-bottom:1px solid rgba(247,217,154,.1);text-align:right;font-variant-numeric:tabular-nums;color:var(--cream2);white-space:nowrap}
@@ -154,13 +156,6 @@
   .chart-legend span i{width:10px;height:2.5px;border-radius:1px;flex:0 0 auto}
   .chart-legend span em{font-style:normal;font-size:10px;color:var(--cream3)}
   .chart-legend .dim{color:rgba(246,227,192,.4)}
-  .ov{display:grid;grid-template-columns:repeat(4,1fr);gap:10px 12px;margin:4px 0 6px}
-  @media (max-width:820px){ .ov{grid-template-columns:repeat(2,1fr)} }
-  .ov .c{background:rgba(0,0,0,.14);border:1px solid rgba(247,217,154,.10);border-radius:2px;padding:9px 10px 5px}
-  .ov .c b{display:block;font-size:10.5px;font-weight:400;letter-spacing:.08em;color:var(--cream3)}
-  .ov .c .v{display:block;font-size:14.5px;color:var(--gold);margin:1px 0 5px;font-variant-numeric:tabular-nums}
-  .ov .c .v i{font-style:normal;font-size:9.5px;color:var(--cream3);margin-left:2px}
-  .ov .mini svg{display:block;width:100%;height:auto}
   #ctip{position:fixed;z-index:99;pointer-events:none;opacity:0;transition:opacity .1s;
     background:#2a0b0d;border:1px solid rgba(247,217,154,.45);padding:9px 12px;
     font-size:11px;line-height:1.65;color:#f6e3c0;white-space:nowrap;box-shadow:0 6px 18px rgba(0,0,0,.45)}
@@ -233,7 +228,7 @@
   </footer>
 </div>
 
-<script src="shop_data.js?v=20261030093043"></script>
+<script src="shop_data.js?v=20261030111945"></script>
 <script>
 (function(){
   'use strict';
@@ -281,10 +276,57 @@
   var allOpen = true;
   var boardExpanded = false;
   var LIMIT = 10;
+  var LAG_WARN = 150;   /* 采集一轮约 1 小时，落后超过 2.5 小时才算异常 */
+
+  /* ============ 店铺类型 ============ */
+  /* POP 店 = 历史上出现过 POP 实时支付（popPay > 0）；其余算纯全托。
+     纯全托店没有「成交金额」字段，页面上不显示任何金额。 */
+  function isPop(s){
+    if(!s) return false;
+    if(s._pop !== undefined) return s._pop;
+    s._pop = num(s.popPay) > 0 || (s.history || []).some(function(r){ return num(r.popPay) > 0; });
+    return s._pop;
+  }
+
+  /* ============ 采集探针 ============ */
+  /* 每家店被抓取一轮的间隔并不一样，按它自己的中位间隔判断「该到没到」，
+     比一刀切的分钟数灵敏：错过一轮就亮，正常排队不会被误报。 */
+  function cadenceMin(s){
+    if(s._cad !== undefined) return s._cad;
+    var ts = (s.history || []).map(function(r){ return parseTs(r.ts).getTime(); })
+      .sort(function(a,b){ return a-b; });
+    var gaps = [], i, g;
+    for(i=1;i<ts.length;i++){
+      g = (ts[i] - ts[i-1]) / 60000;
+      if(g >= 5 && g <= 240) gaps.push(g);
+    }
+    if(gaps.length < 3){ s._cad = null; return null; }
+    gaps.sort(function(a,b){ return a-b; });
+    s._cad = Math.round(gaps[Math.floor(gaps.length/2)]);
+    return s._cad;
+  }
+  function probe(s){
+    if(s._pr) return s._pr;
+    var lag = lagMin(s), cad = cadenceMin(s);
+    /* 两个节奏没到就算停滞；至少给 90 分钟，免得抖动误报 */
+    var limit = Math.round(Math.max(90, (cad || 60) * 1.9));
+    s._pr = { lag:lag, cad:cad, limit:limit, late: lag > limit };
+    return s._pr;
+  }
+
+  /* 全托没有「POP 订单」字段，用「全托今天销量」当订单数，转化率也按它算 */
+  function ordersOf(s){
+    return isPop(s) ? num(s.popOrders) : num(s.sales);
+  }
+  function cvrOf(s){
+    if(isPop(s)) return num(s.cvr);
+    var v = num(s.visitors);
+    return v > 0 ? (num(s.sales) / v) * 100 : 0;
+  }
 
   /* ============ 今日支付 ============ */
-  /* 全托没有「成交金额」字段，用「全托余额」当天的增量当作全托侧的新增支付：
-     余额 = 已结算到账的钱，只取正增量（提现/扣费不参与）。 */
+  /* 只认 POP 实时支付金额。全托店的「余额」是充值/结算后的结余，不是当天成交额，
+     拿余额增量当支付会把数字算歪，所以全托店一律不显示金额。 */
   var REF_DAY = 0;
   function refDay(){
     if(!REF_DAY){
@@ -292,27 +334,14 @@
     }
     return REF_DAY;
   }
-  function balGainAt(hist, idx, day){
-    if(!hist || idx < 0 || idx >= hist.length) return 0;
-    var start = null, i;
-    for(i=0;i<=idx;i++){
-      if(dayKey(parseTs(hist[i].ts).getTime()) === day){ start = num(hist[i].balance); break; }
-    }
-    if(start == null) start = num(hist[0].balance);
-    return Math.max(0, num(hist[idx].balance) - start);
-  }
   function computePay(list){
-    var day = refDay();
     list.forEach(function(s){
       var h = (s.history || []).slice().sort(function(a,b){
         return parseTs(a.ts).getTime() - parseTs(b.ts).getTime();
       });
-      for(var i=0;i<h.length;i++){
-        h[i]._pay = num(h[i].popPay) + balGainAt(h, i, day);
-      }
+      for(var i=0;i<h.length;i++) h[i]._pay = num(h[i].popPay);
       s.history = h;
-      s._balGain = balGainAt(h, h.length-1, day);
-      s._pay = num(s.popPay) + s._balGain;
+      s._pay = num(s.popPay);
     });
   }
 
@@ -360,10 +389,7 @@
       var r = h[h.length-2];
       var o = { name:st.name, ts:String(r.ts||'') };
       PREV_KEYS.forEach(function(k){ o[k] = num(r[k]); });
-      var hh = (st.history || []).slice().sort(function(x,y){
-        return parseTs(x.ts).getTime() - parseTs(y.ts).getTime();
-      });
-      o._pay = num(r.popPay) + balGainAt(hh, hh.length-2, refDay());
+      o._pay = num(r.popPay);
       list.push(o);
     });
     if(!list.length) return {};
@@ -371,7 +397,7 @@
     list.forEach(function(x,i){ x._score = scores[i]; });
     var f = {
       score: function(x){ return x._score; },
-      popPay: function(x){ return x.popPay; },
+      popPay: function(x){ return x._pay; },
       visitors: function(x){ return x.visitors; },
       disputes: function(x){ return (x.disputes||0)+(x.popDisputes||0); },
       ts: function(x){ return parseTs(x.ts).getTime(); }
@@ -383,21 +409,39 @@
   }
 
   /* ================= 时间 ================= */
+  /* 全站时间统一按美西（America/Los_Angeles）显示；数据库里的 ts 是北京时间，只用于换算 */
+  var TZ_SHOW = 'America/Los_Angeles';
+  var _fmtCache = {};
+  function fmtOf(tz){
+    if(!_fmtCache[tz]){
+      _fmtCache[tz] = new Intl.DateTimeFormat('en-CA',{
+        timeZone:tz, year:'numeric', month:'2-digit', day:'2-digit',
+        hour:'2-digit', minute:'2-digit', second:'2-digit', hourCycle:'h23'
+      });
+    }
+    return _fmtCache[tz];
+  }
   function parts(d, tz){
     var o = {};
-    new Intl.DateTimeFormat('en-CA',{
-      timeZone:tz, year:'numeric', month:'2-digit', day:'2-digit',
-      hour:'2-digit', minute:'2-digit', second:'2-digit', hourCycle:'h23'
-    }).formatToParts(d).forEach(function(p){ if(p.type !== 'literal') o[p.type] = p.value; });
+    fmtOf(tz || TZ_SHOW).formatToParts(d).forEach(function(p){ if(p.type !== 'literal') o[p.type] = p.value; });
     return o;
   }
+  function toMs(ts){
+    if(typeof ts === 'number') return ts;
+    var t = parseTs(ts);
+    return isNaN(t.getTime()) ? null : t.getTime();
+  }
   function hm(ts){
-    if(typeof ts === 'number'){ var p = parts(new Date(ts),'Asia/Shanghai'); return p.hour+':'+p.minute; }
-    return String(ts||'').slice(11,16);
+    var ms = toMs(ts);
+    if(ms == null) return String(ts||'').slice(11,16);
+    var p = parts(new Date(ms), TZ_SHOW);
+    return p.hour+':'+p.minute;
   }
   function dm(ts){
-    if(typeof ts === 'number'){ var p = parts(new Date(ts),'Asia/Shanghai'); return p.month+'-'+p.day; }
-    return String(ts||'').slice(5,10);
+    var ms = toMs(ts);
+    if(ms == null) return String(ts||'').slice(5,10);
+    var p = parts(new Date(ms), TZ_SHOW);
+    return p.month+'-'+p.day;
   }
   /* 实时时钟：北京 / 美西（客户端算，部署到 Pages 也是准的） */
   function tzParts(ms, tz, withDay){
@@ -433,17 +477,31 @@
     }catch(err){ return ''; }
   }
   function hourShift(ts){ return new Date(parseTs(ts).getTime()); }
-  function tickClocks(){
+  var CLK = null;
+  function buildClocks(){
     var el = document.getElementById('clocks');
     if(!el) return;
+    el.innerHTML =
+      '<span>北京<b id="ck-bj">--:--:--</b></span>' +
+      '<span>美西<b id="ck-us">--:--:--</b><i id="ck-usd"></i></span>' +
+      '<span>更新<b id="ck-up">--:--</b><i id="ck-upd"></i></span>';
+    CLK = {
+      bj:document.getElementById('ck-bj'), us:document.getElementById('ck-us'),
+      usd:document.getElementById('ck-usd'), up:document.getElementById('ck-up'), upd:document.getElementById('ck-upd')
+    };
+  }
+  function tickClocks(){
+    if(!CLK) buildClocks();
+    if(!CLK) return;
     var now = Date.now();
     var bj = tzParts(now, 'Asia/Shanghai');
     var us = tzParts(now, 'America/Los_Angeles');
     var upd = UPDATE_STR ? UPDATE_STR.split('|') : null;
-    el.innerHTML =
-      '<span>北京<b>'+bj.time+'</b></span>' +
-      '<span>美西<b>'+us.time+'</b><i>'+us.day+'</i></span>' +
-      (upd ? '<span>更新<b>'+upd[0]+'</b><i>'+upd[1]+'</i></span>' : '');
+    CLK.bj.textContent = bj.time;
+    CLK.us.textContent = us.time;
+    CLK.usd.textContent = us.day;
+    CLK.up.textContent = upd ? upd[0] : '—';
+    CLK.upd.textContent = upd ? upd[1] : '';
   }
 
   function fmtRange(a,b){ return (!a||!b) ? '—' : dm(a)+' '+hm(a)+' – '+dm(b)+' '+hm(b); }
@@ -455,7 +513,7 @@
   function usDay(tsWest){ return String(tsWest||'').slice(0,10); }
 
   /* ================= 图表 ================= */
-  var TZ_OFF = 8*3600000, GAP_CAP = 7200000, MIN_BIN_MIN = 6;
+  var GAP_CAP = 7200000, MIN_BIN_MIN = 6;
 
   function visValue(r){ return num(r.visitors) + num(r.popVisitors); }
 
@@ -527,150 +585,20 @@
     for(var i=0;i<steps.length;i++){ if(v <= steps[i]*e) return steps[i]*e; }
     return 10*e;
   }
-  function defs(id){
-    return '<defs><pattern id="ch-'+id+'" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">' +
-      '<rect width="6" height="6" fill="#5a1618"/><line x1="0" y1="0" x2="0" y2="6" stroke="#6d2a26" stroke-width="1.1"/></pattern></defs>';
-  }
-
-  function svgBars(bins, o){
-    o = o || {};
-    if(!bins.length) return '<div class="empty">没有可画的采样区间</div>';
-    var id = o.id || 'a';
-    var W = o.width || 880, H = o.height || 220;
-    var L = 44, R = 46, T = 22, B = 26;
-    var iw = W-L-R, ih = H-T-B, font = 10;
-    var rd = function(n){ return Math.round(n*10)/10; };
-
-    var totalW = 0;
-    bins.forEach(function(b){ b._w = Math.min(b.t1-b.t0, GAP_CAP); totalW += b._w; });
-    var scale = iw/(totalW||1), acc = 0;
-    bins.forEach(function(b){ b._x0 = L+acc*scale; acc += b._w; b._x1 = L+acc*scale; });
-    function Xt(t){
-      for(var i=0;i<bins.length;i++){
-        var b = bins[i];
-        if(t <= b.t1){ var f = (t-b.t0)/Math.max(1,b.t1-b.t0); return b._x0 + clamp(f,0,1)*(b._x1-b._x0); }
-      }
-      return W-R;
-    }
-
-    var maxV = 0, cum = 0;
-    bins.forEach(function(b){
-      var v = b.sol+b.est; cum += v;
-      if((b.t1-b.t0) > GAP_CAP) return;
-      if(v > maxV) maxV = v;
-    });
-    if(maxV <= 0) maxV = cum || 1;
-    var top = niceMax(maxV*1.08);
-    var Y = function(v){ return T+ih - v/top*ih; };
-    var CY = function(v){ return T+ih - v/Math.max(1, cum*1.03)*ih; };
-    var tStart = bins[0].t0, tEnd = bins[bins.length-1].t1;
-
-    var s = '<svg viewBox="0 0 '+W+' '+H+'" role="img">' + defs(id);
-    [0,.5,1].forEach(function(f){
-      var y = rd(Y(top*f));
-      s += '<line x1="'+L+'" y1="'+y+'" x2="'+(W-R)+'" y2="'+y+'" stroke="rgba(247,217,154,.14)" stroke-width="1"/>';
-      s += '<text x="'+(L-7)+'" y="'+(y+3.5)+'" text-anchor="end" font-size="9.5" fill="rgba(246,227,192,.55)">'+fmtAxis(top*f)+'</text>';
-    });
-
-    function inGap(t){
-      for(var i=0;i<bins.length;i++){
-        var b = bins[i];
-        if((b.t1-b.t0) > GAP_CAP && t > b.t0 && t < b.t1) return true;
-      }
-      return false;
-    }
-
-    var peak = null;
-    bins.forEach(function(b){
-      if((b.t1-b.t0) > GAP_CAP) return;
-      var v = b.sol+b.est;
-      if(!peak || v > peak.v) peak = { v:v, b:b };
-    });
-
-    var yb = T+ih;
-    bins.forEach(function(b){
-      var total = b.sol+b.est, w = Math.max(1.2, b._x1-b._x0-1);
-      var cap = (b.t1-b.t0) > GAP_CAP, gapH = (b.t1-b.t0)/3600000;
-
-      if(cap){
-        s += '<rect x="'+rd(b._x0)+'" y="'+rd(T)+'" width="'+rd(w)+'" height="'+rd(ih)+'" fill="#000000" opacity=".2"/>';
-        var gx = (b._x0+b._x1)/2;
-        s += '<line x1="'+rd(gx-3)+'" y1="'+rd(T)+'" x2="'+rd(gx+3)+'" y2="'+rd(T+ih)+'" stroke="rgba(247,217,154,.4)" stroke-width="1.3"/>';
-        s += '<line x1="'+rd(gx+2)+'" y1="'+rd(T)+'" x2="'+rd(gx+8)+'" y2="'+rd(T+ih)+'" stroke="rgba(247,217,154,.4)" stroke-width="1.3"/>';
-        var gw = b._x1 - b._x0;
-        if(gw > 62){
-          var txt = '断采 ' + (gapH >= 10 ? Math.round(gapH)+'h' : Math.round(gapH*60)+'m');
-          if(gw > 120 && total > 0) txt += ' · +' + fmtInt(total);
-          s += '<text x="'+rd(gx)+'" y="'+rd(T+30)+'" text-anchor="middle" font-size="9.5" fill="rgba(246,227,192,.55)">'+txt+'</text>';
-        }
-        return;
-      }
-      if(total <= 0){
-        s += '<rect x="'+rd(b._x0)+'" y="'+rd(yb-3)+'" width="'+rd(w)+'" height="3" fill="url(#ch-'+id+')" opacity=".5"/>';
-        return;
-      }
-      var hS = b.sol/top*ih, hE = b.est/top*ih;
-      if(hS > .4) s += '<rect x="'+rd(b._x0)+'" y="'+rd(yb-hS)+'" width="'+rd(w)+'" height="'+rd(hS)+'" fill="#e8c07a"/>';
-      if(hE > .4){
-        s += '<rect x="'+rd(b._x0)+'" y="'+rd(yb-hS-hE)+'" width="'+rd(w)+'" height="'+rd(hE)+'" fill="#6d2a26"/>';
-        s += '<rect x="'+rd(b._x0)+'" y="'+rd(yb-hS-hE)+'" width="'+rd(w)+'" height="'+rd(hE)+'" fill="url(#ch-'+id+')" opacity=".5"/>';
-      }
-      s += '<rect x="'+rd(b._x0)+'" y="'+rd(yb-hS-hE)+'" width="'+rd(w)+'" height="'+rd(hS+hE)+'" fill="transparent">'+
-        '<title>'+hm(b.t0)+'–'+hm(b.t1)+' · '+Math.round((b.t1-b.t0)/60000)+' 分钟 · +'+fmtInt(total)+' 人</title></rect>';
-    });
-
-    if(peak && peak.v > 0){
-      s += '<text x="'+rd((peak.b._x0+peak.b._x1)/2)+'" y="'+rd(Y(peak.v)-7)+'" text-anchor="middle" font-size="10" fill="#ffe9c0">'+fmtInt(peak.v)+'</text>';
-    }
-
-    if(cum > 0){
-      var run = 0, pts = [];
-      bins.forEach(function(b){ run += b.sol+b.est; pts.push({ x:b._x1, v:run }); });
-      s += '<path d="'+pts.map(function(p,i){ return (i?'L':'M')+rd(p.x)+','+rd(CY(p.v)); }).join(' ')+'" fill="none" stroke="#ffe0a8" stroke-width="1.3" opacity=".9"/>';
-      s += '<text x="'+(W-R+6)+'" y="'+rd(CY(cum)+3)+'" font-size="9.5" fill="#ffe0a8">'+fmtAxis(cum)+'</text>';
-    }
-
-    if((tEnd-tStart) > 86400000){
-      var mid = Math.ceil((tStart+TZ_OFF)/86400000)*86400000 - TZ_OFF;
-      for(; mid<=tEnd; mid+=86400000){
-        var dx = Xt(mid), pp = parts(new Date(mid),'Asia/Shanghai');
-        s += '<line x1="'+rd(dx)+'" y1="'+T+'" x2="'+rd(dx)+'" y2="'+(T+ih)+'" stroke="rgba(247,217,154,.4)" stroke-width="1" stroke-dasharray="2 3"/>';
-        s += '<text x="'+rd(dx+3)+'" y="'+(T+10)+'" font-size="9.5" fill="rgba(246,227,192,.55)">'+pp.month+'-'+pp.day+'</text>';
-      }
-      var h4 = Math.ceil((tStart+TZ_OFF)/14400000)*14400000 - TZ_OFF;
-      for(; h4<=tEnd; h4+=14400000){
-        var x4 = Xt(h4); if(x4-L<20 || (W-R)-x4<24) continue;
-        var p4 = parts(new Date(h4),'Asia/Shanghai');
-        if(p4.hour === '00') continue;
-        if(inGap(h4)) continue;
-        s += '<text x="'+rd(x4)+'" y="'+(T+ih+18)+'" text-anchor="middle" font-size="9.5" fill="rgba(246,227,192,.55)">'+p4.hour+':00</text>';
-      }
-    }else{
-      var hh = Math.ceil((tStart+TZ_OFF)/3600000)*3600000 - TZ_OFF;
-      for(; hh<=tEnd; hh+=3600000){
-        if(inGap(hh)) continue;
-        var hx = Xt(hh); if(hx-L<26 || (W-R)-hx<30) continue;
-        s += '<text x="'+rd(hx)+'" y="'+(T+ih+18)+'" text-anchor="middle" font-size="9.5" fill="rgba(246,227,192,.55)">'+hm(hh)+'</text>';
-      }
-    }
-
-    s += '</svg>';
-    return s;
-  }
-
   function events(s){
-    var h = s.history || [], out = [];
+    var h = s.history || [], out = [], pop = isPop(s);
     for(var i=1;i<h.length;i++){
       var a = h[i-1], b = h[i];
       var ta = parseTs(a.ts), tb = parseTs(b.ts), gap = Math.round((tb-ta)/60000);
-      if(usDay(a.tsWest) !== usDay(b.tsWest)){
-        out.push({ t:tb.getTime(), ts:b.ts, kind:'reset', txt:'跨日归零', d:'¥'+fmtMoney(a.popPay)+' → ¥'+fmtMoney(b.popPay) });
+      if(pop && usDay(a.tsWest) !== usDay(b.tsWest)){
+        out.push({ t:tb.getTime(), ts:b.ts, kind:'reset', txt:'跨日归零', d:'$'+fmtMoney(a.popPay)+' → $'+fmtMoney(b.popPay) });
         continue;
       }
       if(gap >= 90) out.push({ t:tb.getTime(), ts:b.ts, kind:'gap', txt:'断采 '+gap+' 分钟', d:hm(a.ts)+' → '+hm(b.ts) });
+      if(!pop) continue;   /* 全托店没有成交金额，只留断采这类非金额事件 */
       var dp = num(b.popPay)-num(a.popPay);
       if(num(a.popPay) > 0 && Math.abs(dp) >= Math.max(30, num(a.popPay)*.4)){
-        out.push({ t:tb.getTime(), ts:b.ts, kind: dp>0?'up':'down', txt:(dp>0?'跳增 ':'跳减 ')+'¥'+fmtMoney(Math.abs(dp)), d:'¥'+fmtMoney(a.popPay)+' → ¥'+fmtMoney(b.popPay) });
+        out.push({ t:tb.getTime(), ts:b.ts, kind: dp>0?'up':'down', txt:(dp>0?'跳增 ':'跳减 ')+'$'+fmtMoney(Math.abs(dp)), d:'$'+fmtMoney(a.popPay)+' → $'+fmtMoney(b.popPay) });
       }
       if(num(a.popOrders) === 0 && num(b.popOrders) > 0){
         out.push({ t:tb.getTime(), ts:b.ts, kind:'up', txt:'首笔成交', d:fmtInt(b.popOrders)+' 单' });
@@ -682,7 +610,7 @@
 
   /* ================= 广告 ================= */
   function adKnown(s){ return s.adSpend !== null && s.adSpend !== undefined; }
-  function adText(s){ return !adKnown(s) ? '—' : (s.adSpend === 0 ? '¥0' : '¥'+fmtMoney(s.adSpend)); }
+  function adText(s){ return !adKnown(s) ? '—' : (s.adSpend === 0 ? '$0' : '$'+fmtMoney(s.adSpend)); }
 
   /* ================= 渲染 ================= */
   function renderHead(){
@@ -690,7 +618,7 @@
     var all = [];
     stores.forEach(function(s){ (s.history||[]).forEach(function(r){ all.push(r.ts); }); });
     all.sort();
-    $('#range').innerHTML = '<b>'+fmtRange(all[0], all[all.length-1])+'</b> · '+stores.length+' 家店铺 · '+all.length+' 个快照';
+    $('#range').innerHTML = '<b>'+fmtRange(all[0], all[all.length-1])+'</b> · '+stores.length+' 家店铺 · '+all.length+' 个快照 · 美西时间';
     $('#snap').textContent = RAW.latestSnapshot || '—';
   }
 
@@ -703,21 +631,23 @@
   function renderHero(){
     /* 今日 = 美西当天（每天 15:00 北京归零），只算当天还有更新的店铺 */
     var day = refDay();
-    var today = 0, pay = 0, stale = 0;
+    var today = 0, pay = 0, stale = 0, popN = 0;
     stores.forEach(function(s){
       if(dayKey(parseTs(s.ts).getTime()) !== day){ stale++; return; }
       today += num(s.visitors) + num(s.popVisitors);
-      pay += num(s._pay);
+      if(isPop(s)){ pay += num(s._pay); popN++; }
     });
-    var note = stale ? (stale + ' 家当日未更新') : '美西当天 · 15:00 归零';
+    var note = stale ? (stale + ' 家当日未更新') : '美西当天 · 00:00 归零';
+    var payNote = popN ? (popN + ' 家 POP 店合计 · 全托店不计') : '全托店不显示金额';
     $('#hero').innerHTML =
       '<div><span>今日访客</span><b>+'+fmtInt(today)+'</b><i>'+note+'</i></div>' +
-      '<div><span>今日支付</span><b>¥'+fmtInt(pay)+'</b><i>'+note+'</i></div>';
+      '<div><span>今日支付</span><b>$'+fmtInt(pay)+'</b><i>'+payNote+'</i></div>';
   }
 
   function renderSorts(){
     $('#sorts').innerHTML = METRICS.map(function(m){
-      return '<button data-k="'+m.k+'" class="'+(m.k===activeMetric?'on':'')+'">'+esc(m.label)+'</button>';
+      var on = m.k === activeMetric;
+      return '<button data-k="'+m.k+'" class="'+(on?'on':'')+'" aria-pressed="'+(on?'true':'false')+'">'+esc(m.label)+'</button>';
     }).join('');
   }
 
@@ -726,12 +656,13 @@
     var lag = lagMin(s);
     var cls = 'row' + (idx===0?' top1':idx===1?' top2':idx===2?' top3':'') + (expanded===s.name?' open':'');
     var payTxt, payCls = '';
-    if(num(s._pay) > 0){
-      payTxt = '¥' + fmtInt(s._pay) + (num(s._balGain) > 0 ? '<em>含全托余额 +' + fmtInt(s._balGain) + '</em>' : '');
+    if(isPop(s)){
+      payTxt = '$' + fmtInt(s._pay);
+      if(!(num(s._pay) > 0)) payCls = ' dim';
     }else{
-      payTxt = '¥0';
+      /* 纯全托没有成交金额字段，宁可不显示也不给错数 */
+      payTxt = '—<em>全托</em>';
       payCls = ' dim';
-      if(num(s.balance) > 0) payTxt += '<em>全托余额 ¥' + fmtInt(s.balance) + '</em>';
     }
     var cur = idx + 1, prev = PREV_RANK[s.name], chgCls = 'new', chgTxt = '新';
     if(prev){
@@ -739,12 +670,12 @@
       else if(prev < cur){ chgCls = 'down'; chgTxt = '▼' + (cur - prev); }
       else { chgCls = 'flat'; chgTxt = '–'; }
     }
-    return '<div class="'+cls+'" data-name="'+esc(s.name)+'">' +
+    return '<div class="'+cls+'" data-name="'+esc(s.name)+'" role="button" tabindex="0">' +
       '<div class="rk">'+(idx+1)+'</div>' +
       '<div class="mid"><div class="nm">'+esc(s.name)+(idx===0?'<em>擂主</em>':'')+'</div>' +
         '<div class="bar"><i style="width:'+pct.toFixed(1)+'%"></i></div></div>' +
       '<div class="pay'+payCls+'">'+payTxt+'</div>' +
-      '<div class="time '+(lag>=60?'stale':'')+'">'+hm(s.ts)+'</div>' +
+      '<div class="time '+(probe(s).late?'stale':'')+'">'+hm(s.ts)+'</div>' +
       '<div class="chg '+chgCls+'">'+chgTxt+'</div>' +
     '</div>';
   }
@@ -753,16 +684,17 @@
   var CHART = { metric:'visitors', cum:false, hits:{} };
   var CMET = {
     visitors:{ name:'访客', unit:'人', raw:function(r){ return num(r.visitors)+num(r.popVisitors); } },
-    pay:{ name:'支付', unit:'¥', raw:function(r){ return (r && r._pay != null) ? num(r._pay) : num(r.popPay); } },
-    orders:{ name:'订单', unit:'单', raw:function(r){ return num(r.popOrders); } }
+    pay:{ name:'支付', unit:'$', raw:function(r){ return (r && r._pay != null) ? num(r._pay) : num(r.popPay); } },
+    orders:{ name:'订单', unit:'单', raw:function(r, st){ return isPop(st) ? num(r.popOrders) : num(r.sales); } }
   };
   var GAP_W = 2*3600000;
   var MPAL = ['#ffe6b8','#f2b552','#ff9f8a','#8fd0b0','#9fb8e8','#cfa8e0'];
   var MMAX = 6;
 
+  /* 美西当地日期（夏令时自动正确），计数器就是按当地 0 点归零 */
   function dayKey(ms){
-    var d = new Date(ms + 8*3600000 - 15*3600000);
-    return d.getUTCFullYear()*10000 + (d.getUTCMonth()+1)*100 + d.getUTCDate();
+    var p = parts(new Date(ms), TZ_SHOW);
+    return (+p.year)*10000 + (+p.month)*100 + (+p.day);
   }
   function allTimes(list){
     var arr=[];
@@ -775,7 +707,7 @@
   function seriesFor(list, key){
     var def = CMET[key], times = allTimes(list);
     var rows = list.map(function(st){
-      return (st.history||[]).map(function(r){ return { t:parseTs(r.ts).getTime(), v:def.raw(r) }; });
+      return (st.history||[]).map(function(r){ return { t:parseTs(r.ts).getTime(), v:def.raw(r, st) }; });
     });
     return times.map(function(t){
       var v = 0, any = false;
@@ -830,7 +762,7 @@
       }
       return L+iw;
     }
-    return { W:W,H:H,L:L,R:R,T:T,B:B,iw:iw,ih:ih,xs:xs,t0:t0,t1:t1,Xof:Xof,
+    return { W:W,H:H,L:L,R:R,T:T,B:B,iw:iw,ih:ih,xs:xs,t0:t0,t1:t1,Xof:Xof,times:times,
              rd:function(n){ return Math.round(n*10)/10; } };
   }
   function gridSvg(g, Y, top){
@@ -845,14 +777,9 @@
   function timeAxisSvg(g){
     var s='', rd=g.rd, T=g.T, ih=g.ih, W=g.W, R=g.R, L=g.L, t0=g.t0, t1=g.t1, Xof=g.Xof;
     if(t1-t0 > 86400000){
-      var mid=Math.ceil((t0+8*3600000)/86400000)*86400000 - 8*3600000;
+      /* 日期带按美西当地零点分段（归零竖线正好落在这些边界上） */
       var bounds=[t0];
-      for(; mid<t1; mid+=86400000){
-        var mx=Xof(mid), pp=parts(new Date(mid),'Asia/Shanghai');
-        bounds.push(mid);
-        s+='<line x1="'+rd(mx)+'" y1="'+T+'" x2="'+rd(mx)+'" y2="'+(T+ih)+'" stroke="rgba(247,217,154,.3)" stroke-dasharray="2 3"/>';
-        s+='<text x="'+rd(mx+3)+'" y="'+(T+10)+'" font-size="9" fill="rgba(246,227,192,.55)">'+pp.month+'-'+pp.day+'</text>';
-      }
+      resetTimes(g.times || []).forEach(function(t){ if(t>t0 && t<t1) bounds.push(t); });
       bounds.push(t1);
       var cy=T+ih+28;
       for(var bi=0;bi<bounds.length-1;bi++){
@@ -862,12 +789,11 @@
         s+='<line x1="'+rd(ba)+'" y1="'+(cy-3)+'" x2="'+rd(ba)+'" y2="'+(cy+3)+'" stroke="rgba(247,217,154,.45)"/>';
         s+='<line x1="'+rd(bb)+'" y1="'+(cy-3)+'" x2="'+rd(bb)+'" y2="'+(cy+3)+'" stroke="rgba(247,217,154,.45)"/>';
         if(bb-ba>34){
-          var pb=parts(new Date(bounds[bi]),'Asia/Shanghai');
-          s+='<text x="'+rd((ba+bb)/2)+'" y="'+(cy+13)+'" text-anchor="middle" font-size="9" fill="rgba(246,227,192,.55)">'+pb.month+'-'+pb.day+'</text>';
+          s+='<text x="'+rd((ba+bb)/2)+'" y="'+(cy+13)+'" text-anchor="middle" font-size="9" fill="rgba(246,227,192,.55)">'+dm(bounds[bi])+'</text>';
         }
       }
     }else{
-      var hh=Math.ceil((t0+8*3600000)/3600000)*3600000-8*3600000;
+      var hh=Math.ceil(t0/3600000)*3600000;
       for(; hh<=t1; hh+=3600000){
         var hx=Xof(hh);
         if(hx-L<50 || (W-R)-hx<56) continue;
@@ -878,28 +804,23 @@
     s+='<text x="'+(W-R)+'" y="'+(T+ih+18)+'" text-anchor="end" font-size="9" fill="rgba(246,227,192,.62)">'+hm(t1)+'</text>';
     return s;
   }
-  function valText(v, key, def){
-    if(key === 'pay') return '¥'+fmtMoney(v);
-    return fmtInt(v)+' '+def.unit;
-  }
   function headHTML(title, unit, key, cum, trend, showPay){
+    var tab = function(attr, on, label){
+      return '<button '+attr+' class="'+(on?'on':'')+'" aria-pressed="'+(on?'true':'false')+'">'+label+'</button>';
+    };
     return '<div class="chart-head">' +
         '<div class="t">'+title+'<em>'+unit+'</em></div>' +
         '<div class="chart-tabs">' +
-          (trend === false ? '' : '<button data-cum="1" class="'+(cum?'on':'')+'">总览</button>') +
-          '<button data-m="visitors" class="'+(key==='visitors'?'on':'')+'">访客</button>' +
-          (showPay === false ? '' : '<button data-m="pay" class="'+(key==='pay'?'on':'')+'">支付</button>') +
-          '<button data-m="orders" class="'+(key==='orders'?'on':'')+'">订单</button>' +
+          (trend === false ? '' : tab('data-cum="1"', !!cum, '总览')) +
+          tab('data-m="visitors"', key==='visitors', '访客') +
+          (showPay === false ? '' : tab('data-m="pay"', key==='pay', '支付')) +
+          tab('data-m="orders"', key==='orders', '订单') +
         '</div>' +
       '</div>';
   }
-  /* 只有全托数据的店没有 POP 支付，不给它「支付」按钮 */
-  function hasPOP(list){
-    return (list || []).some(function(st){
-      return (st.history || []).some(function(r){
-        return num(r.popPay) > 0 || num(r.popVisitors) > 0 || num(r.popOrders) > 0;
-      });
-    });
+  /* 这一组里有没有 POP 店（一家都没有就藏掉「支付」按钮） */
+  function anyPop(list){
+    return (list || []).some(isPop);
   }
   function chartBox(id, s){
     return '<div class="chart" data-chart="'+id+'"><svg viewBox="0 0 880 280">'+s+'</svg></div>';
@@ -910,12 +831,12 @@
   var OVF = [
     { k:'visitors',    name:'全托访客', unit:'人', col:'#f2b552', money:false },
     { k:'popVisitors', name:'POP访客',  unit:'人', col:'#7fd7d1', money:false },
-    { k:'popPay',      name:'POP金额',  unit:'¥',  col:'#cfa8e0', money:true  }
+    { k:'popPay',      name:'POP金额',  unit:'$',  col:'#cfa8e0', money:true  }
   ];
 
   function overviewBlock(list, id){
     var times = allTimes(list);
-    var showPay = hasPOP(list);
+    var showPay = anyPop(list);
     if(times.length < 2) return '<div class="chart-empty">采样点太少，画不了</div>';
 
     var g = geom(times), L=g.L, T=g.T, ih=g.ih, W=g.W, R=g.R, rd=g.rd;
@@ -924,7 +845,8 @@
       return { t:parseTs(r.ts).getTime(), r:r };
     }).sort(function(a,b){ return a.t-b.t; });
 
-    var series = OVF.map(function(f){
+    var fields = showPay ? OVF : OVF.filter(function(f){ return !f.money && f.k !== 'popVisitors'; });
+    var series = fields.map(function(f){
       var vals = times.map(function(t){
         var best=null;
         for(var k=0;k<rows.length;k++){ if(rows[k].t<=t) best=rows[k].r; else break; }
@@ -975,7 +897,7 @@
       series.forEach(function(o){
         var v=o.vals[i];
         if(v==null) return;
-        items.push({ name:o.f.name, color:o.f.col, txt:(o.f.money ? '¥'+fmtMoney(v) : fmtInt(v)+' '+o.f.unit) });
+        items.push({ name:o.f.name, color:o.f.col, txt:(o.f.money ? '$'+fmtMoney(v) : fmtInt(v)+' '+o.f.unit) });
       });
       hits.push({ x0:g.xs[i-1], x1:g.xs[i], t0:times[i-1], t1:times[i], items:items });
     }
@@ -985,17 +907,17 @@
     CHART.hits[id] = { bars:hits, key:'raw', unit:'', multi:true };
 
     var legend = '<div class="chart-legend">' + series.map(function(o){
-      var tail = o.last==null ? '—' : (o.f.money ? '¥'+fmtMoney(o.last) : fmtInt(o.last)+' '+o.f.unit);
+      var tail = o.last==null ? '—' : (o.f.money ? '$'+fmtMoney(o.last) : fmtInt(o.last)+' '+o.f.unit);
       return '<span><i style="background:'+o.f.col+'"></i>'+esc(o.f.name)+'<em>'+tail+'</em></span>';
-    }).join('') + '<span class="dim">原始值 · 全托与 POP 分开</span></div>';
+    }).join('') + '<span class="dim">'+(showPay ? '原始值 · 全托与 POP 分开' : '原始值 · 全托店不统计金额')+'</span></div>';
 
     return '<div class="chart-head">' +
         '<div class="t">单店总览<em>原始值 / 随时间</em></div>' +
         '<div class="chart-tabs">' +
-          '<button data-cum="1" class="on">总览</button>' +
-          '<button data-m="visitors">访客</button>' +
-          (showPay === false ? '' : '<button data-m="pay">支付</button>') +
-          '<button data-m="orders">订单</button>' +
+          '<button data-cum="1" class="on" aria-pressed="true">总览</button>' +
+          '<button data-m="visitors" aria-pressed="false">访客</button>' +
+          (showPay === false ? '' : '<button data-m="pay" aria-pressed="false">支付</button>') +
+          '<button data-m="orders" aria-pressed="false">订单</button>' +
         '</div>' +
       '</div>' + legend + chartBox(id, s);
   }
@@ -1049,17 +971,20 @@
     return d;
   }
 
-  /* 归零时刻：每天 15:00（美西零点）计数器归零，所有图都标出来 */
+  /* 美西当地零点（= 计数器归零时刻），二分到分钟，夏令时也准 */
+  function dayBoundary(a, b){
+    var lo = Math.floor(a/60000), hi = Math.ceil(b/60000), d = dayKey(lo*60000);
+    while(hi - lo > 1){
+      var mid = Math.floor((lo+hi)/2);
+      if(dayKey(mid*60000) === d) lo = mid; else hi = mid;
+    }
+    return hi*60000;
+  }
   function resetTimes(times){
-    var out=[], i, m, t;
+    var out=[], i;
     for(i=1;i<times.length;i++){
-      if(dayKey(times[i])===dayKey(times[i-1])) continue;
-      var a=times[i-1], b=times[i];
-      var k=Math.floor((a - 7*3600000)/86400000);
-      for(m=k;m<=k+2;m++){
-        t = m*86400000 + 7*3600000;
-        if(t>a && t<=b){ out.push(t); break; }
-      }
+      if(dayKey(times[i]) === dayKey(times[i-1])) continue;
+      out.push(dayBoundary(times[i-1], times[i]));
     }
     return out;
   }
@@ -1071,15 +996,16 @@
       var x=rd(g.Xof(t));
       if(x < g.L+3 || x > g.W-g.R-3) return;
       s+='<line x1="'+x+'" y1="'+g.T+'" x2="'+x+'" y2="'+(g.T+g.ih)+'" stroke="rgba(255,159,138,.4)" stroke-dasharray="3 3"/>';
-      s+='<text x="'+(x+4)+'" y="'+(g.T+12)+'" font-size="8.5" fill="#ff9f8a">归零</text>';
+      s+='<text x="'+(x+4)+'" y="'+(g.T+12)+'" font-size="8.5" fill="#ff9f8a">00:00 归零</text>';
     });
     return s;
   }
 
   function chartBlock(list, id){
-    var showPay = hasPOP(list);
-    if(showPay === false && CHART.metric === 'pay') CHART.metric = 'visitors';
-    var key=CHART.metric, cum=CHART.cum, def=CMET[key];
+    var showPay = anyPop(list);
+    /* 没有 POP 的店不给「支付」，但只降级本次显示，不动全局选择 */
+    var key = (showPay === false && CHART.metric === 'pay') ? 'visitors' : CHART.metric;
+    var cum = CHART.cum, def = CMET[key];
     if(list.length > 1) return multiChart(list, id, key, def);
     if(cum) return overviewBlock(list, id);
 
@@ -1088,25 +1014,15 @@
     var g = geom(pts.map(function(p){ return p.t; }));
     var L=g.L, T=g.T, ih=g.ih, W=g.W, R=g.R, rd=g.rd;
 
-    var bars=null, top;
-    if(cum){
-      var peak=0; pts.forEach(function(p){ if(p.v>peak) peak=p.v; });
-      top = niceMax(peak*1.06 || 1);
-    }else{
-      bars = barsFor(pts);
-      var vals = bars.map(function(b){ return b.v; }).filter(function(v){ return v>0; }).sort(function(a,b){ return a-b; });
-      var p90 = vals.length ? vals[Math.min(vals.length-1, Math.floor(vals.length*0.9))] : 1;
-      var maxV = Math.max.apply(null, bars.map(function(b){ return b.v; })) || 0;
-      if(maxV <= 0){
-        var tip = (key === 'pay')
-          ? '全托侧没有成交金额字段，只能按「全托余额涨了多少」推算；这家店这段时间余额没动'
-          : '这家店这段时间没有采到增量';
-        return headHTML('新增'+def.name, def.unit, key, cum, true, showPay) +
-          '<div class="chart-empty">这段时间没有「新增'+def.name+'」的数据<br>'+
-          '<span style="display:inline-block;margin-top:6px;font-size:10.5px;color:rgba(246,227,192,.34)">'+tip+'</span></div>';
-      }
-      top = niceMax(Math.min(maxV, p90*1.25 || maxV));
+    var bars = barsFor(pts);
+    var vals = bars.map(function(b){ return b.v; }).filter(function(v){ return v>0; }).sort(function(a,b){ return a-b; });
+    var p90 = vals.length ? vals[Math.min(vals.length-1, Math.floor(vals.length*0.9))] : 1;
+    var maxV = Math.max.apply(null, bars.map(function(b){ return b.v; })) || 0;
+    if(maxV <= 0){
+      return headHTML('新增'+def.name, def.unit, key, false, true, showPay) +
+        '<div class="chart-empty">这段时间没有「新增'+def.name+'」的数据</div>';
     }
+    var top = niceMax(Math.min(maxV, p90*1.25 || maxV));
     var Y=function(v){ return T+ih - v/top*ih; };
 
     var s = gridSvg(g,Y,top), hits=[];
@@ -1125,53 +1041,31 @@
              '<path d="'+ap+'" fill="none" stroke="#ffe0a8" stroke-width="1.7" stroke-linecap="round"/>';
     }
 
-    if(cum){
-      segs = segIds(pts.map(function(p){ return p.t; }));
-      var sm = smoothBy(pts.map(function(p){ return p.v; }), segs, 5);
-      for(i=0;i<pts.length;i++){
-        if(!groups.length || segs[i]!==segs[i-1]) groups.push([]);
-        groups[groups.length-1].push({ x:g.xs[i], y:Y(sm[i]) });
-      }
-      groups.forEach(function(G){ s+=areaOf(G); });
-      for(var r1=1;r1<pts.length;r1++){
-        if(dayKey(pts[r1].t)!==dayKey(pts[r1-1].t) && pts[r1].v < pts[r1-1].v){
-          var rx=g.xs[r1];
-          s+='<line x1="'+rd(rx)+'" y1="'+T+'" x2="'+rd(rx)+'" y2="'+(T+ih)+'" stroke="rgba(255,159,138,.45)" stroke-dasharray="3 3"/>';
-          s+='<text x="'+rd(rx+4)+'" y="'+(T+12)+'" font-size="8.5" fill="#ff9f8a">归零</text>';
-        }
-      }
-      for(var q=0;q<pts.length;q++){
-        hits.push({ x0:g.xs[q], x1: q<pts.length-1 ? g.xs[q+1] : g.xs[q]+2,
-                    t0:pts[q].t, t1: q<pts.length-1 ? pts[q+1].t : pts[q].t, v:pts[q].v, cum:true });
-      }
-    }else{
-      bars.forEach(function(b,k){
-        var x0=g.xs[k], x1=g.xs[k+1];
-        var over=b.v>top;
-        var h=Math.min(b.v,top)/top*ih;
-        var w=Math.max(1, x1-x0-0.4);
-        s+='<rect x="'+rd(x0)+'" y="'+rd(T+ih-h)+'" width="'+rd(w)+'" height="'+rd(h)+'" fill="#e8c07a" opacity=".26"/>';
-        if(over) s+='<rect x="'+rd(x0)+'" y="'+T+'" width="'+rd(w)+'" height="3" fill="#3d0a0d" opacity=".45"/>';
-        hits.push({ x0:x0, x1:x1, t0:b.t0, t1:b.t1, v:b.v });
-      });
+    bars.forEach(function(b,k){
+      var x0=g.xs[k], x1=g.xs[k+1];
+      var over=b.v>top;
+      var h=Math.min(b.v,top)/top*ih;
+      var w=Math.max(1, x1-x0-0.4);
+      s+='<rect x="'+rd(x0)+'" y="'+rd(T+ih-h)+'" width="'+rd(w)+'" height="'+rd(h)+'" fill="#e8c07a" opacity=".26"/>';
+      if(over) s+='<rect x="'+rd(x0)+'" y="'+T+'" width="'+rd(w)+'" height="3" fill="#3d0a0d" opacity=".45"/>';
+      hits.push({ x0:x0, x1:x1, t0:b.t0, t1:b.t1, v:b.v });
+    });
 
-      segs = segIds(bars.map(function(b){ return b.t0; }));
-      /* 均值曲线不分天：跨天也连成一条，不断 */
-      segs = bars.map(function(){ return 0; });
-      var bvals = bars.map(function(b){ return b.v; });
-      var bsm = smoothBy(medianBy(bvals, segs, 3), segs, 5);
-      for(i=0;i<bars.length;i++){
-        if(!groups.length || segs[i]!==segs[i-1]) groups.push([]);
-        groups[groups.length-1].push({ x:(g.xs[i]+g.xs[i+1])/2, y:Y(Math.min(bsm[i], top*0.985)) });
-      }
-      groups.forEach(function(G){ s+=areaOf(G); });
+    /* 均值曲线不分天：跨天也连成一条，不断 */
+    segs = bars.map(function(){ return 0; });
+    var bvals = bars.map(function(b){ return b.v; });
+    var bsm = smoothBy(medianBy(bvals, segs, 3), segs, 5);
+    for(i=0;i<bars.length;i++){
+      if(!groups.length || segs[i]!==segs[i-1]) groups.push([]);
+      groups[groups.length-1].push({ x:(g.xs[i]+g.xs[i+1])/2, y:Y(Math.min(bsm[i], top*0.985)) });
     }
+    groups.forEach(function(G){ s+=areaOf(G); });
 
     s = s.slice(0, mark) + '<g clip-path="url(#cp'+id+')">' + s.slice(mark) + '</g>';
     s += resetSvg(g, pts.map(function(p){ return p.t; }));
     s += timeAxisSvg(g);
-    CHART.hits[id] = { bars:hits, key:key, cum:cum, unit:def.unit };
-    return headHTML(cum ? (def.name+'走势') : ('新增'+def.name), def.unit, key, cum, true, showPay) + chartBox(id, s);
+    CHART.hits[id] = { bars:hits, key:key, cum:false, unit:def.unit };
+    return headHTML('新增'+def.name, def.unit, key, false, true, showPay) + chartBox(id, s);
   }
 
   /* 总览：每店一条累计曲线 */
@@ -1180,7 +1074,7 @@
     if(times.length < 2) return '<div class="chart-empty">采样点太少，画不了</div>';
 
     var stores = list.map(function(st){
-      var hs = (st.history||[]).map(function(r){ return { t:parseTs(r.ts).getTime(), v:def.raw(r) }; });
+      var hs = (st.history||[]).map(function(r){ return { t:parseTs(r.ts).getTime(), v:def.raw(r, st) }; });
       hs.sort(function(a,b){ return a.t-b.t; });
       return { name:st.name, hs:hs };
     });
@@ -1257,7 +1151,7 @@
 
     var rest = stores.length - shown.length;
     var legend = '<div class="chart-legend">' + shown.map(function(o){
-      var tail = key === 'pay' ? ('¥'+fmtMoney(o.total)) : ('+'+fmtInt(o.total)+' '+def.unit);
+      var tail = key === 'pay' ? ('$'+fmtMoney(o.total)) : ('+'+fmtInt(o.total)+' '+def.unit);
       return '<span><i style="background:'+o.color +'"></i>' + esc(o.name) + '<em>' + tail + '</em></span>';
     }).join('') + (rest>0 ? '<span class="dim">其余 '+rest+' 家未显示</span>' : '') + '</div>';
 
@@ -1276,16 +1170,16 @@
     return '<div class="detail">' +
       chartBlock([s], 'c_' + s.name.replace(/[^a-z0-9]/gi,'')) +
       '<div class="kv">' +
-        (hasPOP([s]) ? '<div>今日支付<b>¥'+fmtMoney(num(s._pay) || num(s.popPay))+'</b></div>' : '') +
-        '<div>新增访客<b>+'+fmtInt(st.total)+'</b></div>' +
-        '<div>订单<b>'+fmtInt(s.popOrders)+'</b></div>' +
-        '<div>转化<b>'+num(s.cvr).toFixed(2)+'%</b></div>' +
+        (isPop(s) ? '<div>今日支付<b>$'+fmtMoney(num(s._pay))+'</b></div>' : '') +
+        '<div>区间新增<b>+'+fmtInt(st.total)+'</b></div>' +
+        '<div>订单<b>'+fmtInt(ordersOf(s))+'</b></div>' +
+        '<div>转化<b>'+cvrOf(s).toFixed(2)+'%</b></div>' +
         '<div>纠纷<b class="'+((s.disputes+s.popDisputes)>0?'warn':'')+'">'+fmtInt(s.disputes+s.popDisputes)+'</b></div>' +
         (HAS_AD ? '<div>广告<b>'+adText(s)+'</b></div>' : '') +
       '</div>' +
       '<div class="note">平均 <b>'+Math.round(st.avg)+'</b> 人/小时 · 有效观测 <b>'+Math.round(st.effH)+'</b> 小时' +
         (peak?' · 峰值段 <b>'+hm(peak.b.t0)+'–'+hm(peak.b.t1)+'</b> '+fmtInt(peak.v)+' 人':'') +
-        ' · 数据 '+hm(s.ts)+(lagMin(s)>=60?'（落后 '+lagMin(s)+' 分钟）':'')+'</div>' +
+        ' · 数据 '+hm(s.ts)+(probe(s).late?'（落后 '+probe(s).lag+' 分钟，节奏约 '+probe(s).cad+' 分钟）':'')+'</div>' +
       (evs.length ? '<div class="ev">'+evs.map(function(e){
         return '<i class="'+e.kind+'"><em>'+hm(e.ts)+'</em><b>'+esc(e.txt)+'</b>'+esc(e.d)+'</i>';
       }).join('')+'</div>' : '') +
@@ -1295,7 +1189,7 @@
   function allRowHTML(agg){
     var s = '<div class="row all'+(allOpen?' open':'')+'" data-all="1">' +
       '<div class="rk">全部</div>' +
-      '<div class="mid"><div class="nm">'+stores.length+' 家 · 合计新增</div><div class="bar"><i style="width:100%"></i></div></div>' +
+      '<div class="mid"><div class="nm">'+stores.length+' 家 · 区间累计</div><div class="bar"><i style="width:100%"></i></div></div>' +
       '<div class="pay">+'+fmtInt(agg.total)+' 人</div>' +
       '<div class="time">'+(allOpen?'收起':'展开')+'</div>' +
     '</div>';
@@ -1303,7 +1197,7 @@
       var st = storeStats(stores);
       s += '<div class="detail">' +
         chartBlock(stores, 'c_all') +
-        '<div class="note">合计 <b>+'+fmtInt(st.total)+'</b> 人 · 实测占 <b>'+agg.share+'%</b> · 平均 <b>'+Math.round(st.avg)+'</b> 人/小时 · 有效观测 <b>'+Math.round(st.effH)+'</b> 小时</div>' +
+        '<div class="note">区间合计 <b>+'+fmtInt(st.total)+'</b> 人'+(st.t0?'（自 '+dm(st.t0)+' 起）':'')+' · 实测占 <b>'+agg.share+'%</b> · 平均 <b>'+Math.round(st.avg)+'</b> 人/小时 · 有效观测 <b>'+Math.round(st.effH)+'</b> 小时</div>' +
       '</div>';
     }
     return s;
@@ -1333,26 +1227,37 @@
       var miss = stores.filter(function(s){ return !adKnown(s) && (s.popPay > 0 || s.sales > 0); });
       if(miss.length) items.push({ t:'广告未采集', n:miss.length, hot:true, names:miss.map(function(s){ return s.name; }) });
     }
-    var lag = stores.filter(function(s){ return lagMin(s) >= 60; });
-    if(lag.length) items.push({ t:'数据滞后', n:lag.length, names:lag.map(function(s){ return s.name; }) });
+    var prAll = stores.map(function(s){ return { name:s.name, p:probe(s) }; });
+    var late = prAll.filter(function(x){ return x.p.late; });
+    if(late.length) items.push({
+      t:'采集停滞', n:late.length, hot:true,
+      names:late.map(function(x){ return x.name+' 落后 '+x.p.lag+' 分钟（节奏 '+x.p.cad+'）'; })
+    });
+    var slow = prAll.slice().sort(function(a,b){ return b.p.lag - a.p.lag; });
+    items.push({
+      t:'采集探针', txt:(prAll.length - late.length)+'/'+prAll.length,
+      names:slow.slice(0,8).map(function(x){ return x.name+' 已 '+x.p.lag+' 分钟没更新（节奏 '+x.p.cad+'）'; })
+    });
     var zero = stores.filter(function(s){ return s.balance === 0 && s.sales > 0; });
     if(zero.length) items.push({ t:'余额为 0', n:zero.length, names:zero.map(function(s){ return s.name; }) });
 
     $('#risks').innerHTML = items.map(function(it){
-      return '<span class="'+(it.hot?'hot':'')+'" title="'+esc(it.names.join('、'))+'">'+esc(it.t)+'<b>'+it.n+' 家</b></span>';
+      return '<span class="'+(it.hot?'hot':'')+'" title="'+esc(it.names.join('；'))+'">'+esc(it.t)+'<b>'+(it.txt || (it.n+' 家'))+'</b></span>';
     }).join('') || '<span>暂无异常</span>';
   }
 
   function renderTable(){
     if(!stores.length) return;
-    var cols = ['店铺','更新','销量','访客','今日支付','余额','POP访客','订单','转化','纠纷','广告'];
+    var cols = ['店铺','更新','销量','全托访客','POP访客','今日支付','余额','订单','转化','纠纷','广告'];
     var html = '<tr>'+cols.map(function(c){ return '<th>'+c+'</th>'; }).join('')+'</tr>';
     ranked().forEach(function(s){
+      var pop = isPop(s);
       html += '<tr>' +
-        '<td>'+esc(s.name)+'</td><td>'+hm(s.ts)+'</td><td>'+fmtInt(s.sales)+'</td>' +
-        '<td>'+fmtInt(s.visitors)+'</td><td>¥'+fmtMoney(num(s._pay) || num(s.popPay))+'</td>' +
-        '<td>¥'+fmtMoney(s.balance)+'</td><td>'+fmtInt(s.popVisitors)+'</td>' +
-        '<td>'+fmtInt(s.popOrders)+'</td><td>'+num(s.cvr).toFixed(2)+'%</td>' +
+        '<td>'+esc(s.name)+'</td><td>'+dm(s.ts)+' '+hm(s.ts)+'</td><td>'+fmtInt(s.sales)+'</td>' +
+        '<td>'+fmtInt(s.visitors)+'</td><td>'+fmtInt(s.popVisitors)+'</td>' +
+        '<td>'+(pop ? '$'+fmtMoney(num(s._pay)) : '—')+'</td>' +
+        '<td>$'+fmtMoney(s.balance)+'</td>' +
+        '<td>'+fmtInt(ordersOf(s))+'</td><td>'+cvrOf(s).toFixed(2)+'%</td>' +
         '<td>'+fmtInt(s.disputes+s.popDisputes)+'</td><td>'+adText(s)+'</td>' +
       '</tr>';
     });
@@ -1387,6 +1292,19 @@
       if(e.target.closest('[data-more]')){ boardExpanded = !boardExpanded; renderRows(); }
     });
 
+    /* 键盘：Tab 到行以后回车 / 空格展开 */
+    $('#rows').addEventListener('keydown', function(e){
+      if(e.key !== 'Enter' && e.key !== ' ' && e.key !== 'Spacebar') return;
+      var row = e.target && e.target.closest ? e.target.closest('.row[data-name]') : null;
+      if(!row) return;
+      e.preventDefault();
+      var nm = row.dataset.name;
+      expanded = (expanded === nm) ? '' : nm;
+      renderRows();
+      var list = document.querySelectorAll('#rows .row[data-name]');
+      for(var i=0;i<list.length;i++){ if(list[i].dataset.name === nm){ list[i].focus(); break; } }
+    });
+
     $('#rows').addEventListener('click', function(e){
       var m = e.target.closest('[data-m]');
       if(m){ CHART.metric = m.getAttribute('data-m'); CHART.cum = false; renderRows(); return; }
@@ -1413,13 +1331,11 @@
       var mins = Math.round((hit.t1-hit.t0)/60000);
       var dur = mins >= 60 ? Math.floor(mins/60)+' 小时 '+(mins%60)+' 分' : mins+' 分钟';
       var val = function(v){
-        if(rec.money) return '¥'+v.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
-        if(rec.key === 'pay') return '¥'+v.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+        if(rec.money) return '$'+v.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+        if(rec.key === 'pay') return '$'+v.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
         return Math.round(v).toLocaleString('en-US')+' '+rec.unit;
       };
-      if(hit && rec.plain){
-        CTIP.innerHTML = '<b>'+esc(rec.name)+'</b><br><i>'+dm(hit.t0)+' '+hm(hit.t0)+'</i><br><i>数值</i> '+val(hit.v);
-      }else if(hit.items){
+      if(hit.items){
         CTIP.innerHTML = '<b>'+dm(hit.t0)+' '+hm(hit.t0)+' → '+hm(hit.t1)+'</b>'+
           '<br><i>时长</i> '+dur+
           (hit.items.length ? hit.items.slice(0,8).map(function(it){
@@ -1441,10 +1357,17 @@
     $('#rows').addEventListener('mouseleave', function(){ CTIP.classList.remove('on'); });
 
     $('#csv').addEventListener('click', function(){
-      var cols = ['店铺','更新时间','全托销量','浏览量','访客','纠纷','余额','POP纠纷','POP支付','今日支付','POP访客','POP订单','转化率'];
-      var keys = ['name','ts','sales','views','visitors','disputes','balance','popDisputes','popPay','_pay','popVisitors','popOrders','cvr'];
+      var cols = ['店铺','类型','更新时间','全托销量','浏览量','全托访客','POP访客','纠纷','余额','POP纠纷','POP支付','今日支付','订单','转化率'];
       var lines = [cols.join(',')];
-      ranked().forEach(function(s){ lines.push(keys.map(function(k){ var v = s[k]; return v == null ? '' : v; }).join(',')); });
+      ranked().forEach(function(s){
+        var pop = isPop(s);
+        lines.push([
+          '"'+String(s.name).replace(/"/g,'""')+'"', pop?'POP':'全托', s.ts,
+          num(s.sales), num(s.views), num(s.visitors), num(s.popVisitors),
+          num(s.disputes), num(s.balance), num(s.popDisputes), num(s.popPay),
+          pop ? num(s._pay) : '', num(ordersOf(s)), Math.round(cvrOf(s)*100)/100
+        ].join(','));
+      });
       var blob = new Blob(['\ufeff'+lines.join('\r\n')], { type:'text/csv;charset=utf-8' });
       var a = document.createElement('a');
       a.href = URL.createObjectURL(blob);
