@@ -229,11 +229,11 @@
 
   <footer>
     <span>最新快照 <b id="snap">—</b></span>
-    <span>数据源 shop_data_readonly.db · yoyo 更新后由 trigger.py 自动发布</span>
+    <span>数据源 shop_data_readonly.db · 由 刷新龙虎榜.bat 重新生成</span>
   </footer>
 </div>
 
-<script src="shop_data.js?v=20261030090806"></script>
+<script src="shop_data.js?v=20261030093043"></script>
 <script>
 (function(){
   'use strict';
@@ -1457,7 +1457,7 @@
   function boot(){
     if(!RAW || !stores.length){
       $('#range').textContent = '未加载到数据';
-      $('#hero').innerHTML = '<div class="banner">没读到 shop_data.js。请确认它和本页面在同一文件夹，然后双击 手动更新并发布.bat。</div>';
+      $('#hero').innerHTML = '<div class="banner">没读到 shop_data.js。请确认它和本页面在同一文件夹，然后双击 刷新龙虎榜.bat。</div>';
       return;
     }
     render();
