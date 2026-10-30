@@ -228,7 +228,6 @@
   </footer>
 </div>
 
-<script src="shop_data.js?v=20261030111945"></script>
 <script>
 (function(){
   'use strict';
@@ -243,11 +242,21 @@
   var clamp = function(n,a,b){ return Math.min(b,Math.max(a,n)); };
 
   /* ================= 数据 ================= */
-  var RAW = window.SHOP_DATA || null;
+  /* shop_data.js 在页面末尾动态加载（带时间戳），所以页面本身不用再改版本号 */
+  var RAW = null, HAS_AD = false, stores = [], emptyStores = [];
   var NUMKEYS = ['sales','views','visitors','disputes','balance','popDisputes','popPay','popVisitors','popOrders','cvr'];
-  var HAS_AD = !!(RAW && Array.isArray(RAW.stores) && RAW.stores.some(function(s){
-    return s && Object.prototype.hasOwnProperty.call(s, 'adSpend');
-  }));
+  function loadData(){
+    RAW = window.SHOP_DATA || null;
+    HAS_AD = !!(RAW && Array.isArray(RAW.stores) && RAW.stores.some(function(s){
+      return s && Object.prototype.hasOwnProperty.call(s, 'adSpend');
+    }));
+    stores = [];
+    emptyStores = [];
+    if(RAW && Array.isArray(RAW.stores)){
+      stores = RAW.stores.map(normStore);
+      emptyStores = Array.isArray(RAW.emptyStores) ? RAW.emptyStores : [];
+    }
+  }
 
   function normStore(s){
     var o = { name:String(s&&s.name||''), ts:String(s&&s.ts||''), tsWest:String(s&&s.tsWest||'') };
@@ -257,11 +266,6 @@
     return o;
   }
 
-  var stores = [], emptyStores = [];
-  if(RAW && Array.isArray(RAW.stores)){
-    stores = RAW.stores.map(normStore);
-    emptyStores = Array.isArray(RAW.emptyStores) ? RAW.emptyStores : [];
-  }
 
   /* ================= 指标 ================= */
   var METRICS = [
@@ -1390,7 +1394,14 @@
     setInterval(tickClocks, 1000);
   }
 
-  boot();
+  (function startWithData(){
+    if(window.SHOP_DATA){ loadData(); boot(); return; }
+    var s = document.createElement('script');
+    s.src = 'shop_data.js?t=' + Date.now();
+    s.onload = function(){ loadData(); boot(); };
+    s.onerror = function(){ loadData(); boot(); };
+    document.head.appendChild(s);
+  })();
 })();
 </script>
 </body>
