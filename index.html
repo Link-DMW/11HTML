@@ -92,6 +92,7 @@
   .row .mid{min-width:0}
   .row .nm{display:flex;align-items:baseline;gap:8px;font-size:17px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--cream)}
   .row .nm em{font-style:normal;font-size:10px;font-weight:500;color:var(--gold);border:1px solid rgba(247,217,154,.4);border-radius:99px;padding:1px 7px;letter-spacing:.08em}
+  .row .nm em.dual{color:var(--cream3);border-color:rgba(251,238,210,.26);font-weight:400;letter-spacing:.04em}
   .row .bar{height:2px;max-width:220px;background:rgba(247,217,154,.14);margin-top:9px;overflow:hidden}
   .row .bar i{display:block;height:100%;background:var(--gold);opacity:.8}
   .row .pay{text-align:right;font-size:17px;font-weight:600;font-variant-numeric:tabular-nums;color:var(--gold)}
@@ -234,7 +235,7 @@
     <section class="board" data-board="pop">
       <div class="board-head">
         <div class="titles">
-          <h2><em class="tag pop">POP</em>店铺榜<b id="cnt-pop">—</b></h2>
+          <h2><em class="tag pop">POP</em>渠道榜<b id="cnt-pop">—</b></h2>
           <div class="sum" id="sum-pop"></div>
         </div>
         <div class="sorts" id="sorts-pop"></div>
@@ -246,7 +247,7 @@
     <section class="board" data-board="tuo">
       <div class="board-head">
         <div class="titles">
-          <h2><em class="tag tuo">全托</em>店铺榜<b id="cnt-tuo">—</b></h2>
+          <h2><em class="tag tuo">全托</em>渠道榜<b id="cnt-tuo">—</b></h2>
           <div class="sum" id="sum-tuo"></div>
         </div>
         <div class="sorts" id="sorts-tuo"></div>
@@ -260,9 +261,9 @@
 
   <details>
     <summary>数据明细</summary>
-    <div class="tbl-cap"><em class="tag pop">POP</em>店铺<i>金额单位 $ · 美西时间</i></div>
+    <div class="tbl-cap"><em class="tag pop">POP</em>渠道明细<i>金额单位 $ · 两边都做的店两张表里各出现一次</i></div>
     <div class="tbl"><table id="tbl-pop"></table></div>
-    <div class="tbl-cap"><em class="tag tuo">全托</em>店铺<i>全托不计金额 · 美西时间</i></div>
+    <div class="tbl-cap"><em class="tag tuo">全托</em>渠道明细<i>全托不计金额 · 美西时间</i></div>
     <div class="tbl"><table id="tbl-tuo"></table></div>
     <div class="tbl-foot">
       <span id="meta"></span>
@@ -334,22 +335,40 @@
       { k:'ts', label:'时间' }
     ]
   };
-  var SORT = { pop:'score', tuo:'score' };
+  var SORT = { pop:'popPay', tuo:'sales' };
   var expanded = '';
   var allOpen = true;
   var boardExpanded = { pop:false, tuo:false };
   var LIMIT = 10;
   var LAG_WARN = 150;   /* 采集一轮约 1 小时，落后超过 2.5 小时才算异常 */
 
-  /* ============ 店铺类型 ============ */
-  /* POP 店 = 历史上出现过 POP 实时支付（popPay > 0）；其余算纯全托。
-     纯全托店没有「成交金额」字段，页面上不显示任何金额。 */
-  function isPop(s){
+  /* ============ 两个渠道 ============ */
+  /* 店铺不是非黑即白：8 家店 POP 和全托同时在跑，所以按「渠道」分两条榜，
+     一家店两个渠道都有数据就两条榜都上榜，各排各的名次、各看各的数字。
+       POP 渠道：历史上有过 POP 成交（popPay / popOrders > 0）
+       全托渠道：历史上有过全托销量 / 访客 / 浏览量 */
+  function hasChan(s, kind){
     if(!s) return false;
-    if(s._pop !== undefined) return s._pop;
-    s._pop = num(s.popPay) > 0 || (s.history || []).some(function(r){ return num(r.popPay) > 0; });
-    return s._pop;
+    if(s._ch === undefined){
+      var h = s.history || [];
+      s._ch = {
+        pop: h.some(function(r){ return num(r.popPay) > 0 || num(r.popOrders) > 0; }),
+        tuo: h.some(function(r){ return num(r.sales) > 0 || num(r.visitors) > 0 || num(r.views) > 0; })
+      };
+    }
+    return !!s._ch[kind];
   }
+  /* 兼容旧调用：这家店上不上 POP 榜 */
+
+  /* 渠道内的指标：同一家店在两个渠道的数字互不串台 */
+  function chanVis(s, kind){ return kind === 'pop' ? num(s.popVisitors) : num(s.visitors); }
+  function chanOrders(s, kind){ return kind === 'pop' ? num(s.popOrders) : num(s.sales); }
+  function chanPay(s, kind){ return kind === 'pop' ? num(s._pay) : 0; }
+  function chanCvr(s, kind){
+    var v = chanVis(s, kind);
+    return v > 0 ? (chanOrders(s, kind) / v) * 100 : 0;
+  }
+  function chanDisputes(s, kind){ return kind === 'pop' ? num(s.popDisputes) : num(s.disputes); }
 
   /* ============ 采集探针 ============ */
   /* 每家店被抓取一轮的间隔并不一样，按它自己的中位间隔判断「该到没到」，
@@ -377,15 +396,8 @@
     return s._pr;
   }
 
-  /* 全托没有「POP 订单」字段，用「全托今天销量」当订单数，转化率也按它算 */
-  function ordersOf(s){
-    return isPop(s) ? num(s.popOrders) : num(s.sales);
-  }
-  function cvrOf(s){
-    if(isPop(s)) return num(s.cvr);
-    var v = num(s.visitors);
-    return v > 0 ? (num(s.sales) / v) * 100 : 0;
-  }
+  /* 全托渠道没有「订单」字段，用「全托今天销量」当订单数，转化率也按它算；
+     POP 渠道用 POP 订单 / POP 访客。两个渠道各算各的转化。 */
 
   /* ============ 今日支付 ============ */
   /* 只认 POP 实时支付金额。全托店的「余额」是充值/结算后的结余，不是当天成交额，
@@ -408,57 +420,82 @@
     });
   }
 
-  /* 两组各算各的：只在同类型里比，避免全托被 POP 的金额拉平 */
+  /* 两个渠道各算各的：POP 榜只用 POP 的数，全托榜只用全托的数 */
   var WEIGHTS = {
-    pop: { popPay:.30, popOrders:.18, cvr:.16, popVisitors:.12, visitors:.10, views:.08, balance:.06 },
-    tuo: { sales:.34, visitors:.26, views:.20, cvr:.20 }
+    pop: { popPay:.34, popOrders:.20, popVisitors:.18, cvr:.16, balance:.12 },
+    /* 全托不算转化：小访客店的转化率会飙到几十个点，一加权就把排名带歪 */
+    tuo: { sales:.45, visitors:.30, views:.25 }
   };
+  function chanVals(s, kind){
+    return {
+      popPay: chanPay(s, kind),
+      popOrders: kind === 'pop' ? num(s.popOrders) : 0,
+      popVisitors: kind === 'pop' ? num(s.popVisitors) : 0,
+      balance: kind === 'pop' ? num(s.balance) : 0,
+      sales: kind === 'tuo' ? num(s.sales) : 0,
+      visitors: kind === 'tuo' ? num(s.visitors) : 0,
+      views: kind === 'tuo' ? num(s.views) : 0,
+      cvr: chanCvr(s, kind)
+    };
+  }
   function computeScores(list, kind){
     var W = WEIGHTS[kind] || WEIGHTS.pop;
+    var rows = list.map(function(s){ return chanVals(s, kind); });
     var max = {}, ws = 0;
     Object.keys(W).forEach(function(k){
       ws += W[k];
-      max[k] = Math.max.apply(null, list.map(function(s){ return num(s[k]); }));
+      max[k] = Math.max.apply(null, rows.map(function(r){ return num(r[k]); }).concat([0]));
       if(!(max[k] > 0)) max[k] = 1;
     });
-    var dmax = Math.max.apply(null, list.map(function(s){ return (s.disputes||0)+(s.popDisputes||0); })) || 1;
-    return list.map(function(s){
+    var dmax = Math.max.apply(null, list.map(function(s){ return chanDisputes(s, kind); }).concat([0])) || 1;
+    return rows.map(function(r, i){
       var sum = 0;
-      Object.keys(W).forEach(function(k){ sum += W[k] * (num(s[k]) / max[k]); });
+      Object.keys(W).forEach(function(k){ sum += W[k] * (num(r[k]) / max[k]); });
       var base = (sum / ws) * 100;
-      var pen = 8 * (((s.disputes||0)+(s.popDisputes||0)) / dmax);
+      var pen = 8 * (chanDisputes(list[i], kind) / dmax);
       return Math.max(0, Math.round((base - pen) * 10) / 10);
     });
   }
 
-  /* ============ 分组 ============ */
-  var POP_LIST = [], TUO_LIST = [];
+  /* ============ 上榜名单 ============ */
+  var CHAN_LIST = { pop:[], tuo:[] };
   function splitGroups(){
-    POP_LIST = stores.filter(isPop);
-    TUO_LIST = stores.filter(function(s){ return !isPop(s); });
+    CHAN_LIST.pop = stores.filter(function(s){ return hasChan(s, 'pop'); });
+    CHAN_LIST.tuo = stores.filter(function(s){ return hasChan(s, 'tuo'); });
   }
-  function groupOf(kind){ return kind === 'pop' ? POP_LIST : TUO_LIST; }
+  function groupOf(kind){ return CHAN_LIST[kind] || []; }
+  function dualCount(kind){
+    var other = kind === 'pop' ? 'tuo' : 'pop';
+    return groupOf(kind).filter(function(s){ return hasChan(s, other); }).length;
+  }
 
-  var SORTFN = {
-    score:      function(s){ return s._score || 0; },
-    popPay:     function(s){ return num(s._pay); },
-    popOrders:  function(s){ return num(s.popOrders); },
-    popVisitors:function(s){ return num(s.popVisitors); },
-    sales:      function(s){ return num(s.sales); },
-    visitors:   function(s){ return num(s.visitors); },
-    disputes:   function(s){ return -(num(s.disputes)+num(s.popDisputes)); },
-    ts:         function(s){ return parseTs(s.ts).getTime(); }
-  };
+  function scoreOf(s, kind){ return (s._sc && s._sc[kind]) || 0; }
+  function sortVal(s, kind, metric){
+    switch(metric){
+      case 'popPay': return num(s._pay);
+      case 'popOrders': return num(s.popOrders);
+      case 'popVisitors': return num(s.popVisitors);
+      case 'sales': return num(s.sales);
+      case 'visitors': return num(s.visitors);
+      case 'disputes': return -chanDisputes(s, kind);
+      case 'ts': return parseTs(s.ts).getTime();
+      default: return scoreOf(s, kind);
+    }
+  }
   function rankOf(kind, metric){
     var list = groupOf(kind).slice();
     var scores = computeScores(list, kind);
-    list.forEach(function(s,i){ s._score = scores[i]; });
-    var f = SORTFN[metric || SORT[kind]] || SORTFN.score;
-    list.sort(function(a,b){ return f(b) - f(a); });
+    list.forEach(function(s,i){ s._sc = s._sc || {}; s._sc[kind] = scores[i]; });
+    var m = metric || SORT[kind];
+    /* 主指标打平时按综合分排，免得一堆 $0 的店顺序随机 */
+    list.sort(function(a,b){
+      var d = sortVal(b, kind, m) - sortVal(a, kind, m);
+      return Math.abs(d) > 1e-9 ? d : (scoreOf(b, kind) - scoreOf(a, kind));
+    });
     return list;
   }
 
-  /* 上一次快照的排名（用来算名次升降），同样按类型分组算 */
+  /* 上一次快照的排名（用来算名次升降），同样按渠道分组算 */
   var PREV_RANK = { pop:{}, tuo:{} };
   var PREV_KEYS = ['sales','views','visitors','disputes','balance','popDisputes','popPay','popVisitors','popOrders','cvr'];
   function prevRankMap(kind){
@@ -474,9 +511,9 @@
     });
     if(!list.length) return {};
     var scores = computeScores(list, kind);
-    list.forEach(function(x,i){ x._score = scores[i]; });
-    var f = SORTFN[SORT[kind]] || SORTFN.score;
-    list.sort(function(x,y){ return f(y) - f(x); });
+    list.forEach(function(x,i){ x._sc = {}; x._sc[kind] = scores[i]; });
+    var m = SORT[kind];
+    list.sort(function(x,y){ return sortVal(y, kind, m) - sortVal(x, kind, m); });
     var map = {};
     list.forEach(function(x,i){ map[x.name] = i+1; });
     return map;
@@ -589,9 +626,10 @@
   /* ================= 图表 ================= */
   var GAP_CAP = 7200000, MIN_BIN_MIN = 6;
 
-  function visValue(r){ return num(r.visitors) + num(r.popVisitors); }
+  /* 曲线/柱子按渠道算：POP 榜看 POP 访客，全托榜看全托访客，不混加 */
+  function visValue(r, kind){ return chanVis(r, kind); }
 
-  function buildWindows(s){
+  function buildWindows(s, kind){
     var h = s.history || [], out = [];
     for(var i=1;i<h.length;i++){
       var a = h[i-1], b = h[i];
@@ -599,7 +637,7 @@
       var durH = (tb-ta)/3600000;
       if(!(durH > 0)) continue;
       var cross = usDay(a.tsWest) !== usDay(b.tsWest);
-      var dv = cross ? 0 : Math.max(0, visValue(b) - visValue(a));
+      var dv = cross ? 0 : Math.max(0, visValue(b, kind) - visValue(a, kind));
       out.push({ ta:ta.getTime(), tb:tb.getTime(), dur:durH, dv:dv, tsa:a.ts, tsb:b.ts });
     }
     return out;
@@ -621,9 +659,9 @@
     return bins;
   }
 
-  function fillBins(bins, list){
+  function fillBins(bins, list, kind){
     list.forEach(function(s){
-      buildWindows(s).forEach(function(w){
+      buildWindows(s, kind).forEach(function(w){
         if(w.dv <= 0) return;
         for(var i=0;i<bins.length;i++){
           var b = bins[i];
@@ -636,9 +674,9 @@
     });
   }
 
-  function storeStats(list){
+  function storeStats(list, kind){
     var bins = timelineBins(list, list.length === 1 ? 1 : MIN_BIN_MIN);
-    fillBins(bins, list);
+    fillBins(bins, list, kind);
     var total = 0, sol = 0;
     bins.forEach(function(b){ total += b.sol+b.est; sol += b.sol; });
     var t0 = bins.length ? bins[0].t0 : 0, t1 = bins.length ? bins[bins.length-1].t1 : 0;
@@ -659,17 +697,18 @@
     for(var i=0;i<steps.length;i++){ if(v <= steps[i]*e) return steps[i]*e; }
     return 10*e;
   }
-  function events(s){
-    var h = s.history || [], out = [], pop = isPop(s);
+  function events(s, kind){
+    var h = s.history || [], out = [], pop = kind === 'pop';
     for(var i=1;i<h.length;i++){
       var a = h[i-1], b = h[i];
       var ta = parseTs(a.ts), tb = parseTs(b.ts), gap = Math.round((tb-ta)/60000);
-      if(pop && usDay(a.tsWest) !== usDay(b.tsWest)){
-        out.push({ t:tb.getTime(), ts:b.ts, kind:'reset', txt:'跨日归零', d:'$'+fmtMoney(a.popPay)+' → $'+fmtMoney(b.popPay) });
+      if(usDay(a.tsWest) !== usDay(b.tsWest)){
+        out.push({ t:tb.getTime(), ts:b.ts, kind:'reset', txt:'跨日归零',
+          d: pop ? ('$'+fmtMoney(a.popPay)+' → $'+fmtMoney(b.popPay)) : (fmtInt(a.sales)+' → '+fmtInt(b.sales)+' 件') });
         continue;
       }
       if(gap >= 90) out.push({ t:tb.getTime(), ts:b.ts, kind:'gap', txt:'断采 '+gap+' 分钟', d:hm(a.ts)+' → '+hm(b.ts) });
-      if(!pop) continue;   /* 全托店没有成交金额，只留断采这类非金额事件 */
+      if(!pop) continue;   /* 全托渠道没有成交金额，只留断采这类非金额事件 */
       var dp = num(b.popPay)-num(a.popPay);
       if(num(a.popPay) > 0 && Math.abs(dp) >= Math.max(30, num(a.popPay)*.4)){
         out.push({ t:tb.getTime(), ts:b.ts, kind: dp>0?'up':'down', txt:(dp>0?'跳增 ':'跳减 ')+'$'+fmtMoney(Math.abs(dp)), d:'$'+fmtMoney(a.popPay)+' → $'+fmtMoney(b.popPay) });
@@ -696,30 +735,31 @@
     $('#snap').textContent = RAW.latestSnapshot || '—';
   }
 
-  function aggStats(list){
-    list = list || stores;
+  function aggStats(kind){
+    var list = groupOf(kind);
     var total = 0, sol = 0;
-    list.forEach(function(s){ var st = storeStats([s]); total += st.total; sol += st.sol; });
+    list.forEach(function(s){ var st = storeStats([s], kind); total += st.total; sol += st.sol; });
     return { total:total, sol:sol, share: total>0 ? Math.round(sol/total*100) : 0 };
   }
 
   function renderHero(){
     /* 今日 = 美西当天（美西 00:00 归零），只算当天还有更新的店铺 */
     var day = refDay();
-    var vis = 0, pay = 0, orders = 0, sales = 0, stale = 0, popN = 0, tuoN = 0;
+    var vis = 0, pay = 0, orders = 0, sales = 0, stale = 0;
+    var popN = groupOf('pop').length, tuoN = groupOf('tuo').length;
+    var dual = groupOf('pop').filter(function(s){ return hasChan(s, 'tuo'); }).length;
     stores.forEach(function(s){
-      if(isPop(s)) popN++; else tuoN++;
       if(dayKey(parseTs(s.ts).getTime()) !== day){ stale++; return; }
       vis += num(s.visitors) + num(s.popVisitors);
-      if(isPop(s)){ pay += num(s._pay); orders += num(s.popOrders); }
-      else { sales += num(s.sales); }
+      if(hasChan(s, 'pop')){ pay += num(s._pay); orders += num(s.popOrders); }
+      if(hasChan(s, 'tuo')){ sales += num(s.sales); }
     });
     var note = stale ? (stale + ' 家当日未更新') : '美西当天 · 00:00 归零';
     $('#hero').innerHTML =
       '<div><span><em class="tag pop">POP</em>今日支付</span><b>'+(popN ? '$'+fmtInt(pay) : '—')+'</b>' +
-        '<i>'+popN+' 家合计 · '+fmtInt(orders)+' 单 · 全托店不计金额</i></div>' +
+        '<i>'+popN+' 家 · '+fmtInt(orders)+' 单 · 其中 '+dual+' 家也做全托</i></div>' +
       '<div><span><em class="tag tuo">全托</em>今日销量</span><b>'+fmtInt(sales)+'</b>' +
-        '<i>'+tuoN+' 家合计 · 全托不统计金额</i></div>' +
+        '<i>'+tuoN+' 家 · 其中 '+dual+' 家也做 POP · 不计金额</i></div>' +
       '<div><span><em class="tag all">全部</em>今日访客</span><b>+'+fmtInt(vis)+'</b>' +
         '<i>'+note+'</i></div>';
   }
@@ -733,18 +773,25 @@
     }).join('');
   }
 
-  function rowHTML(s, idx, maxScore){
-    var pop = isPop(s), kind = pop ? 'pop' : 'tuo';
-    var pct = clamp((s._score||0)/maxScore*100, 3, 100);
-    var cls = 'row' + (idx===0?' top1':idx===1?' top2':idx===2?' top3':'') + (expanded===s.name?' open':'');
+  function rowHTML(s, idx, barMax, kind, bm){
+    var pct = clamp(sortVal(s, kind, bm)/barMax*100, 3, 100);
+    var key = kind + '|' + s.name;
+    var cls = 'row' + (idx===0?' top1':idx===1?' top2':idx===2?' top3':'') + (expanded===key?' open':'');
     var payTxt, payCls = '';
-    if(pop){
-      payTxt = '$' + fmtInt(s._pay) + '<em>今日支付</em>';
+    if(kind === 'pop'){
+      payTxt = '$' + fmtInt(num(s._pay)) + '<em>今日支付</em>';
       if(!(num(s._pay) > 0)) payCls = ' dim';
     }else{
-      /* 全托一律不显示金额，摆今天卖了多少 */
-      payTxt = fmtInt(s.sales) + '<em>今日销量</em>';
+      /* 全托渠道一律不显示金额，摆今天卖了多少 */
+      payTxt = fmtInt(num(s.sales)) + '<em>今日销量</em>';
       payCls = ' plain';
+    }
+    /* 两边都做的店：另一条榜上也有它，顺手把这个渠道的数摆在标签里 */
+    var dual = '';
+    if(hasChan(s, kind === 'pop' ? 'tuo' : 'pop')){
+      dual = (kind === 'pop')
+        ? '<em class="dual">兼全托 ' + fmtInt(num(s.sales)) + '</em>'
+        : '<em class="dual">兼POP $' + fmtInt(num(s._pay)) + '</em>';
     }
     var cur = idx + 1, prev = PREV_RANK[kind][s.name], chgCls = 'new', chgTxt = '新';
     if(prev){
@@ -752,9 +799,9 @@
       else if(prev < cur){ chgCls = 'down'; chgTxt = '▼' + (cur - prev); }
       else { chgCls = 'flat'; chgTxt = '–'; }
     }
-    return '<div class="'+cls+'" data-name="'+esc(s.name)+'" role="button" tabindex="0">' +
+    return '<div class="'+cls+'" data-name="'+esc(s.name)+'" data-kind="'+kind+'" role="button" tabindex="0">' +
       '<div class="rk">'+(idx+1)+'</div>' +
-      '<div class="mid"><div class="nm">'+esc(s.name)+(idx===0?'<em>擂主</em>':'')+'</div>' +
+      '<div class="mid"><div class="nm">'+esc(s.name)+(idx===0?'<em>擂主</em>':'')+dual+'</div>' +
         '<div class="bar"><i style="width:'+pct.toFixed(1)+'%"></i></div></div>' +
       '<div class="pay'+payCls+'">'+payTxt+'</div>' +
       '<div class="time '+(probe(s).late?'stale':'')+'">'+hm(s.ts)+'</div>' +
@@ -765,9 +812,9 @@
   /* ================= 图表 ================= */
   var CHART = { metric:'visitors', cum:false, hits:{} };
   var CMET = {
-    visitors:{ name:'访客', unit:'人', raw:function(r){ return num(r.visitors)+num(r.popVisitors); } },
+    visitors:{ name:'访客', unit:'人', raw:function(r, kind){ return chanVis(r, kind); } },
     pay:{ name:'支付', unit:'$', raw:function(r){ return (r && r._pay != null) ? num(r._pay) : num(r.popPay); } },
-    orders:{ name:'订单', unit:'单', raw:function(r, st){ return isPop(st) ? num(r.popOrders) : num(r.sales); } }
+    orders:{ name:'订单', unit:'单', raw:function(r, kind){ return chanOrders(r, kind); } }
   };
   var GAP_W = 2*3600000;
   var MPAL = ['#ffe6b8','#f2b552','#ff9f8a','#8fd0b0','#9fb8e8','#cfa8e0'];
@@ -786,10 +833,10 @@
     arr.forEach(function(t){ if(!out.length || t-out[out.length-1] > 60000) out.push(t); });
     return out;
   }
-  function seriesFor(list, key){
+  function seriesFor(list, key, kind){
     var def = CMET[key], times = allTimes(list);
     var rows = list.map(function(st){
-      return (st.history||[]).map(function(r){ return { t:parseTs(r.ts).getTime(), v:def.raw(r, st) }; });
+      return (st.history||[]).map(function(r){ return { t:parseTs(r.ts).getTime(), v:def.raw(r, kind) }; });
     });
     return times.map(function(t){
       var v = 0, any = false;
@@ -900,25 +947,26 @@
         '</div>' +
       '</div>';
   }
-  /* 这一组里有没有 POP 店（一家都没有就藏掉「支付」按钮） */
-  function anyPop(list){
-    return (list || []).some(isPop);
-  }
   function chartBox(id, s){
     return '<div class="chart" data-chart="'+id+'"><svg viewBox="0 0 880 280">'+s+'</svg></div>';
   }
 
   /* 单店：柱子（窗口新增）/ 走势（计数原始值） */
-  /* 总览：全托/POP/广告 各指标原始值随时间的曲线（无柱子） */
-  var OVF = [
-    { k:'visitors',    name:'全托访客', unit:'人', col:'#f2b552', money:false },
-    { k:'popVisitors', name:'POP访客',  unit:'人', col:'#7fd7d1', money:false },
-    { k:'popPay',      name:'POP金额',  unit:'$',  col:'#cfa8e0', money:true  }
-  ];
+  /* 总览：按渠道摆原始值曲线（POP 渠道 = POP 访客 + POP 金额；全托渠道 = 全托访客 + 销量） */
+  var OVF = {
+    pop: [
+      { k:'popVisitors', name:'POP访客', unit:'人', col:'#7fd7d1', money:false },
+      { k:'popPay',      name:'POP金额', unit:'$',  col:'#cfa8e0', money:true  }
+    ],
+    tuo: [
+      { k:'visitors', name:'全托访客', unit:'人', col:'#f2b552', money:false },
+      { k:'sales',    name:'全托销量', unit:'件', col:'#8fd0b0', money:false }
+    ]
+  };
 
-  function overviewBlock(list, id){
+  function overviewBlock(list, id, kind){
     var times = allTimes(list);
-    var showPay = anyPop(list);
+    var showPay = kind === 'pop';
     if(times.length < 2) return '<div class="chart-empty">采样点太少，画不了</div>';
 
     var g = geom(times), L=g.L, T=g.T, ih=g.ih, W=g.W, R=g.R, rd=g.rd;
@@ -927,7 +975,7 @@
       return { t:parseTs(r.ts).getTime(), r:r };
     }).sort(function(a,b){ return a.t-b.t; });
 
-    var fields = showPay ? OVF : OVF.filter(function(f){ return !f.money && f.k !== 'popVisitors'; });
+    var fields = OVF[kind] || OVF.tuo;
     var series = fields.map(function(f){
       var vals = times.map(function(t){
         var best=null;
@@ -991,7 +1039,7 @@
     var legend = '<div class="chart-legend">' + series.map(function(o){
       var tail = o.last==null ? '—' : (o.f.money ? '$'+fmtMoney(o.last) : fmtInt(o.last)+' '+o.f.unit);
       return '<span><i style="background:'+o.f.col+'"></i>'+esc(o.f.name)+'<em>'+tail+'</em></span>';
-    }).join('') + '<span class="dim">'+(showPay ? '原始值 · 全托与 POP 分开' : '原始值 · 全托店不统计金额')+'</span></div>';
+    }).join('') + '<span class="dim">'+(showPay ? '原始值 · 只统计 POP' : '原始值 · 全托不统计金额')+'</span></div>';
 
     return '<div class="chart-head">' +
         '<div class="t">单店总览<em>原始值 / 随时间</em></div>' +
@@ -1083,15 +1131,15 @@
     return s;
   }
 
-  function chartBlock(list, id){
-    var showPay = anyPop(list);
-    /* 没有 POP 的店不给「支付」，但只降级本次显示，不动全局选择 */
-    var key = (showPay === false && CHART.metric === 'pay') ? 'visitors' : CHART.metric;
+  function chartBlock(list, id, kind){
+    var showPay = kind === 'pop';
+    /* 全托渠道没有支付：全局选了「支付」时这一块降级成订单 */
+    var key = (!showPay && CHART.metric === 'pay') ? 'orders' : CHART.metric;
     var cum = CHART.cum, def = CMET[key];
-    if(list.length > 1) return multiChart(list, id, key, def, showPay);
-    if(cum) return overviewBlock(list, id);
+    if(list.length > 1) return multiChart(list, id, key, def, showPay, kind);
+    if(cum) return overviewBlock(list, id, kind);
 
-    var pts = seriesFor(list, key);
+    var pts = seriesFor(list, key, kind);
     if(pts.length < 2) return '<div class="chart-empty">采样点太少，画不了</div>';
     var g = geom(pts.map(function(p){ return p.t; }));
     var L=g.L, T=g.T, ih=g.ih, W=g.W, R=g.R, rd=g.rd;
@@ -1151,12 +1199,12 @@
   }
 
   /* 总览：每店一条累计曲线 */
-  function multiChart(list, id, key, def, showPay){
+  function multiChart(list, id, key, def, showPay, kind){
     var times = allTimes(list);
     if(times.length < 2) return '<div class="chart-empty">采样点太少，画不了</div>';
 
     var stores = list.map(function(st){
-      var hs = (st.history||[]).map(function(r){ return { t:parseTs(r.ts).getTime(), v:def.raw(r, st) }; });
+      var hs = (st.history||[]).map(function(r){ return { t:parseTs(r.ts).getTime(), v:def.raw(r, kind) }; });
       hs.sort(function(a,b){ return a.t-b.t; });
       return { name:st.name, hs:hs };
     });
@@ -1240,25 +1288,32 @@
     return headHTML('各店'+def.name+'累计', def.unit, key, false, false, showPay) + legend + chartBox(id, s);
   }
 
-  function detailHTML(s){
-    var st = storeStats([s]);
+  function detailHTML(s, kind){
+    var st = storeStats([s], kind);
     var peak = null;
     st.bins.forEach(function(b){
       if((b.t1-b.t0) > GAP_CAP) return;
       var v = b.sol+b.est;
       if(!peak || v > peak.v) peak = { v:v, b:b };
     });
-    var evs = events(s);
+    var evs = events(s, kind);
+    var kv = (kind === 'pop')
+      ? '<div>今日支付<b>$'+fmtMoney(num(s._pay))+'</b></div>' +
+        '<div>今日订单<b>'+fmtInt(num(s.popOrders))+'</b></div>' +
+        '<div>POP访客<b>'+fmtInt(num(s.popVisitors))+'</b></div>' +
+        '<div>转化<b>'+chanCvr(s,'pop').toFixed(2)+'%</b></div>' +
+        '<div>POP纠纷<b class="'+(num(s.popDisputes)>0?'warn':'')+'">'+fmtInt(num(s.popDisputes))+'</b></div>' +
+        (HAS_AD ? '<div>广告<b>'+adText(s)+'</b></div>' : '')
+      : '<div>今日销量<b>'+fmtInt(num(s.sales))+'</b></div>' +
+        '<div>全托访客<b>'+fmtInt(num(s.visitors))+'</b></div>' +
+        '<div>浏览<b>'+fmtInt(num(s.views))+'</b></div>' +
+        '<div>转化<b>'+chanCvr(s,'tuo').toFixed(2)+'%</b></div>' +
+        '<div>纠纷<b class="'+(num(s.disputes)>0?'warn':'')+'">'+fmtInt(num(s.disputes))+'</b></div>';
     return '<div class="detail">' +
-      chartBlock([s], 'c_' + s.name.replace(/[^a-z0-9]/gi,'')) +
-      '<div class="kv">' +
-        (isPop(s) ? '<div>今日支付<b>$'+fmtMoney(num(s._pay))+'</b></div><div>今日订单<b>'+fmtInt(ordersOf(s))+'</b></div>'
-                  : '<div>今日销量<b>'+fmtInt(num(s.sales))+'</b></div>') +
+      chartBlock([s], 'c_' + kind + '_' + s.name.replace(/[^a-z0-9]/gi,''), kind) +
+      '<div class="kv">' + kv +
         '<div>区间新增<b>+'+fmtInt(st.total)+'</b></div>' +
-        (isPop(s) ? '' : '<div>转化<b>'+cvrOf(s).toFixed(2)+'%</b></div>') +
-        '<div>转化<b>'+cvrOf(s).toFixed(2)+'%</b></div>' +
-        '<div>纠纷<b class="'+((s.disputes+s.popDisputes)>0?'warn':'')+'">'+fmtInt(s.disputes+s.popDisputes)+'</b></div>' +
-        (HAS_AD ? '<div>广告<b>'+adText(s)+'</b></div>' : '') +
+        '<div>综合分<b>'+scoreOf(s, kind).toFixed(1)+'</b></div>' +
       '</div>' +
       '<div class="note">平均 <b>'+Math.round(st.avg)+'</b> 人/小时 · 有效观测 <b>'+Math.round(st.effH)+'</b> 小时' +
         (peak?' · 峰值段 <b>'+hm(peak.b.t0)+'–'+hm(peak.b.t1)+'</b> '+fmtInt(peak.v)+' 人':'') +
@@ -1271,23 +1326,23 @@
 
   function allRowHTML(list, kind, agg){
     var id = 'c_all_' + kind;
-    var s = '<div class="row all'+(allOpen?' open':'')+'" data-all="1">' +
+    var s = '<div class="row all'+(allOpen?' open':'')+'" data-all="1" data-kind="'+kind+'">' +
       '<div class="rk">全部</div>' +
       '<div class="mid"><div class="nm">'+list.length+' 家 · 区间累计</div><div class="bar"><i style="width:100%"></i></div></div>' +
       '<div class="pay plain">+'+fmtInt(agg.total)+' 人</div>' +
       '<div class="time">'+(allOpen?'收起':'展开')+'</div>' +
     '</div>';
     if(allOpen){
-      var st = storeStats(list);
+      var st = storeStats(list, kind);
       s += '<div class="detail">' +
-        chartBlock(list, id) +
+        chartBlock(list, id, kind) +
         '<div class="note">区间合计 <b>+'+fmtInt(st.total)+'</b> 人'+(st.t0?'（自 '+dm(st.t0)+' 起）':'')+' · 实测占 <b>'+agg.share+'%</b> · 平均 <b>'+Math.round(st.avg)+'</b> 人/小时 · 有效观测 <b>'+Math.round(st.effH)+'</b> 小时</div>' +
       '</div>';
     }
     return s;
   }
 
-  /* 榜头那行小字：这一组自己的家数/今日数 */
+  /* 榜头那行小字：这一组的家数 / 两边都做的家数 / 今日数 */
   function boardSummary(kind, list, agg){
     var day = refDay(), pay = 0, orders = 0, sales = 0;
     list.forEach(function(s){
@@ -1295,7 +1350,10 @@
       if(kind === 'pop'){ pay += num(s._pay); orders += num(s.popOrders); }
       else { sales += num(s.sales); }
     });
-    var parts = ['区间累计 +'+fmtInt(agg.total)+' 人'];
+    var dual = dualCount(kind);
+    var parts = [];
+    if(dual) parts.push('其中 '+dual+' 家两边都做');
+    parts.push('区间累计 +'+fmtInt(agg.total)+' 人');
     if(kind === 'pop'){
       parts.push('今日支付 $'+fmtInt(pay));
       parts.push('今日订单 '+fmtInt(orders)+' 单');
@@ -1311,13 +1369,15 @@
     ['pop','tuo'].forEach(function(kind){
       var all = groupOf(kind);
       var list = rankOf(kind);
-      var maxScore = Math.max.apply(null, list.map(function(s){ return s._score||0; }).concat([0])) || 1;
-      var agg = aggStats(all);
+      /* 条跟着当前排序走（按时间/纠纷排时退回综合分，条永远是从大到小） */
+      var bm = (SORT[kind] === 'ts' || SORT[kind] === 'disputes') ? 'score' : SORT[kind];
+      var barMax = Math.max.apply(null, list.map(function(s){ return sortVal(s, kind, bm); }).concat([0])) || 1;
+      var agg = aggStats(kind);
       var shown = boardExpanded[kind] ? list : list.slice(0, LIMIT);
       var html = allRowHTML(all, kind, agg);
       shown.forEach(function(s,i){
-        html += rowHTML(s, i, maxScore);
-        if(expanded === s.name) html += detailHTML(s);
+        html += rowHTML(s, i, barMax, kind, bm);
+        if(expanded === kind+'|'+s.name) html += detailHTML(s, kind);
       });
       $('#rows-'+kind).innerHTML = html;
       $('#more-'+kind).innerHTML = list.length > LIMIT
@@ -1326,6 +1386,7 @@
       $('#sum-'+kind).textContent = all.length ? boardSummary(kind, all, agg) : '这一组暂时没有店';
       renderSorts(kind);
     });
+    renderTable();   /* 明细表的名次跟着榜上当前的排序走 */
   }
 
   function renderRisks(){
@@ -1359,28 +1420,28 @@
     if(!stores.length) return;
     var head = function(cols){ return '<tr>'+cols.map(function(c){ return '<th>'+c+'</th>'; }).join('')+'</tr>'; };
 
-    /* POP：有钱，摆支付/订单 */
-    var htmlPop = head(['名次','店铺','更新','POP访客','累计支付','今日支付','订单','转化','纠纷','广告']);
-    rankOf('pop','score').forEach(function(s,i){
+    /* POP 渠道：有钱，摆 POP 访客 / 支付 / 订单 */
+    var htmlPop = head(['名次','店铺','更新','POP访客','累计支付','今日支付','订单','转化','POP纠纷','广告']);
+    rankOf('pop', SORT.pop).forEach(function(s,i){
       htmlPop += '<tr>' +
         '<td>'+(i+1)+'</td><td>'+esc(s.name)+'</td><td>'+dm(s.ts)+' '+hm(s.ts)+'</td>' +
         '<td>'+fmtInt(s.popVisitors)+'</td>' +
         '<td>$'+fmtMoney(s.popPay)+'</td>' +
         '<td>$'+fmtMoney(num(s._pay))+'</td>' +
-        '<td>'+fmtInt(s.popOrders)+'</td><td>'+num(s.cvr).toFixed(2)+'%</td>' +
-        '<td>'+fmtInt(num(s.disputes)+num(s.popDisputes))+'</td><td>'+adText(s)+'</td>' +
+        '<td>'+fmtInt(s.popOrders)+'</td><td>'+chanCvr(s,'pop').toFixed(2)+'%</td>' +
+        '<td>'+fmtInt(num(s.popDisputes))+'</td><td>'+adText(s)+'</td>' +
       '</tr>';
     });
     $('#tbl-pop').innerHTML = htmlPop;
 
-    /* 全托：整张表不出现金额 */
+    /* 全托渠道：整张表不出现金额 */
     var htmlTuo = head(['名次','店铺','更新','销量','全托访客','浏览','转化','纠纷']);
-    rankOf('tuo','score').forEach(function(s,i){
+    rankOf('tuo', SORT.tuo).forEach(function(s,i){
       htmlTuo += '<tr>' +
         '<td>'+(i+1)+'</td><td>'+esc(s.name)+'</td><td>'+dm(s.ts)+' '+hm(s.ts)+'</td>' +
         '<td>'+fmtInt(s.sales)+'</td><td>'+fmtInt(s.visitors)+'</td><td>'+fmtInt(s.views)+'</td>' +
-        '<td>'+cvrOf(s).toFixed(2)+'%</td>' +
-        '<td>'+fmtInt(num(s.disputes)+num(s.popDisputes))+'</td>' +
+        '<td>'+chanCvr(s,'tuo').toFixed(2)+'%</td>' +
+        '<td>'+fmtInt(num(s.disputes))+'</td>' +
       '</tr>';
     });
     $('#tbl-tuo').innerHTML = htmlTuo;
@@ -1388,7 +1449,7 @@
     $('#meta').textContent = '数据源 shop_data_readonly.db · 生成于 '+((RAW && RAW.generated) || '—');
   }
 
-  function render(){ computePay(stores); splitGroups(); renderHead(); renderHero(); renderBoards(); renderRisks(); renderTable(); }
+  function render(){ computePay(stores); splitGroups(); renderHead(); renderHero(); renderBoards(); renderRisks(); }
 
   /* ================= 交互 ================= */
   function bind(){
@@ -1420,7 +1481,8 @@
       /* 点行展开 */
       var row = e.target.closest('.row[data-name]');
       if(!row) return;
-      expanded = (expanded === row.dataset.name) ? '' : row.dataset.name;
+      var rkey = row.dataset.kind + '|' + row.dataset.name;
+      expanded = (expanded === rkey) ? '' : rkey;
       renderBoards();
     });
 
@@ -1430,11 +1492,14 @@
       var row = e.target && e.target.closest ? e.target.closest('.row[data-name]') : null;
       if(!row) return;
       e.preventDefault();
-      var nm = row.dataset.name;
-      expanded = (expanded === nm) ? '' : nm;
+      var nm = row.dataset.name, kd = row.dataset.kind;
+      var rkey = kd + '|' + nm;
+      expanded = (expanded === rkey) ? '' : rkey;
       renderBoards();
       var list = document.querySelectorAll('#boards .row[data-name]');
-      for(var i=0;i<list.length;i++){ if(list[i].dataset.name === nm){ list[i].focus(); break; } }
+      for(var i=0;i<list.length;i++){
+        if(list[i].dataset.name === nm && list[i].dataset.kind === kd){ list[i].focus(); break; }
+      }
     });
 
     var CTIP = document.getElementById('ctip');
@@ -1482,16 +1547,18 @@
     boardEl.addEventListener('mouseleave', function(){ CTIP.classList.remove('on'); });
 
     $('#csv').addEventListener('click', function(){
-      var cols = ['类型','组内名次','店铺','更新时间','全托销量','浏览量','全托访客','POP访客','纠纷','余额','POP纠纷','POP支付','今日支付','订单','转化率'];
+      var cols = ['渠道','名次','店铺','更新时间','全托销量','浏览量','全托访客','POP访客','POP支付','今日支付','订单','转化率','纠纷','广告'];
       var lines = [cols.join(',')];
       ['pop','tuo'].forEach(function(kind){
         rankOf(kind, 'score').forEach(function(s, i){
-          var pop = isPop(s);
+          var pop = kind === 'pop';
           lines.push([
             pop ? 'POP' : '全托', i+1, '"'+String(s.name).replace(/"/g,'""')+'"', s.ts,
-            num(s.sales), num(s.views), num(s.visitors), num(s.popVisitors),
-            num(s.disputes), pop ? num(s.balance) : '', num(s.popDisputes), pop ? num(s.popPay) : '',
-            pop ? num(s._pay) : '', num(ordersOf(s)), Math.round(cvrOf(s)*100)/100
+            pop ? '' : num(s.sales), pop ? '' : num(s.views), pop ? '' : num(s.visitors),
+            pop ? num(s.popVisitors) : '',
+            pop ? num(s.popPay) : '', pop ? num(s._pay) : '',
+            num(chanOrders(s, kind)), Math.round(chanCvr(s, kind)*100)/100,
+            num(chanDisputes(s, kind)), adText(s)
           ].join(','));
         });
       });
