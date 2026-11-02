@@ -9,14 +9,16 @@
 <style>
   *{box-sizing:border-box;margin:0;padding:0}
   :root{
-    --bg1:#d81f24; --bg2:#b1141b; --bg3:#6d0a0f;
+    --bg1:#6f161a; --bg2:#4a0d11; --bg3:#230607;
     --cream:#fbeed2; --cream2:rgba(251,238,210,.82); --cream3:rgba(251,238,210,.62); --cream4:rgba(251,238,210,.4);
-    --gold:#ffe1a8; --gold-dim:rgba(255,225,168,.2); --gold-line:rgba(255,225,168,.3);
+    --gold:#f2d3a0; --gold-dim:rgba(242,211,160,.2); --gold-line:rgba(242,211,160,.26);
     --warm:#ff9f8a;
   }
   html{scroll-behavior:smooth}
   body{
-    background:linear-gradient(180deg,var(--bg1) 0%, var(--bg2) 38%, var(--bg3) 100%);
+    background:
+      radial-gradient(140% 52% at 50% -6%, rgba(255,186,140,.12), rgba(255,186,140,0) 62%),
+      linear-gradient(180deg,var(--bg1) 0%, var(--bg2) 42%, var(--bg3) 100%);
     background-attachment:fixed;
     color:var(--cream);
     font-family:"PingFang SC","Microsoft YaHei","Hiragino Sans GB",system-ui,-apple-system,"Segoe UI",sans-serif;
@@ -29,35 +31,55 @@
   header{position:relative;padding:6px 0 26px;border-bottom:1px solid var(--gold-line)}
   .wm{
     position:absolute;right:-6px;top:-16px;font-size:180px;line-height:1;font-weight:800;
-    letter-spacing:-.04em;color:rgba(255,225,168,.13);pointer-events:none;user-select:none;
+    letter-spacing:-.04em;color:rgba(242,211,160,.10);pointer-events:none;user-select:none;
   }
-  .eyebrow{font-size:11px;letter-spacing:.3em;color:var(--cream2)}
-  h1{font-size:clamp(40px,6.2vw,64px);line-height:1.06;font-weight:800;letter-spacing:.06em;margin:14px 0 12px;color:var(--gold)}
+  .eyebrow{font-size:clamp(15px,2.6vw,23px);letter-spacing:.2em;color:var(--cream2);margin:0 0 20px}
+  h1{font-size:clamp(40px,6.2vw,64px);line-height:1.06;font-weight:800;letter-spacing:.06em;margin:6px 0 10px;color:var(--gold)}
   .range{font-size:12.5px;color:var(--cream2);font-variant-numeric:tabular-nums}
   .range b{color:var(--cream);font-weight:500}
   .hrow{display:flex;align-items:baseline;justify-content:space-between;gap:14px 22px;flex-wrap:wrap}
   .clocks{display:flex;align-items:baseline;gap:16px;font-size:10.5px;letter-spacing:.1em;color:var(--cream3);font-variant-numeric:tabular-nums}
+  .clocks span{white-space:nowrap}
   .clocks b{color:var(--gold);font-weight:500;font-size:13px;letter-spacing:.06em;margin-left:6px}
   .clocks i{font-style:normal;color:rgba(246,227,192,.4);margin-left:5px;font-size:9.5px}
 
-  /* ---------- 三个大数（POP / 全托 / 全部，三类分开报） ---------- */
-  .hero{display:grid;grid-template-columns:1.1fr 1.1fr 1fr;padding:26px 0 28px;border-bottom:1px solid var(--gold-line)}
+  /* ---------- 三个大数（POP 支付 / POP 单量 / 全托销量） ---------- */
+  .hero{display:grid;grid-template-columns:1.15fr 1fr 1.15fr;padding:26px 0 22px;border-bottom:1px solid var(--gold-line)}
   .hero div{padding-right:16px;min-width:0}
   .hero div + div{border-left:1px solid var(--gold-line);padding-left:20px}
-  .hero div span{display:flex;align-items:baseline;gap:7px;font-size:11.5px;letter-spacing:.12em;color:var(--cream2);margin-bottom:10px}
-  .hero div i{display:block;margin-top:7px;font-size:9.5px;letter-spacing:.05em;color:rgba(246,227,192,.44);font-style:normal}
-.hero div b{font-size:clamp(26px,4vw,38px);font-weight:700;letter-spacing:-.02em;font-variant-numeric:tabular-nums;line-height:1;color:var(--gold)}
+  .hero div span{display:flex;align-items:baseline;gap:9px;font-size:13px;letter-spacing:.1em;color:var(--cream2);margin-bottom:11px}
+  .hero div i{display:block;margin-top:8px;font-size:10px;letter-spacing:.04em;color:rgba(246,227,192,.46);font-style:normal}
+  .hero div b{font-size:clamp(28px,4.2vw,40px);font-weight:700;letter-spacing:-.02em;font-variant-numeric:tabular-nums;line-height:1;color:var(--gold)}
+  .hero .u{font-style:normal;font-size:.4em;font-weight:500;color:var(--cream2);letter-spacing:.04em;margin-left:4px}
   .hero div.warn b{color:var(--warm)}
   .hero .tag{margin-bottom:0}
+  .hero-line{padding:10px 0 0;font-size:10.5px;letter-spacing:.04em;color:var(--cream3)}
+
+  /* ---------- 引导：怎么看这张榜 ---------- */
+  .guide{padding:20px 0 18px;border-bottom:1px solid var(--gold-line)}
+  .guide-h{display:flex;align-items:baseline;justify-content:space-between;gap:8px 14px;flex-wrap:wrap;margin-bottom:14px}
+  .guide-h b{font-size:12.5px;letter-spacing:.16em;color:var(--gold);font-weight:600}
+  .guide-h i{font-style:normal;font-size:10px;letter-spacing:.08em;color:var(--cream4)}
+  .guide-grid{display:grid;grid-template-columns:1fr 1fr;gap:15px 30px}
+  .guide-grid > div{display:grid;grid-template-columns:26px minmax(0,1fr);column-gap:11px;row-gap:4px;align-content:start}
+  .guide-grid em{
+    grid-row:1 / span 2;font-style:normal;font-size:10px;font-weight:600;color:var(--gold);
+    border:1px solid var(--gold-line);border-radius:2px;width:26px;height:20px;
+    display:flex;align-items:center;justify-content:center;letter-spacing:.02em;
+  }
+  .guide-grid b{font-size:12px;font-weight:600;color:var(--cream);letter-spacing:.02em}
+  .guide-grid p{font-size:10.5px;line-height:1.8;color:var(--cream3)}
 
   /* 类型小标签：POP / 全托 / 全部 */
   .tag{
-    font-style:normal;font-size:8.5px;letter-spacing:.1em;line-height:1.6;padding:0 5px;
+    font-style:normal;font-size:10px;letter-spacing:.1em;line-height:1.6;padding:0 6px;
     border:1px solid;border-radius:2px;flex:0 0 auto;font-weight:500;
   }
-  .tag.pop{color:#ffe1a8;border-color:rgba(255,225,168,.5);background:rgba(255,225,168,.08)}
+  .tag.pop{color:var(--gold);border-color:rgba(242,211,160,.5);background:rgba(242,211,160,.08)}
   .tag.tuo{color:#a9e3cd;border-color:rgba(169,227,205,.45);background:rgba(169,227,205,.07)}
   .tag.all{color:rgba(251,238,210,.68);border-color:rgba(251,238,210,.28)}
+  .hero .tag{font-size:12px;font-weight:600;padding:2px 8px;letter-spacing:.08em}
+  .board-head h2 .tag{font-size:10.5px}
 
   /* ---------- 榜单 ---------- */
   .board{margin-top:30px}
@@ -77,14 +99,14 @@
     border:1px solid transparent;background:transparent;color:var(--cream3);transition:.15s;
   }
   .sorts button:hover{color:var(--cream)}
-  .sorts button.on{color:#4a0f11;background:var(--gold);border-color:var(--gold);font-weight:600}
+  .sorts button.on{color:#2a0809;background:var(--gold);border-color:var(--gold);font-weight:600}
 
   .row{
     display:grid;grid-template-columns:56px minmax(0,1fr) 116px 60px 44px;
     gap:16px;align-items:center;padding:15px 0;border-bottom:1px solid rgba(247,217,154,.12);
     cursor:pointer;transition:background .15s;
   }
-  .row:hover{background:rgba(255,255,255,.028)}
+  .row:hover{background:rgba(255,255,255,.05)}
   .row.open{background:rgba(247,217,154,.07)}
   .row .rk{font-size:28px;font-weight:800;line-height:1;color:var(--cream4);font-variant-numeric:tabular-nums}
   .row.top1 .rk{color:var(--gold)}
@@ -107,12 +129,10 @@
   .row .chg.down{color:#8fd0b0}
   .row .chg.flat{color:rgba(246,227,192,.32)}
   .row .chg.new{color:rgba(246,227,192,.5);font-size:9.5px;letter-spacing:.08em}
-  .row.all .time{grid-column:4 / span 2}
-  .row.all{margin-top:2px;border-top:1px solid var(--gold-line)}
+  .row.all{grid-template-columns:56px minmax(0,1fr) auto;margin-top:2px;border-top:1px solid var(--gold-line)}
+  .row.all .time{grid-column:3;text-align:right}
   .row.all .rk{font-size:11px;letter-spacing:.16em;color:var(--cream3);font-weight:400;line-height:1.2}
-  .row.all .nm{font-size:15px;color:var(--cream2);font-weight:500}
-  .row.all .bar i{background:rgba(247,217,154,.45);opacity:1}
-  .row.all .pay{font-size:15px;color:var(--cream2)}
+  .row.all .nm{font-size:14px;color:var(--cream3);font-weight:400}
 
   /* ---------- 展开 ---------- */
   .detail{background:rgba(0,0,0,.16);border-top:1px solid var(--gold-line);border-bottom:1px solid var(--gold-line);padding:20px 22px 24px}
@@ -178,7 +198,7 @@
   .chart-legend span em{font-style:normal;font-size:10px;color:var(--cream3)}
   .chart-legend .dim{color:rgba(246,227,192,.4)}
   #ctip{position:fixed;z-index:99;pointer-events:none;opacity:0;transition:opacity .1s;
-    background:#3c070d;border:1px solid rgba(247,217,154,.45);padding:9px 12px;
+    background:#2a0809;border:1px solid rgba(242,211,160,.45);padding:9px 12px;
     font-size:11px;line-height:1.65;color:#f6e3c0;white-space:nowrap;box-shadow:0 6px 18px rgba(0,0,0,.45)}
   #ctip b{color:#f7d99a;font-weight:600}
   #ctip i{font-style:normal;color:rgba(246,227,192,.55)}
@@ -186,17 +206,28 @@
   #ctip.on{opacity:1}
   .empty{padding:36px 0;color:var(--cream3);font-size:12px}
   .banner{margin-top:24px;padding:16px;border:1px solid rgba(255,159,138,.45);background:rgba(255,159,138,.08);font-size:12px;line-height:1.8;color:var(--warm)}
+  .banner code{font-family:Consolas,Menlo,monospace;font-size:11px;color:var(--cream2);word-break:break-all}
+  .banner button{margin-top:10px;cursor:pointer;font-family:inherit;font-size:11.5px;padding:7px 14px;border:1px solid rgba(255,159,138,.5);background:transparent;color:var(--warm)}
+  .banner button:hover{background:rgba(255,159,138,.12)}
 
   @media (max-width:700px){
     .page{padding:34px 20px 56px}
     .wm{font-size:110px;top:-4px}
-    .hero{padding:20px 0 22px;grid-template-columns:1fr 1fr}
+    .clocks{gap:6px 12px;font-size:9.5px}
+    .clocks b{font-size:12px;margin-left:4px}
+    .clocks i{font-size:9px;margin-left:4px}
+    .hero{padding:20px 0 18px;grid-template-columns:1fr 1fr}
     .hero div{padding-right:12px}
     .hero div + div{padding-left:12px}
-    .hero div b{font-size:23px}
-    .hero div span{font-size:10px;letter-spacing:.04em;gap:5px}
-    .hero div:last-child{grid-column:1 / -1;border-left:0;padding-left:0;margin-top:16px;padding-top:14px;border-top:1px solid rgba(255,225,168,.2)}
-    .hero div i{font-size:9px;line-height:1.5}
+    .hero div b{font-size:24px}
+    .hero div span{font-size:12px;letter-spacing:.04em;gap:6px}
+    .hero .tag{font-size:11px;padding:1px 6px}
+    .hero div:last-child{grid-column:1 / -1;border-left:0;padding-left:0;margin-top:16px;padding-top:14px;border-top:1px solid rgba(242,211,160,.2)}
+    .hero div i{font-size:9.5px;line-height:1.5}
+    .hero-line{font-size:9.5px;line-height:1.7}
+    .guide{padding:16px 0 14px}
+    .guide-grid{grid-template-columns:1fr;gap:13px}
+    .guide-grid p{font-size:10.5px}
     .board{margin-top:24px}
     .board-head{gap:8px 12px}
     .board-head h2{font-size:11.5px}
@@ -209,6 +240,7 @@
     .row .time{grid-row:2;grid-column:3;align-self:start;text-align:right}
     .row .chg{grid-row:1/3;grid-column:4;align-self:center;justify-self:end;font-size:10px}
     .row.all{grid-template-columns:34px minmax(0,1fr) auto}
+    .row.all .time{grid-row:1;grid-column:3;align-self:center}
     .detail{padding:16px 14px 18px}
     .ev{grid-template-columns:1fr}
   }
@@ -221,8 +253,8 @@
 
   <header>
     <div class="wm">11.11</div>
-    <div class="eyebrow">2026 双十一 · 战报</div>
     <h1>龙虎榜</h1>
+    <div class="eyebrow">2026 · 十一大促月</div>
     <div class="hrow">
       <div class="range" id="range">正在读取…</div>
       <div class="clocks" id="clocks"></div>
@@ -230,6 +262,29 @@
   </header>
 
   <section class="hero" id="hero"></section>
+  <div class="hero-line" id="hero-line"></div>
+
+  <section class="guide" aria-label="怎么看这张榜">
+    <div class="guide-h"><b>怎么看这张榜</b><i>实时快照 · 美西时间</i></div>
+    <div class="guide-grid">
+      <div>
+        <em>01</em><b>两个渠道，两条榜</b>
+        <p>POP 渠道｜全托渠道各排各的名次。两边都做的店两条榜都上榜，名字后标「兼全托 / 兼POP」，那个数是它在另一条渠道今天的数。</p>
+      </div>
+      <div>
+        <em>02</em><b>数字口径</b>
+        <p>POP 是美元（今日支付、今日单量）；全托只算销量和访客，页面上不出现金额。综合分在同渠道内比，不跨渠道。</p>
+      </div>
+      <div>
+        <em>03</em><b>时间口径</b>
+        <p>全部时间按美西；今日 = 美西当天，每天 00:00 归零（图上的橙色竖线），所以凌晨数字小、白天往上走。</p>
+      </div>
+      <div>
+        <em>04</em><b>怎么用</b>
+        <p>点任意一行展开这家店今天的曲线、峰值和关键事件（首单 / 跳增 / 断采）；右上角可切换排序。</p>
+      </div>
+    </div>
+  </section>
 
   <div id="boards">
     <section class="board" data-board="pop">
@@ -273,7 +328,7 @@
 
   <footer>
     <span>最新快照 <b id="snap">—</b></span>
-    <span>数据源 shop_data_readonly.db · 由 刷新龙虎榜.bat 重新生成</span>
+    <span>数据源 shop_data_readonly.db</span>
   </footer>
 </div>
 
@@ -595,7 +650,7 @@
     el.innerHTML =
       '<span>北京<b id="ck-bj">--:--:--</b></span>' +
       '<span>美西<b id="ck-us">--:--:--</b><i id="ck-usd"></i></span>' +
-      '<span>更新<b id="ck-up">--:--</b><i id="ck-upd"></i></span>';
+      '<span>实时更新<b id="ck-up">--:--</b><i id="ck-upd">美西</i></span>';
     CLK = {
       bj:document.getElementById('ck-bj'), us:document.getElementById('ck-us'),
       usd:document.getElementById('ck-usd'), up:document.getElementById('ck-up'), upd:document.getElementById('ck-upd')
@@ -612,7 +667,8 @@
     CLK.us.textContent = us.time;
     CLK.usd.textContent = us.day;
     CLK.up.textContent = upd ? upd[0] : '—';
-    CLK.upd.textContent = upd ? upd[1] : '';
+    /* 跨天时补上日期，同一天只显示时分，标注是美西口径 */
+    CLK.upd.textContent = upd ? ('美西' + (upd[1] && upd[1] !== us.day ? ' ' + upd[1] : '')) : '';
   }
 
   function fmtRange(a,b){ return (!a||!b) ? '—' : dm(a)+' '+hm(a)+' – '+dm(b)+' '+hm(b); }
@@ -731,37 +787,33 @@
     var all = [];
     stores.forEach(function(s){ (s.history||[]).forEach(function(r){ all.push(r.ts); }); });
     all.sort();
-    $('#range').innerHTML = '<b>'+fmtRange(all[0], all[all.length-1])+'</b> · '+stores.length+' 家店铺 · '+all.length+' 个快照 · 美西时间';
-    $('#snap').textContent = RAW.latestSnapshot || '—';
-  }
-
-  function aggStats(kind){
-    var list = groupOf(kind);
-    var total = 0, sol = 0;
-    list.forEach(function(s){ var st = storeStats([s], kind); total += st.total; sol += st.sol; });
-    return { total:total, sol:sol, share: total>0 ? Math.round(sol/total*100) : 0 };
+    $('#range').innerHTML = '<b>'+fmtRange(all[0], all[all.length-1])+'</b> · '+stores.length+' 家店铺 · '+all.length+' 个快照 · 实时数据 · 美西时间';
+    /* 快照时间是库里的北京时间，页面上统一换成美西显示 */
+    $('#snap').textContent = RAW.latestSnapshot
+      ? (dm(RAW.latestSnapshot) + ' ' + hm(RAW.latestSnapshot) + '（美西）')
+      : '—';
   }
 
   function renderHero(){
     /* 今日 = 美西当天（美西 00:00 归零），只算当天还有更新的店铺 */
     var day = refDay();
-    var vis = 0, pay = 0, orders = 0, sales = 0, stale = 0;
+    var pay = 0, orders = 0, sales = 0, stale = 0;
     var popN = groupOf('pop').length, tuoN = groupOf('tuo').length;
     var dual = groupOf('pop').filter(function(s){ return hasChan(s, 'tuo'); }).length;
     stores.forEach(function(s){
       if(dayKey(parseTs(s.ts).getTime()) !== day){ stale++; return; }
-      vis += num(s.visitors) + num(s.popVisitors);
       if(hasChan(s, 'pop')){ pay += num(s._pay); orders += num(s.popOrders); }
       if(hasChan(s, 'tuo')){ sales += num(s.sales); }
     });
-    var note = stale ? (stale + ' 家当日未更新') : '美西当天 · 00:00 归零';
     $('#hero').innerHTML =
       '<div><span><em class="tag pop">POP</em>今日支付</span><b>'+(popN ? '$'+fmtInt(pay) : '—')+'</b>' +
-        '<i>'+popN+' 家 · '+fmtInt(orders)+' 单 · 其中 '+dual+' 家也做全托</i></div>' +
-      '<div><span><em class="tag tuo">全托</em>今日销量</span><b>'+fmtInt(sales)+'</b>' +
-        '<i>'+tuoN+' 家 · 其中 '+dual+' 家也做 POP · 不计金额</i></div>' +
-      '<div><span><em class="tag all">全部</em>今日访客</span><b>+'+fmtInt(vis)+'</b>' +
-        '<i>'+note+'</i></div>';
+        '<i>'+popN+' 家合计 · '+dual+' 家兼做全托</i></div>' +
+      '<div><span><em class="tag pop">POP</em>今日单量</span><b>'+fmtInt(orders)+'<em class="u">单</em></b>' +
+        '<i>00:00 归零后累计</i></div>' +
+      '<div><span><em class="tag tuo">全托</em>今日销量</span><b>'+fmtInt(sales)+'<em class="u">件</em></b>' +
+        '<i>'+tuoN+' 家合计 · 不计金额</i></div>';
+    var line = $('#hero-line');
+    if(line) line.textContent = '今日 = 美西当天，00:00 归零' + (stale ? ' · ' + stale + ' 家门店今日尚未更新' : '');
   }
 
   function renderSorts(kind){
@@ -1177,7 +1229,7 @@
       var h=Math.min(b.v,top)/top*ih;
       var w=Math.max(1, x1-x0-0.4);
       s+='<rect x="'+rd(x0)+'" y="'+rd(T+ih-h)+'" width="'+rd(w)+'" height="'+rd(h)+'" fill="#e8c07a" opacity=".26"/>';
-      if(over) s+='<rect x="'+rd(x0)+'" y="'+T+'" width="'+rd(w)+'" height="3" fill="#6d0a0f" opacity=".45"/>';
+      if(over) s+='<rect x="'+rd(x0)+'" y="'+T+'" width="'+rd(w)+'" height="3" fill="#230607" opacity=".45"/>';
       hits.push({ x0:x0, x1:x1, t0:b.t0, t1:b.t1, v:b.v });
     });
 
@@ -1324,26 +1376,25 @@
     '</div>';
   }
 
-  function allRowHTML(list, kind, agg){
+  function allRowHTML(list, kind){
     var id = 'c_all_' + kind;
     var s = '<div class="row all'+(allOpen?' open':'')+'" data-all="1" data-kind="'+kind+'">' +
       '<div class="rk">全部</div>' +
-      '<div class="mid"><div class="nm">'+list.length+' 家 · 区间累计</div><div class="bar"><i style="width:100%"></i></div></div>' +
-      '<div class="pay plain">+'+fmtInt(agg.total)+' 人</div>' +
+      '<div class="mid"><div class="nm">'+list.length+' 家 · 各店走势</div></div>' +
       '<div class="time">'+(allOpen?'收起':'展开')+'</div>' +
     '</div>';
     if(allOpen){
       var st = storeStats(list, kind);
       s += '<div class="detail">' +
         chartBlock(list, id, kind) +
-        '<div class="note">区间合计 <b>+'+fmtInt(st.total)+'</b> 人'+(st.t0?'（自 '+dm(st.t0)+' 起）':'')+' · 实测占 <b>'+agg.share+'%</b> · 平均 <b>'+Math.round(st.avg)+'</b> 人/小时 · 有效观测 <b>'+Math.round(st.effH)+'</b> 小时</div>' +
+        '<div class="note">平均 <b>'+Math.round(st.avg)+'</b> 人/小时 · 有效观测 <b>'+Math.round(st.effH)+'</b> 小时'+(st.t0?'（自 '+dm(st.t0)+' 起）':'')+'</div>' +
       '</div>';
     }
     return s;
   }
 
   /* 榜头那行小字：这一组的家数 / 两边都做的家数 / 今日数 */
-  function boardSummary(kind, list, agg){
+  function boardSummary(kind, list){
     var day = refDay(), pay = 0, orders = 0, sales = 0;
     list.forEach(function(s){
       if(dayKey(parseTs(s.ts).getTime()) !== day) return;
@@ -1353,7 +1404,6 @@
     var dual = dualCount(kind);
     var parts = [];
     if(dual) parts.push('其中 '+dual+' 家两边都做');
-    parts.push('区间累计 +'+fmtInt(agg.total)+' 人');
     if(kind === 'pop'){
       parts.push('今日支付 $'+fmtInt(pay));
       parts.push('今日订单 '+fmtInt(orders)+' 单');
@@ -1372,9 +1422,8 @@
       /* 条跟着当前排序走（按时间/纠纷排时退回综合分，条永远是从大到小） */
       var bm = (SORT[kind] === 'ts' || SORT[kind] === 'disputes') ? 'score' : SORT[kind];
       var barMax = Math.max.apply(null, list.map(function(s){ return sortVal(s, kind, bm); }).concat([0])) || 1;
-      var agg = aggStats(kind);
       var shown = boardExpanded[kind] ? list : list.slice(0, LIMIT);
-      var html = allRowHTML(all, kind, agg);
+      var html = allRowHTML(all, kind);
       shown.forEach(function(s,i){
         html += rowHTML(s, i, barMax, kind, bm);
         if(expanded === kind+'|'+s.name) html += detailHTML(s, kind);
@@ -1383,7 +1432,7 @@
       $('#more-'+kind).innerHTML = list.length > LIMIT
         ? '<button data-more="'+kind+'">'+(boardExpanded[kind]?'收起':'展开全部 '+list.length+' 家')+'</button>' : '';
       $('#cnt-'+kind).textContent = all.length + ' 家';
-      $('#sum-'+kind).textContent = all.length ? boardSummary(kind, all, agg) : '这一组暂时没有店';
+      $('#sum-'+kind).textContent = all.length ? boardSummary(kind, all) : '这一组暂时没有店';
       renderSorts(kind);
     });
     renderTable();   /* 明细表的名次跟着榜上当前的排序走 */
@@ -1574,7 +1623,15 @@
   function boot(){
     if(!RAW || !stores.length){
       $('#range').textContent = '未加载到数据';
-      $('#hero').innerHTML = '<div class="banner">没读到 shop_data.js。请确认它和本页面在同一文件夹，然后双击 刷新龙虎榜.bat。</div>';
+      var abs = 'shop_data.js';
+      try{ abs = new URL('shop_data.js', location.href).href; }catch(e){}
+      $('#hero').innerHTML =
+        '<div class="banner">没读到 <b>shop_data.js</b>。<br>' +
+        '页面找的是：<code>' + esc(abs) + '</code><br>' +
+        '把它和本页面放在同一个文件夹再刷新；或者直接打开 <b>双十一龙虎榜-单文件.html</b>（数据打包在页面里，放哪都能看）。<br>' +
+        '<button id="retry-data">重新读取</button></div>';
+      var btn = document.getElementById('retry-data');
+      if(btn) btn.onclick = function(){ location.reload(); };
       return;
     }
     render();
@@ -1584,13 +1641,23 @@
     setInterval(tickClocks, 1000);
   }
 
+  /* 本地双击打开时，有的浏览器不认 file:// 后面带 ?时间戳 的脚本地址，
+     所以 file:// 下用原名，http(s) 下才加时间戳防缓存；失败再退回原名重试一次。 */
+  function loadDataScript(src, cb){
+    var s = document.createElement('script');
+    s.src = src;
+    s.onload = function(){ cb(); };
+    s.onerror = function(){
+      if(s.parentNode) s.parentNode.removeChild(s);
+      if(src.indexOf('?') > -1){ loadDataScript(src.split('?')[0], cb); return; }
+      cb();
+    };
+    document.head.appendChild(s);
+  }
   (function startWithData(){
     if(window.SHOP_DATA){ loadData(); boot(); return; }
-    var s = document.createElement('script');
-    s.src = 'shop_data.js?t=' + Date.now();
-    s.onload = function(){ loadData(); boot(); };
-    s.onerror = function(){ loadData(); boot(); };
-    document.head.appendChild(s);
+    var bust = (location.protocol === 'file:') ? '' : ('?t=' + Date.now());
+    loadDataScript('shop_data.js' + bust, function(){ loadData(); boot(); });
   })();
 })();
 </script>
