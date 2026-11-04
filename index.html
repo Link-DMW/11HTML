@@ -1370,7 +1370,6 @@
     return '<div class="detail">' +
       chartBlock([s], 'c_' + kind + '_' + s.name.replace(/[^a-z0-9]/gi,''), kind) +
       '<div class="kv">' + kv +
-        '<div>区间新增<b>+'+fmtInt(st.total)+'</b></div>' +
         '<div>综合分<b>'+scoreOf(s, kind).toFixed(1)+'</b></div>' +
       '</div>' +
       '<div class="note">平均 <b>'+Math.round(st.avg)+'</b> 人/小时 · 有效观测 <b>'+Math.round(st.effH)+'</b> 小时' +
