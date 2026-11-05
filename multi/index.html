@@ -1,0 +1,2277 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>多平台经营数据 · 2026 双十一大促</title>
+<!-- 单文件交付版：数据已内联，可脱离 data.js 独立打开 -->
+<style>
+  :root{
+    --ink:#111111;
+    --paper:#F3F1EA;
+    --paper-2:#FFFFFF;
+    --dark:#0A0A0A;
+    --ali:#FF5A1F;
+    --amz:#FFB000;
+    --tk:#111111;
+    --tk-cyan:#25F4EE;
+    --ml:#FFE300;
+    --ml-green:#00A650;
+    --maxw:1240px;
+    --gutter:48px;
+  }
+  *,*::before,*::after{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:"Segoe UI","Helvetica Neue",Arial,"PingFang SC","Microsoft YaHei",sans-serif;
+    font-size:14px;
+    line-height:1.5;
+    font-variant-numeric:tabular-nums;
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+    overflow-wrap:break-word;
+  }
+  h1,h2,h3,p,ol,ul{margin:0}
+  .wrap{width:calc(100% - var(--gutter));max-width:var(--maxw);margin:0 auto}
+  .label{
+    font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
+    line-height:1.4;color:inherit;margin:0;
+  }
+  .muted{color:inherit;opacity:.72}
+
+  /* ============ HERO ============ */
+  .hero{
+    position:relative;overflow:hidden;
+    background:var(--dark);color:#fff;
+    border-bottom:2px solid var(--dark);
+  }
+  .hero::before{
+    content:"";position:absolute;inset:0;pointer-events:none;
+    background-image:repeating-linear-gradient(118deg,rgba(255,255,255,.05) 0 1px,transparent 1px 24px);
+  }
+  .ghost{
+    position:absolute;right:-2%;bottom:-9%;z-index:0;
+    font-size:min(34vw,440px);font-weight:800;line-height:.8;letter-spacing:-.06em;
+    color:transparent;-webkit-text-stroke:1px rgba(255,255,255,.10);
+    pointer-events:none;user-select:none;display:none;
+  }
+  .topbar{
+    position:relative;z-index:1;
+    display:flex;align-items:center;justify-content:space-between;
+    gap:14px 20px;flex-wrap:wrap;padding:20px 0;
+    border-bottom:1px solid rgba(255,255,255,.18);
+  }
+  .tb-left{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+  .stamp{
+    background:#fff;color:var(--ink);font-size:13px;font-weight:800;
+    letter-spacing:.02em;padding:5px 10px;line-height:1.2;
+  }
+  .campaign{
+    background:var(--ali);color:var(--ink);font-size:12px;font-weight:800;
+    letter-spacing:.08em;padding:6px 10px;line-height:1.15;
+    transform:skewX(-9deg);
+  }
+  .campaign span{display:inline-block;transform:skewX(9deg)}
+  .tb-right{
+    font-size:11px;font-weight:700;letter-spacing:.12em;
+    color:rgba(255,255,255,.66);text-transform:uppercase;
+  }
+  .tb-right b{color:#fff;font-weight:800}
+  .hero-body{position:relative;z-index:1;padding:52px 0 0}
+  .kicker{color:rgba(255,255,255,.62);margin-bottom:12px}
+  .total{
+    font-size:clamp(64px,11vw,140px);
+    font-weight:800;letter-spacing:-.03em;line-height:.92;
+    white-space:nowrap;margin:0;
+  }
+  .hero-sub{
+    margin-top:20px;font-size:16px;letter-spacing:.02em;
+    color:rgba(255,255,255,.82);font-weight:600;
+  }
+  .hero-sub b{font-weight:800;color:#fff;font-size:19px;letter-spacing:0}
+  .daystate{
+    display:inline-block;margin-left:8px;padding:2px 9px;vertical-align:2px;
+    font-size:11px;font-weight:800;letter-spacing:.08em;
+    border:1px solid rgba(255,255,255,.45);color:#fff;
+  }
+  .hero-facts{
+    display:flex;flex-wrap:wrap;margin-top:26px;
+    border-top:1px solid rgba(255,255,255,.22);border-bottom:1px solid rgba(255,255,255,.22);
+  }
+  .fact{padding:12px 24px 12px 0;min-width:0}
+  .fact + .fact{border-left:1px solid rgba(255,255,255,.16);padding-left:24px}
+  .fact b{
+    display:block;font-size:clamp(19px,2vw,26px);font-weight:800;
+    letter-spacing:-.01em;line-height:1.15;white-space:nowrap;
+  }
+  .fact b.down{color:#FF7A5C}
+  .fact span{
+    display:block;margin-top:4px;font-size:10.5px;font-weight:700;letter-spacing:.12em;
+    color:rgba(255,255,255,.55);text-transform:uppercase;
+  }
+  .hero-caveat{
+    margin-top:10px;max-width:640px;font-size:12.5px;line-height:1.65;
+    color:rgba(255,255,255,.55);font-weight:500;
+  }
+  .hero-warn{
+    margin:10px 0 0;max-width:720px;padding:7px 12px;display:inline-block;
+    font-size:11.5px;line-height:1.6;font-weight:700;letter-spacing:.02em;
+    color:#FFCBBD;border:1px solid rgba(255,120,90,.5);background:rgba(255,110,80,.12);
+  }
+  .breakdown{
+    display:grid;grid-template-columns:repeat(4,minmax(0,1fr));
+    margin-top:38px;border-top:1px solid rgba(255,255,255,.22);
+  }
+  .bd{padding:14px 18px 0 0;min-width:0}
+  .bd + .bd{border-left:1px solid rgba(255,255,255,.16);padding-left:18px}
+  .bd-name{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:700}
+  .bd-dot{width:10px;height:10px;flex:0 0 auto;background:var(--pc)}
+  .bd-amt{
+    margin-top:8px;font-size:clamp(20px,2.2vw,30px);font-weight:800;
+    letter-spacing:-.01em;line-height:1.1;white-space:nowrap;
+  }
+  .bd-share{
+    margin-top:3px;font-size:11px;font-weight:700;letter-spacing:.1em;
+    color:rgba(255,255,255,.55);text-transform:uppercase;
+  }
+
+  /* 占比色带 */
+  .share{margin-top:34px;padding-bottom:42px}
+  .share-legend{
+    display:flex;align-items:center;justify-content:space-between;gap:16px 24px;flex-wrap:wrap;
+    margin-bottom:10px;font-size:11px;font-weight:700;letter-spacing:.12em;
+    color:rgba(255,255,255,.75);
+  }
+  .sl{display:inline-flex;align-items:center;gap:7px;text-transform:uppercase}
+  .sl i{width:10px;height:10px;display:inline-block}
+  .sl--muted{color:rgba(255,255,255,.42);font-weight:600;text-transform:none;letter-spacing:.06em}
+  .share-bar{display:flex;width:100%;height:26px;background:rgba(255,255,255,.1)}
+  .sb{height:100%;min-width:3px;display:block}
+  .sb-ali{background:var(--ali);width:var(--share-ali,50%)}
+  .sb-amz{background:var(--amz);width:var(--share-amz,50%)}
+  .share-caption{
+    margin-top:10px;font-size:10.5px;font-weight:600;letter-spacing:.06em;
+    color:rgba(255,255,255,.58);
+  }
+  .share-rows{display:none}
+
+  /* ============ SECTION SHELL ============ */
+  .sec{padding:60px 0 64px}
+  .sec-head{
+    display:flex;align-items:baseline;gap:14px 16px;flex-wrap:wrap;
+    margin-bottom:26px;padding-bottom:14px;border-bottom:2px solid var(--ink);
+  }
+  .sec-no{
+    display:inline-block;background:var(--ink);color:var(--paper);
+    font-size:13px;font-weight:800;letter-spacing:.06em;line-height:1.2;
+    padding:5px 9px;transform:skewX(-10deg);
+  }
+  .sec-no span{display:inline-block;transform:skewX(10deg)}
+  .sec-head h2{
+    font-size:clamp(24px,3.2vw,38px);font-weight:800;letter-spacing:-.02em;
+    line-height:1.05;
+  }
+  .sec-note{
+    margin-left:auto;font-size:12px;font-weight:600;line-height:1.5;
+    color:rgba(17,17,17,.62);
+  }
+
+  /* ============ CARDS ============ */
+  .sec--cards{padding-top:52px}
+  .cards{
+    display:grid;grid-template-columns:repeat(12,minmax(0,1fr));
+    gap:16px;grid-auto-flow:row;
+  }
+  .card{
+    --bg:#fff;--ink:#111;--ink-2:#333;--line:rgba(17,17,17,.3);
+    position:relative;overflow:hidden;
+    grid-column:span 12;
+    display:flex;flex-direction:column;gap:16px;
+    padding:24px 26px 22px;
+    border:2px solid var(--ink);
+    background:var(--bg);color:var(--card-ink);
+    min-width:0;
+  }
+  .card--ali{--card-ink:#111;--bg:var(--ali);--ink-2:#2B1206;--line:rgba(17,17,17,.32);grid-column:span 7}
+  .card--amz{--card-ink:#111;--bg:var(--amz);--ink-2:#33230A;--line:rgba(17,17,17,.32);grid-column:span 5}
+  .card--tk{--card-ink:#fff;--bg:var(--tk);--ink-2:rgba(255,255,255,.68);--line:rgba(255,255,255,.26);grid-column:span 5}
+  .card--ml{--card-ink:#111;--bg:var(--ml);--ink-2:#2A2A00;--line:rgba(17,17,17,.3);grid-column:span 7}
+  .card-top{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+  .plogo{
+    flex:0 0 auto;width:48px;height:36px;display:grid;place-items:center;
+    background:var(--ink);color:var(--bg);
+    font-size:14px;font-weight:800;letter-spacing:.02em;
+  }
+  .card--tk .plogo{background:var(--tk-cyan);color:#111}
+  .card--ml .plogo{background:var(--ml-green);color:#111}
+  .card-id{min-width:0}
+  .card-title{font-size:24px;font-weight:800;letter-spacing:-.01em;line-height:1.15}
+  .card-sub{
+    margin-top:2px;font-size:10.5px;font-weight:700;letter-spacing:.12em;
+    color:var(--ink-2);text-transform:uppercase;
+  }
+  .flag{
+    margin-left:auto;flex:0 0 auto;font-size:10px;font-weight:800;
+    letter-spacing:.12em;padding:4px 8px;border:1px solid var(--line);
+    color:var(--ink-2);text-transform:uppercase;white-space:nowrap;
+  }
+  .card-main{display:flex;flex-direction:column;gap:14px;min-width:0}
+  .card--ali .card-main{
+    display:grid;grid-template-columns:minmax(0,1.12fr) minmax(0,.88fr);
+    gap:22px;align-items:end;
+  }
+  .card--ml .card-main{
+    display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);
+    gap:22px;align-items:end;
+  }
+  .card-lead{min-width:0}
+  .lead-note{margin-top:10px;font-size:12px;font-weight:700;letter-spacing:.02em;color:var(--ink-2)}
+  .sitelist{min-width:0}
+  .site{
+    display:flex;align-items:baseline;justify-content:space-between;gap:10px;
+    padding:5px 0;border-bottom:1px solid var(--line);
+    font-size:12px;font-weight:600;color:var(--ink-2);
+  }
+  .site:first-of-type{border-top:1px solid var(--line)}
+  .site-n{font-weight:800;color:inherit}
+  .site-v{font-weight:700;white-space:nowrap}
+  .site--on{border-left:3px solid var(--ml-green);padding-left:8px;margin-left:-11px}
+  .big{
+    margin-top:6px;font-size:clamp(40px,4.4vw,64px);font-weight:800;
+    letter-spacing:-.02em;line-height:1;white-space:nowrap;
+  }
+  .card--ali .big{font-size:clamp(38px,3.6vw,52px)}
+  .big-unit{
+    font-size:.34em;font-weight:800;letter-spacing:.04em;
+    margin-left:.14em;vertical-align:.35em;
+  }
+  .delta-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:12px}
+  .delta{
+    background:var(--ink);color:#fff;font-size:12px;font-weight:800;
+    letter-spacing:.04em;padding:4px 9px;
+  }
+  .card--tk .delta{background:var(--tk-cyan);color:#111}
+  .card--ml .delta{background:#111;color:var(--ml)}
+  .delta-note{font-size:11.5px;font-weight:600;color:var(--ink-2)}
+  .chart{min-width:0}
+  .chart-head{font-size:10.5px;font-weight:700;letter-spacing:.1em;color:var(--ink-2);text-transform:uppercase}
+  .spark{display:block;width:100%;height:auto;margin-top:6px}
+  .chart-meta{
+    display:flex;justify-content:space-between;gap:8px;
+    margin-top:7px;font-size:10px;font-weight:700;letter-spacing:.08em;
+    color:var(--ink-2);
+  }
+  .metrics{
+    display:grid;grid-template-columns:repeat(4,minmax(0,1fr));
+    margin-top:auto;border-top:1px solid var(--line);
+  }
+  .metric{padding:12px 10px 0 12px;min-width:0;border-left:1px solid var(--line)}
+  .metric:first-child{padding-left:0;border-left:0}
+  .metric b{
+    display:block;font-size:clamp(17px,1.45vw,21px);font-weight:800;
+    letter-spacing:-.01em;line-height:1.15;white-space:nowrap;
+  }
+  .metric span{
+    display:block;margin-top:3px;font-size:10px;font-weight:700;
+    letter-spacing:.1em;color:var(--ink-2);text-transform:uppercase;
+  }
+  .card-foot{
+    display:flex;align-items:center;gap:8px 14px;flex-wrap:wrap;
+    border-top:1px solid var(--line);padding-top:12px;
+    font-size:11.5px;font-weight:600;color:var(--ink-2);
+  }
+  .chip-samples{
+    background:var(--ml);color:#111;font-size:12px;font-weight:800;
+    letter-spacing:.02em;padding:4px 9px;line-height:1.2;
+  }
+  .card--ml .chip-samples{background:#111;color:var(--ml)}
+  .records{border-top:1px solid var(--line);margin-top:2px}
+  .rec{
+    display:flex;align-items:baseline;justify-content:space-between;gap:12px;
+    padding:8px 0;border-bottom:1px solid var(--line);font-size:13px;font-weight:700;
+  }
+  .rec-t{font-size:11px;letter-spacing:.08em;color:var(--ink-2);white-space:nowrap}
+  .rec-v{text-align:right;font-weight:800;white-space:nowrap}
+
+  /* ============ 平台明细抽屉 ============ */
+  .card{cursor:pointer;transition:transform .16s ease, box-shadow .16s ease}
+  .card:hover{transform:translateY(-2px)}
+  .card:focus-visible{outline:3px solid currentColor;outline-offset:-3px}
+  .card.is-open{box-shadow:0 0 0 3px currentColor}
+  .hint{
+    margin-left:auto;font-size:10.5px;font-weight:800;letter-spacing:.08em;
+    border-bottom:2px solid currentColor;padding-bottom:1px;white-space:nowrap;opacity:.8;
+  }
+  .card.is-open .hint{opacity:1}
+  .drawer{margin-top:16px;grid-column:1 / -1}
+  .drawer[hidden]{display:none}
+  .drawer-in{border:2px solid var(--ink);background:var(--paper);padding:20px 22px 18px}
+  .drawer-head{display:flex;align-items:baseline;gap:10px 14px;flex-wrap:wrap;padding-bottom:14px;border-bottom:2px solid var(--ink)}
+  .dr-logo{
+    flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;
+    min-width:38px;height:26px;padding:0 7px;font-size:11px;font-weight:800;letter-spacing:.04em;
+    background:var(--ink);color:#fff;align-self:center;
+  }
+  .drawer-head h3{margin:0;font-size:19px;font-weight:800;letter-spacing:-.01em}
+  .drawer-note{margin:0;flex:1 1 300px;font-size:11.5px;font-weight:600;line-height:1.6;color:var(--ink-2)}
+  .drawer-close{
+    flex:0 0 auto;border:1.5px solid var(--ink);background:transparent;color:var(--ink);
+    font:inherit;font-size:11px;font-weight:800;letter-spacing:.08em;padding:6px 10px;cursor:pointer;
+  }
+  .drawer-close:hover{background:var(--ink);color:#fff}
+  .dhead,.drow{display:grid;grid-template-columns:var(--dt);gap:10px;align-items:baseline}
+  .dhead{
+    padding:11px 6px 9px;font-size:9.5px;font-weight:800;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--ink-2);border-bottom:1px solid var(--ink);
+  }
+  .dhead span:nth-child(n+3){text-align:right}
+  .dhead .hnum{text-align:right}
+  .drow{padding:9px 6px;border-bottom:1px solid var(--line);font-size:13px;font-weight:700}
+  .drow.is-empty{color:var(--ink-3)}
+  .drow.is-empty .dv{font-weight:600}
+  .drow.is-quiet{color:var(--ink-3)}
+  .drow.is-quiet .dv{font-weight:700}
+  .dcell{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .dcell.num{text-align:right;font-variant-numeric:tabular-nums}
+  .dcell.idx{font-size:11px;font-weight:800;color:var(--ink-3);letter-spacing:.06em}
+  .dcell.dname{white-space:normal}
+  .dcell.dname .dv{display:block;font-weight:800;letter-spacing:-.005em}
+  .dsub{display:block;margin-top:2px;font-size:10.5px;font-weight:600;color:var(--ink-3);letter-spacing:.02em}
+  .dl{display:none}
+  .drawer-empty{padding:18px 6px;font-size:13px;font-weight:700;color:var(--ink-2)}
+  .drawer-foot{
+    display:flex;gap:8px 22px;flex-wrap:wrap;margin-top:2px;padding-top:14px;
+    border-top:2px solid var(--ink);font-size:11.5px;font-weight:700;color:var(--ink-2);
+  }
+  .drawer-foot b{color:var(--ink);font-weight:800}
+
+  /* ============ WALL ============ */
+  .sec--wall{
+    background:var(--paper-2);border-top:2px solid var(--ink);
+    border-bottom:2px solid var(--ink);padding:56px 0 62px;
+  }
+  .wall{display:grid;border-top:2px solid var(--ink)}
+  .wall-row{
+    display:grid;
+    grid-template-columns:minmax(0,1.15fr) minmax(0,1.5fr) minmax(0,.8fr) minmax(0,.8fr) minmax(0,1.5fr);
+    gap:14px;align-items:baseline;
+    padding:16px 0 16px 16px;border-bottom:1px solid rgba(17,17,17,.22);
+    border-left:6px solid var(--pc,transparent);
+  }
+  .wall-head{
+    padding:10px 0 10px 16px;border-bottom:1px solid var(--ink);
+    border-left:6px solid transparent;
+    font-size:10px;font-weight:800;letter-spacing:.16em;
+    color:rgba(17,17,17,.62);text-transform:uppercase;
+  }
+  .wall-head span:nth-child(2),.wall-head span:nth-child(3),.wall-head span:nth-child(4){text-align:right}
+  .wall-plat{display:flex;flex-direction:column;gap:2px;min-width:0}
+  .wname{font-size:20px;font-weight:800;letter-spacing:-.01em;line-height:1.2}
+  .wmetric{font-size:10.5px;font-weight:700;letter-spacing:.1em;color:rgba(17,17,17,.6);text-transform:uppercase}
+  .wall-amt,.wall-count{text-align:right;min-width:0}
+  .wnum{
+    display:block;font-size:clamp(28px,3.4vw,44px);font-weight:800;
+    letter-spacing:-.02em;line-height:1.05;white-space:nowrap;
+  }
+  .wall-count .wnum{font-size:clamp(22px,2.5vw,32px)}
+  .wlabel{display:none;font-size:10px;font-weight:700;letter-spacing:.12em;color:rgba(17,17,17,.6);text-transform:uppercase}
+  .wall-note{
+    font-size:12.5px;font-weight:600;line-height:1.5;color:rgba(17,17,17,.7);
+    min-width:0;padding-right:8px;
+  }
+  .wall-foot{
+    display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;
+    margin-top:16px;font-size:11.5px;font-weight:700;letter-spacing:.04em;
+    color:rgba(17,17,17,.65);
+  }
+  .wall-foot b{font-weight:800;color:var(--ink)}
+
+  /* ============ STORES ============ */
+  .sec--stores{background:var(--dark);color:#fff;padding:56px 0 62px}
+  .sec--stores .sec-head{border-bottom-color:rgba(255,255,255,.34)}
+  .sec--stores .sec-no{background:var(--ali);color:#111}
+  .sec--stores h2{color:#fff}
+  .sec--stores .sec-note{color:rgba(255,255,255,.6)}
+  .stores{list-style:none;padding:0}
+  .store{
+    position:relative;display:grid;grid-template-columns:62px minmax(0,1fr);
+    gap:12px;align-items:center;
+    padding:13px 0;border-bottom:1px solid rgba(255,255,255,.14);
+  }
+  .store-fill{
+    position:absolute;left:0;top:6px;bottom:6px;z-index:0;
+    background:rgba(255,90,31,.2);pointer-events:none;
+  }
+  .store .rank,.store .store-body{position:relative;z-index:1}
+  .rank{
+    font-size:19px;font-weight:800;letter-spacing:-.02em;
+    color:var(--ali);line-height:1;
+  }
+  .store-body{min-width:0}
+  .store-line{display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap}
+  .store-name{font-size:18px;font-weight:700;letter-spacing:.01em;line-height:1.2}
+  .store-pay{
+    font-size:clamp(22px,2.4vw,32px);font-weight:800;letter-spacing:-.02em;
+    line-height:1.1;white-space:nowrap;
+  }
+  .store-meta{margin-top:2px;font-size:12px;font-weight:500;color:rgba(255,255,255,.6)}
+
+  /* ============ DEVS ============ */
+  .sec--devs{padding:56px 0 64px}
+  .devs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+  .dev{
+    position:relative;display:flex;flex-direction:column;gap:12px;
+    background:#fff;border:2px solid var(--ink);padding:22px 22px 18px;
+    min-width:0;
+  }
+  .dev::before{content:"";position:absolute;left:0;right:0;top:0;height:8px;background:var(--amz)}
+  .dev-top{display:flex;align-items:center;justify-content:space-between;gap:10px}
+  .dev-name{font-size:20px;font-weight:800;letter-spacing:-.01em;line-height:1.2}
+  .dev-tag{
+    font-size:10px;font-weight:700;letter-spacing:.1em;color:rgba(17,17,17,.62);
+    border:1px solid rgba(17,17,17,.28);padding:3px 6px;text-transform:uppercase;
+  }
+  .dev-sales{font-size:clamp(30px,3.3vw,42px);font-weight:800;letter-spacing:-.02em;line-height:1;white-space:nowrap}
+  .dev-metrics{
+    display:grid;grid-template-columns:1fr 1fr;gap:10px 12px;
+    border-top:1px solid rgba(17,17,17,.25);padding-top:12px;
+  }
+  .dm b{display:block;font-size:18px;font-weight:800;letter-spacing:-.01em;line-height:1.2}
+  .dm span{display:block;font-size:10px;font-weight:700;letter-spacing:.12em;color:rgba(17,17,17,.6);text-transform:uppercase}
+  .dev-foot{
+    font-size:11.5px;font-weight:600;color:rgba(17,17,17,.66);
+    border-top:1px solid rgba(17,17,17,.18);padding-top:10px;
+  }
+
+  /* ============ FOOTER ============ */
+  .foot{background:var(--dark);color:#fff;padding:44px 0 40px;border-top:2px solid var(--dark)}
+  .foot-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:22px}
+  .foot-item .label{color:rgba(255,255,255,.58)}
+  .foot-item p{margin-top:6px;font-size:13px;line-height:1.6;color:rgba(255,255,255,.86)}
+  .foot-caveat{
+    margin-top:28px;padding-top:18px;border-top:1px solid rgba(255,255,255,.2);
+    max-width:920px;font-size:12.5px;line-height:1.7;color:rgba(255,255,255,.62);
+  }
+  .foot-base{
+    display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;
+    margin-top:26px;font-size:10px;font-weight:700;letter-spacing:.14em;
+    color:rgba(255,255,255,.52);text-transform:uppercase;
+  }
+
+  /* ============ RESPONSIVE ============ */
+  @media (max-width:1024px){
+    .card--ali,.card--amz,.card--tk,.card--ml{grid-column:span 12}
+    .card--ali .card-main{grid-template-columns:minmax(0,1fr) minmax(0,.92fr)}
+    .devs{grid-template-columns:repeat(3,minmax(0,1fr))}
+  }
+  @media (max-width:900px){
+    .devs{grid-template-columns:minmax(0,1fr)}
+    .foot-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  }
+  @media (max-width:780px){
+    .breakdown{grid-template-columns:repeat(2,minmax(0,1fr))}
+    .bd + .bd{border-left:0;padding-left:0}
+    .bd:nth-child(even){padding-left:16px;border-left:1px solid rgba(255,255,255,.14)}
+    .bd:nth-child(n+3){margin-top:14px;border-top:1px solid rgba(255,255,255,.14);padding-top:14px}
+    .wall-row{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px;padding:16px 0 18px 14px}
+    .wall-head{display:none}
+    .wall-plat{grid-column:1 / -1;flex-direction:row;align-items:baseline;gap:10px;flex-wrap:wrap}
+    .wall-amt{grid-column:1 / -1;text-align:left}
+    .wall-count{text-align:left}
+    .wlabel{display:block;margin-bottom:2px}
+    .wall-note{grid-column:1 / -1;border-top:1px solid rgba(17,17,17,.16);padding-top:10px;padding-right:0}
+    .wall-amt .wnum{font-size:clamp(32px,8vw,44px)}
+    .wall-count .wnum{font-size:clamp(24px,6vw,32px)}
+    .sec-note{margin-left:0;flex:1 1 100%;font-size:11.5px}
+    .store{grid-template-columns:40px minmax(0,1fr);gap:10px}
+    .rank{font-size:16px}
+    .store-name{font-size:16px}
+    .store-pay{font-size:22px}
+    .store-meta{font-size:11.5px;line-height:1.55}
+  }
+  @media (max-width:640px){
+    :root{--gutter:32px}
+    .topbar{padding:16px 0}
+    .tb-right{font-size:10px;letter-spacing:.08em}
+    .hero-body{padding:40px 0 0}
+    .total{font-size:clamp(48px,13.5vw,56px);letter-spacing:-.03em}
+    .hero-sub{margin-top:16px;font-size:14px}
+    .hero-sub b{font-size:17px}
+    .hero-caveat{font-size:11.5px}
+    .hero-facts{flex-direction:column;margin-top:20px}
+    .fact{padding:10px 0}
+    .fact + .fact{border-left:0;border-top:1px solid rgba(255,255,255,.16);padding-left:0}
+    .breakdown{margin-top:30px}
+    .bd-amt{font-size:clamp(19px,5.6vw,26px)}
+    .bd-share{font-size:10px;letter-spacing:.06em}
+    .share{margin-top:26px;padding-bottom:36px;display:flex;flex-direction:column}
+    .share-bar{display:none}
+    .share-legend{display:none}
+    .share-rows{order:2;display:block}
+    .share-caption{order:3;margin-top:14px;font-size:10px;letter-spacing:.04em}
+    .srow{display:flex;align-items:center;gap:10px;margin-bottom:12px;font-size:12px;font-weight:700}
+    .srow:last-child{margin-bottom:0}
+    .srow-k{display:flex;align-items:center;gap:6px;flex:0 0 auto;min-width:58px;white-space:nowrap}
+    .srow-k i{width:9px;height:9px;display:inline-block;flex:0 0 auto}
+    .srow-track{position:relative;flex:1 1 auto;min-width:36px;height:9px;background:rgba(255,255,255,.14)}
+    .srow-fill{position:absolute;left:0;top:0;bottom:0;min-width:3px}
+    .srow-fill.sb-ali{width:var(--share-ali,50%)}
+    .srow-fill.sb-amz{width:var(--share-amz,50%)}
+    .srow-v{flex:0 0 auto;font-size:10.5px;font-weight:700;letter-spacing:.02em;color:rgba(255,255,255,.7);white-space:nowrap}
+    .sec{padding:42px 0 46px}
+    .sec--cards{padding-top:38px}
+    .sec-head{gap:10px 12px;margin-bottom:19px}
+    .sec-head h2{font-size:25px}
+    .sec-no{font-size:12px;padding:4px 7px}
+    .cards{gap:12px}
+    .card{padding:19px 18px 17px;gap:13px}
+    .card-title{font-size:21px}
+    .card-sub{font-size:9.5px;letter-spacing:.08em}
+    .flag{font-size:9px;padding:3px 6px;letter-spacing:.08em}
+    .plogo{width:42px;height:32px;font-size:12.5px}
+    .card--ali .card-main{grid-template-columns:minmax(0,1fr)}
+    .card--ml .card-main{grid-template-columns:minmax(0,1fr)}
+    .big{font-size:44px}
+    .card--ali .big{font-size:44px}
+    .card--tk .big,.card--ml .big{font-size:76px}
+    .metrics{grid-template-columns:repeat(2,minmax(0,1fr))}
+    .metric{padding:10px 10px 0 10px;border-left:1px solid var(--line)}
+    .metric:first-child{padding-left:0;border-left:0}
+    .metric:nth-child(3){padding-left:0;border-left:0}
+    .metric:nth-child(n+3){margin-top:10px;border-top:1px solid var(--line);padding-top:10px}
+    .metric b{font-size:19px}
+    .metric span{font-size:9px}
+    .card-foot{font-size:11px;gap:8px 12px}
+    .chart-meta{font-size:9px}
+    .store-pay{font-size:20px}
+    .sec--stores{padding:44px 0 48px}
+    .sec--wall{padding:42px 0 46px}
+    .sec--devs{padding:42px 0 46px}
+    .dev{padding:20px 18px 16px}
+    .dev-sales{font-size:34px}
+    .foot{padding:36px 0 32px}
+    .foot-grid{grid-template-columns:minmax(0,1fr);gap:18px}
+    .foot-caveat{font-size:11.5px}
+    .foot-base{font-size:9px;letter-spacing:.1em}
+    .ghost{display:none}
+    /* 平台明细抽屉 · 手机 */
+    .drawer-in{padding:16px 14px 14px}
+    .drawer-head{position:relative;padding-right:82px}
+    .drawer-head h3{font-size:17px}
+    .drawer-close{position:absolute;right:0;top:0}
+    .drawer-note{flex:1 1 100%;font-size:11px}
+    .dhead{display:none}
+    .drow{
+      grid-template-columns:repeat(3,minmax(0,1fr));gap:9px 10px;
+      border:1px solid var(--line);padding:12px 10px;margin-top:8px;font-size:12px;
+    }
+    .drow:first-of-type{margin-top:0}
+    .dcell.idx{display:none}
+    .dcell.dname{
+      grid-column:1 / -1;padding-bottom:8px;border-bottom:1px solid var(--line);
+    }
+    .dcell.num{text-align:left}
+    .dcell .dv{font-size:12px}
+    .dl{
+      display:block;font-size:8px;font-weight:800;letter-spacing:.1em;
+      color:var(--ink-3);text-transform:uppercase;margin-bottom:2px;
+    }
+    .dcell .dv{display:block}
+    .drawer-foot{font-size:11px;gap:6px 16px}
+  }
+</style>
+</head>
+<body>
+
+<header class="hero" aria-label="数据抬头与今日大盘">
+  <div class="wrap">
+    <div class="topbar">
+      <div class="tb-left">
+        <span class="stamp" id="tbBrand">跨境多平台</span>
+        <span class="campaign"><span id="tbCampaign">2026 双十一大促</span></span>
+      </div>
+      <div class="tb-right" id="tbUpdated"><b>11.04 美西 23:45 更新</b> · 每天美西 0 点归零</div>
+    </div>
+
+    <div class="hero-body">
+      <p class="label kicker">速卖通 + 亚马逊 合计 · 金额口径 USD</p>
+      <h1 class="total" id="heroTotal">$13,492.84</h1>
+      <p class="hero-sub" id="heroSub"><b>4</b> 个平台 · <b>2</b> 个有金额口径</p>
+      <div class="hero-facts" id="heroFacts"></div>
+      <p class="hero-caveat" id="heroCaveat"></p>
+      <p class="hero-warn" id="heroWarn" hidden></p>
+
+      <div class="breakdown" id="breakdown"></div>
+
+      <div class="share" id="share"></div>
+    </div>
+  </div>
+</header>
+
+<main>
+
+  <section class="sec sec--cards" aria-labelledby="h-cards">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="sec-no"><span>01</span></span>
+        <h2 id="h-cards">四平台 · 今日主指标</h2>
+        <span class="sec-note" id="cardsNote"></span>
+      </div>
+      <div class="cards">
+        <article class="card card--ali" id="cardAli" aria-label="速卖通今日数据"></article>
+        <article class="card card--amz" id="cardAmz" aria-label="亚马逊今日数据"></article>
+        <article class="card card--tk" id="cardTk" aria-label="TikTok 小店今日数据"></article>
+        <article class="card card--ml" id="cardMl" aria-label="美客多今日数据"></article>
+      </div>
+
+      <div class="drawer" id="drawer" hidden>
+        <div class="drawer-in">
+          <div class="drawer-head">
+            <span class="dr-logo" id="drLogo">11</span>
+            <h3 id="drTitle">平台明细</h3>
+            <p class="drawer-note" id="drNote"></p>
+            <button type="button" class="drawer-close" id="drClose">收起 ✕</button>
+          </div>
+          <div id="drTable"></div>
+          <div class="drawer-foot" id="drFoot"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec sec--wall" aria-labelledby="h-wall">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="sec-no"><span>02</span></span>
+        <h2 id="h-wall">平台对比 · 数字墙</h2>
+        <span class="sec-note">粗数字 + 细标签，一眼对齐口径</span>
+      </div>
+      <div class="wall" role="table" aria-label="四平台金额、单量、销量对比">
+        <div class="wall-row wall-head" role="row">
+          <span role="columnheader">平台</span>
+          <span role="columnheader">金额 / USD</span>
+          <span role="columnheader">单量</span>
+          <span role="columnheader">销量</span>
+          <span role="columnheader">备注</span>
+        </div>
+        <div id="wallBody" role="rowgroup" style="display:contents"></div>
+      </div>
+      <div class="wall-foot">
+        <span>合计金额 <b id="wallTotal">$13,492.84</b> 仅含速卖通 + 亚马逊</span>
+        <span>TikTok 小店 / 美客多无金额口径，单量与销量按各平台原口径</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec sec--stores" aria-labelledby="h-stores">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="sec-no"><span>03</span></span>
+        <h2 id="h-stores">速卖通 · 店铺 TOP 8</h2>
+        <span class="sec-note" id="storeNote"></span>
+      </div>
+      <ol class="stores" id="stores"></ol>
+    </div>
+  </section>
+
+  <section class="sec sec--devs" aria-labelledby="h-devs">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="sec-no"><span>04</span></span>
+        <h2 id="h-devs">亚马逊 · 按开发员拆分</h2>
+        <span class="sec-note" id="devNote"></span>
+      </div>
+      <div class="devs" id="devs"></div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="foot" aria-label="数据口径与说明">
+  <div class="wrap">
+    <div class="foot-grid" id="footGrid"></div>
+    <p class="foot-caveat" id="footCaveat"></p>
+    <div class="foot-base">
+      <span id="footBrand"></span>
+      <span>方向 B · 大胆彩色 · 单页 / 无外部依赖</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* 数据来自 shop_data_readonly.db → shop_data.js，由 _extract.py 生成 */
+window.SHOWCASE = {
+ "meta": {
+  "brand": "跨境多平台",
+  "title": "多平台经营数据",
+  "campaign": "2026 双十一大促",
+  "snapshot": "2026-11-05 19:20:28",
+  "snapshotDay": "2026-11-05",
+  "snapshotTime": "19:20",
+  "westDay": "2026-11-05",
+  "westNow": "11-05 03:20",
+  "dayState": "进行中",
+  "generated": "2026-11-05 19:21:31",
+  "dbMtime": "2026-11-05 19:21:16",
+  "tzNote": "时间按美西；每天美西 0 点归零",
+  "caveat": "速卖通、亚马逊为美元金额；TikTok 小店与美客多当前只有件数/访问口径，不计入金额合计。",
+  "source": "shop_data_readonly.db → shop_data.js",
+  "staleNote": "速卖通快照停在 16:40，比整体慢 160 分钟（大概率受维护影响），它的今日数字只到那个时刻。",
+  "freshness": "各平台快照时间不同：速卖通 16:40 / 亚马逊 19:20 / TikTok 19:19 / 美客多 18:57（北京时间）"
+ },
+ "totals": {
+  "usd": 1440.71,
+  "aliexpressShare": 24.0,
+  "amazonShare": 76.0,
+  "platformsWithAmount": 2,
+  "platformsTotal": 4
+ },
+ "compare": [
+  {
+   "platform": "速卖通",
+   "key": "aliexpress",
+   "metric": "今日支付",
+   "amount": 345.44,
+   "amountText": "$345.44",
+   "orders": 10,
+   "units": 15,
+   "note": "9 店有数"
+  },
+  {
+   "platform": "亚马逊",
+   "key": "amazon",
+   "metric": "今日销售额",
+   "amount": 1095.27,
+   "amountText": "$1,095.27",
+   "orders": 42,
+   "units": 43,
+   "note": "毛利 43.3% · 3 个开发员"
+  },
+  {
+   "platform": "TikTok 小店",
+   "key": "tiktok",
+   "metric": "今日销量",
+   "amount": null,
+   "amountText": "—",
+   "orders": null,
+   "units": 0,
+   "note": "1 店有数 · 曝光 921"
+  },
+  {
+   "platform": "美客多",
+   "key": "ml",
+   "metric": "今日访问",
+   "amount": null,
+   "amountText": "—",
+   "orders": 0,
+   "units": null,
+   "note": "2 站有数"
+  }
+ ],
+ "platforms": {
+  "aliexpress": {
+   "key": "aliexpress",
+   "name": "速卖通",
+   "sub": "双十一 · POP + 全托",
+   "currency": "USD",
+   "storesTotal": 19,
+   "kpi": {
+    "pay": 345.44,
+    "orders": 10,
+    "units": 15,
+    "aov": 34.54,
+    "popVisitors": 243,
+    "cvr": 4.12,
+    "visitors": 93,
+    "views": 145,
+    "disputes": 8,
+    "popDisputes": 2,
+    "balance": 10343.64,
+    "adSpend": 8.08,
+    "roi": 42.75,
+    "popActive": 9,
+    "ftActive": 14,
+    "payPrev": 13541.28,
+    "payPct": -97.4,
+    "paySamePrev": 377.85,
+    "paySamePct": -8.6
+   },
+   "snapshot": "2026-11-05 16:40:53",
+   "series": [
+    {
+     "d": "2026-10-27",
+     "pay": 5805.53,
+     "orders": 119,
+     "units": 244,
+     "visitors": 5768
+    },
+    {
+     "d": "2026-10-28",
+     "pay": 8690.63,
+     "orders": 132,
+     "units": 231,
+     "visitors": 5863
+    },
+    {
+     "d": "2026-10-29",
+     "pay": 4232.62,
+     "orders": 99,
+     "units": 225,
+     "visitors": 6521
+    },
+    {
+     "d": "2026-10-30",
+     "pay": 4953.91,
+     "orders": 102,
+     "units": 190,
+     "visitors": 6222
+    },
+    {
+     "d": "2026-10-31",
+     "pay": 12344.68,
+     "orders": 284,
+     "units": 429,
+     "visitors": 11617
+    },
+    {
+     "d": "2026-11-01",
+     "pay": 30926.15,
+     "orders": 552,
+     "units": 659,
+     "visitors": 15499
+    },
+    {
+     "d": "2026-11-02",
+     "pay": 17666.7,
+     "orders": 358,
+     "units": 413,
+     "visitors": 13738
+    },
+    {
+     "d": "2026-11-03",
+     "pay": 14590.41,
+     "orders": 328,
+     "units": 372,
+     "visitors": 13430
+    },
+    {
+     "d": "2026-11-04",
+     "pay": 13541.28,
+     "orders": 313,
+     "units": 379,
+     "visitors": 12139
+    }
+   ],
+   "intraday": [
+    {
+     "t": "11-05 16:00",
+     "pay": 345.44,
+     "orders": 10
+    }
+   ],
+   "topStores": [
+    {
+     "name": "Sara",
+     "pay": 136.38,
+     "orders": 5,
+     "units": 1,
+     "visitors": 79,
+     "views": 7,
+     "ftVisitors": 5,
+     "cvr": 6.33,
+     "ad": 0.0,
+     "roi": 0.0,
+     "acos": 0.0,
+     "balance": 1050.66,
+     "disputes": 2,
+     "popDisputes": 1,
+     "ts": "2026-11-05 16:38:52",
+     "hasData": true
+    },
+    {
+     "name": "profile",
+     "pay": 131.91,
+     "orders": 3,
+     "units": 0,
+     "visitors": 89,
+     "views": 0,
+     "ftVisitors": 0,
+     "cvr": 3.37,
+     "ad": 0.0,
+     "roi": 0.0,
+     "acos": 0.0,
+     "balance": 0.0,
+     "disputes": 0,
+     "popDisputes": 0,
+     "ts": "2026-11-05 16:34:54",
+     "hasData": true
+    },
+    {
+     "name": "Catherine",
+     "pay": 53.55,
+     "orders": 1,
+     "units": 0,
+     "visitors": 4,
+     "views": 0,
+     "ftVisitors": 0,
+     "cvr": 25.0,
+     "ad": 1.06,
+     "roi": 50.52,
+     "acos": 1.98,
+     "balance": 574.65,
+     "disputes": 1,
+     "popDisputes": 0,
+     "ts": "2026-11-05 16:02:22",
+     "hasData": true
+    },
+    {
+     "name": "Otmil",
+     "pay": 23.6,
+     "orders": 1,
+     "units": 0,
+     "visitors": 38,
+     "views": 10,
+     "ftVisitors": 7,
+     "cvr": 2.63,
+     "ad": 7.02,
+     "roi": 3.36,
+     "acos": 29.75,
+     "balance": 433.65,
+     "disputes": 1,
+     "popDisputes": 0,
+     "ts": "2026-11-05 16:19:46",
+     "hasData": true
+    },
+    {
+     "name": "8Li",
+     "pay": 0.0,
+     "orders": 0,
+     "units": 0,
+     "visitors": 0,
+     "views": 0,
+     "ftVisitors": 0,
+     "cvr": 0.0,
+     "ad": 0.0,
+     "roi": 0.0,
+     "acos": 0.0,
+     "balance": 665.49,
+     "disputes": 0,
+     "popDisputes": 0,
+     "ts": "2026-11-05 15:59:47",
+     "hasData": false
+    },
+    {
+     "name": "David",
+     "pay": 0.0,
+     "orders": 0,
+     "units": 0,
+     "visitors": 0,
+     "views": 5,
+     "ftVisitors": 3,
+     "cvr": 0.0,
+     "ad": 0.0,
+     "roi": 0.0,
+     "acos": 0.0,
+     "balance": 529.29,
+     "disputes": 0,
+     "popDisputes": 0,
+     "ts": "2026-11-05 16:10:19",
+     "hasData": true
+    },
+    {
+     "name": "Ella",
+     "pay": 0.0,
+     "orders": 0,
+     "units": 0,
+     "visitors": 7,
+     "views": 17,
+     "ftVisitors": 10,
+     "cvr": 0.0,
+     "ad": 0.0,
+     "roi": 0.0,
+     "acos": 0.0,
+     "balance": 122.9,
+     "disputes": 0,
+     "popDisputes": 1,
+     "ts": "2026-11-05 16:21:51",
+     "hasData": true
+    },
+    {
+     "name": "Elong",
+     "pay": 0.0,
+     "orders": 0,
+     "units": 0,
+     "visitors": 2,
+     "views": 15,
+     "ftVisitors": 6,
+     "cvr": 0.0,
+     "ad": 0.0,
+     "roi": 0.0,
+     "acos": 0.0,
+     "balance": 492.45,
+     "disputes": 0,
+     "popDisputes": 0,
+     "ts": "2026-11-05 16:29:38",
+     "hasData": true
+    }
+   ],
+   "stores": [
+    {
+     "name": "Sara",
+     "pay": 136.38,
+     "orders": 5,
+     "units": 1,
+     "visitors": 79,
+     "views": 7,
+     "ftVisitors": 5,
+     "cvr": 6.33,
+     "ad": 0.0,
+     "roi": 0.0,
+     "acos": 0.0,
+     "balance": 1050.66,
+     "disputes": 2,
+     "popDisputes": 1,
+     "ts": "2026-11-05 16:38:52",
+     "hasData": true
+    },
+    {
+     "name": "profile",
+     "pay": 131.91,
+     "orders": 3,
+     "units": 0,
+     "visitors": 89,
+     "views": 0,
+     "ftVisitors": 0,
+     "cvr": 3.37,
+     "ad": 0.0,
+     "roi": 0.0,
+     "acos": 0.0,
+     "balance": 0.0,
+     "disputes": 0,
+     "popDisputes": 0,
+     "ts": "2026-11-05 16:34:54",
+     "hasData": true
+    },
+    {
+     "name": "Catherine",
+     "pay": 53.55,
+     "orders": 1,
+     "units": 0,
+     "visitors": 4,
+     "views": 0,
+     "ftVisitors": 0,
+     "cvr": 25.0,
+     "ad": 1.06,
+     "roi": 50.52,
+     "acos": 1.98,
+     "balance": 574.65,
+     "disputes": 1,
+     "popDisputes": 0,
+     "ts": "2026-11-05 16:02:22",
+     "hasData": true
+    },
+    {
+     "name": "Otmil",
+     "pay": 23.6,
+     "orders": 1,
+     "units": 0,
+     "visitors": 38,
+     "views": 10,
+     "ftVisitors": 7,
+     "cvr": 2.63,
+     "ad": 7.02,
+     "roi": 3.36,
+     "acos": 29.75,
+     "balance": 433.65,
+     "disputes": 1,
+     "popDisputes": 0,
+     "ts": "2026-11-05 16:19:46",
+     "hasData": true
+    },
+    {
+     "name": "8Li",
+     "pay": 0.0,
+     "orders": 0,
+     "units": 0,
+     "visitors": 0,
+     "views": 0,
+     "ftVisitors": 0,
+     "cvr": 0.0,
+     "ad": 0.0,
+     "roi": 0.0,
+     "acos": 0.0,
+     "balance": 665.49,
+     "disputes": 0,
+     "popDisputes": 0,
+     "ts": "2026-11-05 15:59:47",
+     "hasData": false
+    },
+    {
+     "name": "David",
+     "pay": 0.0,
+     "orders": 0,
+     "units": 0,
+     "visitors": 0,
+     "views": 5,
+     "ftVisitors": 3,
+     "cvr": 0.0,
+     "ad": 0.0,
+     "roi": 0.0,
+     "acos": 0.0,
+     "balance": 529.29,
+     "disputes": 0,
+     "popDisputes": 0,
+     "ts": "2026-11-05 16:10:19",
+     "hasData": true
+    },
+    {
+     "name": "Ella",
+     "pay": 0.0,
+     "orders": 0,
+     "units": 0,
+     "visitors": 7,
+     "views": 17,
+     "ftVisitors": 10,
+     "cvr": 0.0,
+     "ad": 0.0,
+     "roi": 0.0,
+     "acos": 0.0,
+     "balance": 122.9,
+     "disputes": 0,
+     "popDisputes": 1,
+     "ts": "2026-11-05 16:21:51",
+     "hasData": true
+    },
+    {
+     "name": "Elong",
+     "pay": 0.0,
+     "orders": 0,
+     "units": 0,
+     "visitors": 2,
+     "views": 15,
+     "ftVisitors": 6,
+     "cvr": 0.0,
+     "ad": 0.0,
+     "roi": 0.0,
+     "acos": 0.0,
+     "balance": 492.45,
+     "disputes": 0,
+     "popDisputes": 0,
+     "ts": "2026-11-05 16:29:38",
+     "hasData": true
+    },
+    {
+     "name": "Eric",
+     "pay": 0.0,
+     "orders": 0,
+     "units": 0,
+     "visitors": 3,
+     "views": 5,
+     "ftVisitors": 4,
+     "cvr": 0.0,
+     "ad": 0.0,
+     "roi": 0.0,
+     "acos": 0.0,
+     "balance": 894.57,
+     "disputes": 0,
+     "popDisputes": 0,
+     "ts": "2026-11-05 16:24:35",
+     "hasData": true
+    },
+    {
+     "name": "Imice",
+     "pay": 0.0,
+     "orders": 0,
+     "units": 0,
+     "visitors": 0,
+     "views": 0,
+     "ftVisitors": 0,
+     "cvr": 0.0,
+     "ad": 0.0,
+     "roi": 0.0,
+     "acos": 0.0,
+     "balance": 0.0,
+     "disputes": 0,
+     "popDisputes": 0,
+     "ts": "2026-11-05 16:04:45",
+     "hasData": false
+    },
+    {
+     "name": "Linda",
+     "pay": 0.0,
+     "orders": 0,
+     "units": 2,
+     "visitors": 0,
+     "views": 5,
+     "ftVisitors": 2,
+     "cvr": 0.0,
+     "ad": 0.0,
+     "roi": 0.0,
+     "acos": 0.0,
+     "balance": 668.52,
+     "disputes": 0,
+     "popDisputes": 0,
+     "ts": "2026-11-05 16:15:21",
+     "hasData": true
+    },
+    {
+     "name": "NKtuo",
+     "pay": 0.0,
+     "orders": 0,
+     "units": 9,
+     "visitors": 0,
+     "views": 43,
+     "ftVisitors": 29,
+     "cvr": 0.0,
+     "ad": 0.0,
+     "roi": 0.0,
+     "acos": 0.0,
+     "balance": 926.37,
+     "disputes": 2,
+     "popDisputes": 0,
+     "ts": "2026-11-05 16:40:53",
+     "hasData": true
+    },
+    {
+     "name": "NexusPOP",
+     "pay": 0.0,
+     "orders": 0,
+     "units": 0,
+     "visitors": 1,
+     "views": 0,
+     "ftVisitors": 0,
+     "cvr": 0.0,
+     "ad": 0.0,
+     "roi": 0.0,
+     "acos": 0.0,
+     "balance": 0.0,
+     "disputes": 0,
+     "popDisputes": 0,
+     "ts": "2026-11-05 16:08:31",
+     "hasData": true
+    },
+    {
+     "name": "Petery",
+     "pay": 0.0,
+     "orders": 0,
+     "units": 0,
+     "visitors": 20,
+     "views": 1,
+     "ftVisitors": 1,
+     "cvr": 0.0,
+     "ad": 0.0,
+     "roi": 0.0,
+     "acos": 0.0,
+     "balance": 190.9,
+     "disputes": 0,
+     "popDisputes": 0,
+     "ts": "2026-11-05 16:32:05",
+     "hasData": true
+    },
+    {
+     "name": "bana",
+     "pay": 0.0,
+     "orders": 0,
+     "units": 3,
+     "visitors": 0,
+     "views": 1,
+     "ftVisitors": 1,
+     "cvr": 0.0,
+     "ad": 0.0,
+     "roi": 0.0,
+     "acos": 0.0,
+     "balance": 565.82,
+     "disputes": 0,
+     "popDisputes": 0,
+     "ts": "2026-11-05 16:17:37",
+     "hasData": true
+    },
+    {
+     "name": "nancytuo",
+     "pay": 0.0,
+     "orders": 0,
+     "units": 0,
+     "visitors": 0,
+     "views": 6,
+     "ftVisitors": 5,
+     "cvr": 0.0,
+     "ad": 0.0,
+     "roi": 0.0,
+     "acos": 0.0,
+     "balance": 541.52,
+     "disputes": 2,
+     "popDisputes": 0,
+     "ts": "2026-11-05 16:13:30",
+     "hasData": true
+    },
+    {
+     "name": "nexusclick",
+     "pay": 0.0,
+     "orders": 0,
+     "units": 0,
+     "visitors": 0,
+     "views": 9,
+     "ftVisitors": 4,
+     "cvr": 0.0,
+     "ad": 0.0,
+     "roi": 0.0,
+     "acos": 0.0,
+     "balance": 715.23,
+     "disputes": 0,
+     "popDisputes": 0,
+     "ts": "2026-11-05 16:06:16",
+     "hasData": true
+    },
+    {
+     "name": "sam",
+     "pay": 0.0,
+     "orders": 0,
+     "units": 0,
+     "visitors": 0,
+     "views": 1,
+     "ftVisitors": 1,
+     "cvr": 0.0,
+     "ad": 0.0,
+     "roi": 0.0,
+     "acos": 0.0,
+     "balance": 768.56,
+     "disputes": 0,
+     "popDisputes": 0,
+     "ts": "2026-11-05 16:27:03",
+     "hasData": true
+    },
+    {
+     "name": "yoyo",
+     "pay": 0.0,
+     "orders": 0,
+     "units": 0,
+     "visitors": 0,
+     "views": 20,
+     "ftVisitors": 15,
+     "cvr": 0.0,
+     "ad": 0.0,
+     "roi": 0.0,
+     "acos": 0.0,
+     "balance": 1203.06,
+     "disputes": 0,
+     "popDisputes": 0,
+     "ts": "2026-11-05 16:36:22",
+     "hasData": true
+    }
+   ]
+  },
+  "amazon": {
+   "key": "amazon",
+   "name": "亚马逊",
+   "sub": "美国站 · 3 个开发员",
+   "currency": "USD",
+   "kpi": {
+    "sales": 1095.27,
+    "units": 43,
+    "orders": 42,
+    "ad": 14.47,
+    "gmRate": 43.3,
+    "gp": 473.98,
+    "adRate": 1.3,
+    "devCount": 3,
+    "salesPrev": 411.84,
+    "salesPct": 165.9,
+    "salesSamePrev": null,
+    "salesSamePct": null
+   },
+   "snapshot": "2026-11-05 19:20:28",
+   "series": [
+    {
+     "d": "2026-11-04",
+     "sales": 411.84,
+     "units": 16,
+     "orders": 16
+    }
+   ],
+   "intraday": [
+    {
+     "t": "11-05 16:00",
+     "sales": 510.41,
+     "units": 21
+    },
+    {
+     "t": "11-05 17:00",
+     "sales": 938.08,
+     "units": 35
+    },
+    {
+     "t": "11-05 18:00",
+     "sales": 1078.46,
+     "units": 42
+    },
+    {
+     "t": "11-05 19:00",
+     "sales": 1095.27,
+     "units": 43
+    }
+   ],
+   "developers": [
+    {
+     "name": "jasim",
+     "units": 18,
+     "orders": 17,
+     "sales": 627.52,
+     "ad": 4.94,
+     "gm": 39.73,
+     "gp": 249.31,
+     "ts": "2026-11-05 19:20:24"
+    },
+    {
+     "name": "peng",
+     "units": 23,
+     "orders": 23,
+     "sales": 408.5,
+     "ad": 8.97,
+     "gm": 50.06,
+     "gp": 204.5,
+     "ts": "2026-11-05 19:20:20"
+    },
+    {
+     "name": "无开发员",
+     "units": 2,
+     "orders": 2,
+     "sales": 59.25,
+     "ad": 0.56,
+     "gm": 34.05,
+     "gp": 20.17,
+     "ts": "2026-11-05 19:20:28"
+    }
+   ]
+  },
+  "tiktok": {
+   "key": "tiktok",
+   "name": "TikTok 小店",
+   "sub": "美国站 · 4 个店",
+   "currency": null,
+   "kpi": {
+    "units": 0,
+    "expo": 921,
+    "badRate": 0.0,
+    "sku": 2,
+    "storesActive": 1,
+    "storesTotal": 4,
+    "unitsSamePrev": null,
+    "unitsSamePct": null
+   },
+   "snapshot": "2026-11-05 19:19:55",
+   "series": [
+    {
+     "d": "2026-11-04",
+     "units": 1,
+     "expo": 2662
+    }
+   ],
+   "intraday": [
+    {
+     "t": "11-05 17:00",
+     "units": 0,
+     "expo": 910
+    },
+    {
+     "t": "11-05 18:00",
+     "units": 0,
+     "expo": 919
+    },
+    {
+     "t": "11-05 19:00",
+     "units": 0,
+     "expo": 921
+    }
+   ],
+   "stores": [
+    {
+     "name": "Sinbeda Store",
+     "units": 0,
+     "short": 0,
+     "live": 0,
+     "sku": 2,
+     "expo": 921,
+     "bad": 0.0,
+     "ret": 0.0,
+     "ts": "2026-11-05 19:19:55",
+     "hasData": true
+    },
+    {
+     "name": "Aqara Online",
+     "units": 0,
+     "short": 0,
+     "live": 0,
+     "sku": 0,
+     "expo": 0,
+     "bad": 0.0,
+     "ret": 0.0,
+     "ts": null,
+     "hasData": false
+    },
+    {
+     "name": "Rhode direct",
+     "units": 0,
+     "short": 0,
+     "live": 0,
+     "sku": 0,
+     "expo": 0,
+     "bad": 0.0,
+     "ret": 0.0,
+     "ts": null,
+     "hasData": false
+    },
+    {
+     "name": "tk_nexusclick",
+     "units": 0,
+     "short": 0,
+     "live": 0,
+     "sku": 0,
+     "expo": 0,
+     "bad": 0.0,
+     "ret": 0.0,
+     "ts": "2026-11-05 12:26:36",
+     "hasData": false
+    }
+   ]
+  },
+  "ml": {
+   "key": "ml",
+   "name": "美客多",
+   "sub": "拉美 · 5 个站点",
+   "currency": null,
+   "kpi": {
+    "visits": 3,
+    "buyers": 0,
+    "orders": 0,
+    "cvr": 0.0,
+    "sitesActive": 2,
+    "sitesTotal": 5,
+    "visitsSamePrev": null,
+    "visitsSamePct": null
+   },
+   "snapshot": "2026-11-05 18:57:01",
+   "series": [
+    {
+     "d": "2026-11-04",
+     "visits": 2,
+     "orders": 0
+    }
+   ],
+   "intraday": [
+    {
+     "t": "11-05 16:00",
+     "visits": 1,
+     "orders": 0
+    },
+    {
+     "t": "11-05 17:00",
+     "visits": 1,
+     "orders": 0
+    },
+    {
+     "t": "11-05 18:00",
+     "visits": 3,
+     "orders": 0
+    }
+   ],
+   "sites": [
+    {
+     "name": "nexusclick-MLi-墨西哥",
+     "visits": 2,
+     "buyers": 0,
+     "orders": 0,
+     "cvr": 0.0,
+     "sold": 0,
+     "price": 0.0,
+     "ts": "2026-11-05 18:56:25",
+     "hasData": true
+    },
+    {
+     "name": "nexusclick-MLi-巴西",
+     "visits": 1,
+     "buyers": 0,
+     "orders": 0,
+     "cvr": 0.0,
+     "sold": 0,
+     "price": 0.0,
+     "ts": "2026-11-05 18:56:34",
+     "hasData": true
+    },
+    {
+     "name": "nexusclick-MLi-阿根廷",
+     "visits": 0,
+     "buyers": 0,
+     "orders": 0,
+     "cvr": 0.0,
+     "sold": 0,
+     "price": 0.0,
+     "ts": "2026-11-05 18:56:43",
+     "hasData": false
+    },
+    {
+     "name": "nexusclick-MLi-智利",
+     "visits": 0,
+     "buyers": 0,
+     "orders": 0,
+     "cvr": 0.0,
+     "sold": 0,
+     "price": 0.0,
+     "ts": "2026-11-05 18:56:52",
+     "hasData": false
+    },
+    {
+     "name": "nexusclick-MLi-哥伦比亚",
+     "visits": 0,
+     "buyers": 0,
+     "orders": 0,
+     "cvr": 0.0,
+     "sold": 0,
+     "price": 0.0,
+     "ts": "2026-11-05 18:57:01",
+     "hasData": false
+    }
+   ]
+  }
+ },
+ "emptyTables": []
+};
+</script>
+<script>
+(function () {
+  'use strict';
+
+  var D = window.SHOWCASE;
+  if (!D) {
+    document.body.innerHTML = '<p style="padding:40px;font:700 16px sans-serif">数据未加载：请确认 data.js 与本文件在同一目录。</p>';
+    return;
+  }
+
+  var meta = D.meta || {};
+  var totals = D.totals || {};
+  var compare = D.compare || [];
+  var P = D.platforms || {};
+  var ali = P.aliexpress || {};
+  var amz = P.amazon || {};
+  var tk = P.tiktok || {};
+  var ml = P.ml || {};
+
+  var $ = function (sel) { return document.querySelector(sel); };
+  var has = function (v) { return typeof v === 'number' && isFinite(v); };
+  var esc = function (s) {
+    return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c];
+    });
+  };
+  var n = function (v, d) {
+    d = d || 0;
+    if (!has(v)) return '—';
+    return v.toLocaleString('en-US', { minimumFractionDigits: d, maximumFractionDigits: d });
+  };
+  var usd = function (v) { return has(v) ? '$' + n(v, 2) : '—'; };
+  var pct = function (v, d) {
+    if (!has(v)) return '—';
+    d = (d == null) ? 1 : d;
+    return n(v, d) + '%';
+  };
+  var dateShort = function (d) { return d ? String(d).slice(5) : '—'; };
+  var timeShort = function (t) {
+    if (!t) return '—';
+    var parts = String(t).split(' ');
+    return parts.length > 1 ? parts[1] : String(t);
+  };
+  var sum = function (arr, key) {
+    var s = 0;
+    arr.forEach(function (o) { if (has(o[key])) s += o[key]; });
+    return s;
+  };
+  var safePct = function (part, whole, d) {
+    if (!has(part) || !has(whole) || !whole) return '—';
+    return pct(part / whole * 100, d);
+  };
+  /** 快照是北京时间，美西 = 北京 -16h（不写死，跟着数据走） */
+  var westOf = function (snap) {
+    var m = /^(\d{4})-(\d{2})-(\d{2})[ T](\d{2}):(\d{2})/.exec(String(snap || ''));
+    if (!m) return null;
+    var d = new Date(+m[1], +m[2] - 1, +m[3], +m[4], +m[5]);
+    d.setTime(d.getTime() - 16 * 3600 * 1000);
+    var pad = function (x) { return ('0' + x).slice(-2); };
+    var day = (d.getMonth() + 1) + '.' + pad(d.getDate());
+    var time = pad(d.getHours()) + ':' + pad(d.getMinutes());
+    return { day: day, time: time, text: day + ' ' + time };
+  };
+
+  /* ---------- 趋势线：只画真实序列，TikTok / 美客多不调用 ---------- */
+  function spark(values, opt) {
+    var o = opt || {};
+    var vals = values.filter(has);
+    if (vals.length < 2) return '';
+    var w = 320, h = o.h || 88, pad = 6;
+    var min = Math.min.apply(null, vals);
+    var max = Math.max.apply(null, vals);
+    var span = (max - min) || 1;
+    var X = function (i) { return pad + (i / (vals.length - 1)) * (w - pad * 2); };
+    var Y = function (v) { return pad + (1 - (v - min) / span) * (h - pad * 2); };
+    var pts = vals.map(function (v, i) { return [X(i), Y(v)]; });
+    var line = pts.map(function (p, i) { return (i ? 'L' : 'M') + p[0].toFixed(1) + ',' + p[1].toFixed(1); }).join(' ');
+    var area = line + ' L' + X(vals.length - 1).toFixed(1) + ',' + (h - pad) + ' L' + X(0).toFixed(1) + ',' + (h - pad) + ' Z';
+    var dots = pts.map(function (p, i) {
+      return '<circle cx="' + p[0].toFixed(1) + '" cy="' + p[1].toFixed(1) + '" r="' + (i === pts.length - 1 ? 3.4 : 2.1) + '" fill="' + o.stroke + '"/>';
+    }).join('');
+    return '<svg class="spark" viewBox="0 0 ' + w + ' ' + h + '" preserveAspectRatio="none" role="img" aria-label="' + esc(o.label || '趋势线') + '">'
+      + '<path d="' + area + '" fill="' + o.fill + '" stroke="none"/>'
+      + '<path d="' + line + '" fill="none" stroke="' + o.stroke + '" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" vector-effect="non-scaling-stroke"/>'
+      + dots
+      + '</svg>';
+  }
+
+  var COLOR = {
+    aliexpress: 'var(--ali)',
+    amazon: 'var(--amz)',
+    tiktok: '#25F4EE',
+    ml: 'var(--ml)'
+  };
+
+  /* ---------- 抬头 ---------- */
+  $('#tbBrand').textContent = meta.brand || '多平台';
+  $('#tbCampaign').textContent = meta.campaign || '';
+  var west = westOf(meta.snapshot);
+  $('#tbUpdated').innerHTML = '<b>' + (west ? west.day + ' 美西 ' + west.time : '—') + ' 更新</b> · '
+    + esc(meta.tzNote || '每天美西 0 点归零');
+
+  /* ---------- 大盘 ---------- */
+  $('#heroTotal').textContent = usd(totals.usd);
+  $('#heroSub').innerHTML = '<b>' + n(totals.platformsTotal) + '</b> 个平台 · <b>'
+    + n(totals.platformsWithAmount) + '</b> 个有金额口径'
+    + (meta.dayState
+      ? ' · <span class="daystate">今日' + esc(meta.dayState)
+        + (meta.westNow ? ' · 美西 ' + esc(meta.westNow) : '') + '</span>'
+      : '');
+  $('#heroCaveat').textContent = (meta.caveat || '') + (meta.freshness ? '　' + meta.freshness : '');
+  if (meta.staleNote) {
+    $('#heroWarn').textContent = '⚠ ' + meta.staleNote;
+    $('#heroWarn').hidden = false;
+  }
+
+  /* 首屏关键事实：全部由数据算出，不写死 */
+  (function () {
+    var k1 = ali.kpi || {}, k2 = amz.kpi || {}, k3 = tk.kpi || {}, k4 = ml.kpi || {};
+    var raw = function (v) { return has(v) ? v : 0; };
+    var totOrders = raw(k1.orders) + raw(k2.orders) + raw(k4.orders);
+    var totUnits = raw(k1.units) + raw(k2.units) + raw(k3.units);
+    // 进行中：对比"昨日同一时刻"，不能拿半天比整天
+    var payPct = k1.paySamePct;
+    var deltaHtml = has(payPct)
+      ? '<b class="' + (payPct < 0 ? 'down' : '') + '">' + (payPct < 0 ? '↓ ' : '↑ ') + pct(Math.abs(payPct), 1) + '</b>'
+      : '<b>—</b>';
+    var deltaNote = has(k1.paySamePrev)
+      ? '速卖通 · 较昨日同时刻 ' + usd(k1.paySamePrev)
+      : '速卖通 · 昨日同时刻无数据';
+    $('#heroFacts').innerHTML =
+      '<div class="fact"><b>' + n(totOrders) + '</b><span>单量合计</span></div>'
+      + '<div class="fact"><b>' + n(totUnits) + '</b><span>件数合计</span></div>'
+      + '<div class="fact">' + deltaHtml + '<span>' + esc(deltaNote) + '</span></div>';
+  })();
+
+  function bdCell(name, color, amt, note) {
+    return '<div class="bd" style="--pc:' + color + '">'
+      + '<div class="bd-name"><i class="bd-dot"></i>' + esc(name) + '</div>'
+      + '<div class="bd-amt">' + amt + '</div>'
+      + '<div class="bd-share">' + esc(note) + '</div>'
+      + '</div>';
+  }
+  $('#breakdown').innerHTML =
+    bdCell(ali.name || '速卖通', COLOR.aliexpress, usd(ali.kpi && ali.kpi.pay), pct(totals.aliexpressShare, 1) + ' 金额占比')
+    + bdCell(amz.name || '亚马逊', COLOR.amazon, usd(amz.kpi && amz.kpi.sales), pct(totals.amazonShare, 1) + ' 金额占比')
+    + bdCell(tk.name || 'TikTok 小店', COLOR.tiktok, '—', '无金额口径 · 不计入')
+    + bdCell(ml.name || '美客多', COLOR.ml, '—', '无金额口径 · 不计入');
+
+  var shares = [
+    { label: ali.name || '速卖通', color: COLOR.aliexpress, p: totals.aliexpressShare, amt: usd(ali.kpi && ali.kpi.pay), cls: 'sb-ali' },
+    { label: amz.name || '亚马逊', color: COLOR.amazon, p: totals.amazonShare, amt: usd(amz.kpi && amz.kpi.sales), cls: 'sb-amz' }
+  ];
+  var shareEl = $('#share');
+  if (has(shares[0].p)) shareEl.style.setProperty('--share-ali', shares[0].p + '%');
+  if (has(shares[1].p)) shareEl.style.setProperty('--share-amz', shares[1].p + '%');
+  shareEl.innerHTML =
+    '<div class="share-legend">'
+      + shares.map(function (s) {
+          return '<span class="sl"><i style="background:' + s.color + '"></i>' + esc(s.label) + ' ' + pct(s.p, 1) + '</span>';
+        }).join('')
+    + '</div>'
+    + '<div class="share-bar" role="img" aria-label="金额占比：' + esc(shares[0].label) + ' ' + pct(shares[0].p, 1) + '，' + esc(shares[1].label) + ' ' + pct(shares[1].p, 1) + '">'
+      + '<span class="sb sb-ali"></span><span class="sb sb-amz"></span>'
+    + '</div>'
+    + '<div class="share-caption">TikTok 小店 / 美客多 无金额口径，不计入合计 · 两平台快照时间不同，占比仅作规模参考</div>'
+    + '<div class="share-rows">'
+      + shares.map(function (s) {
+          return '<div class="srow">'
+            + '<span class="srow-k"><i style="background:' + s.color + '"></i>' + esc(s.label) + '</span>'
+            + '<span class="srow-track"><i class="srow-fill ' + s.cls + '"></i></span>'
+            + '<span class="srow-v">' + pct(s.p, 1) + ' · ' + s.amt + '</span>'
+          + '</div>';
+        }).join('')
+    + '</div>';
+
+  /* ---------- 平台卡 ---------- */
+  function metric(v, label) {
+    return '<div class="metric"><b>' + v + '</b><span>' + esc(label) + '</span></div>';
+  }
+  function flag(text) { return '<span class="flag">' + esc(text) + '</span>'; }
+
+  // 速卖通
+  (function () {
+    var k = ali.kpi || {};
+    var series = ali.series || [];
+    var peak = series.reduce(function (a, b) { return (has(b.pay) && (!a || b.pay > a.pay)) ? b : a; }, null);
+    var samePct = has(k.paySamePct) ? k.paySamePct : null;
+    var dir = samePct !== null && samePct < 0 ? '↓ ' : '↑ ';
+    var deltaHtml = samePct === null
+      ? '—'
+      : dir + pct(Math.abs(samePct), 1);
+    var deltaNote = has(k.paySamePrev)
+      ? '较昨日同时刻 ' + usd(k.paySamePrev)
+      : '昨日同时刻无数据';
+    $('#cardAli').innerHTML =
+      '<div class="card-top">'
+        + '<span class="plogo">11</span>'
+        + '<div class="card-id"><h3 class="card-title">' + esc(ali.name) + '</h3><p class="card-sub">' + esc(ali.sub) + '</p></div>'
+        + flag('金额口径 · ' + (ali.currency || '—'))
+      + '</div>'
+      + '<div class="card-main">'
+        + '<div class="card-lead">'
+          + '<p class="label">今日支付</p>'
+          + '<div class="big">' + usd(k.pay) + '</div>'
+          + '<div class="delta-row">'
+            + '<span class="delta">' + deltaHtml + '</span>'
+            + '<span class="delta-note">' + esc(deltaNote) + '</span>'
+          + '</div>'
+        + '</div>'
+        + '<div class="chart">'
+          + '<p class="chart-head">近 ' + series.length + ' 天支付 · 不含今日</p>'
+          + spark(series.map(function (s) { return s.pay; }), {
+              stroke: '#FFFFFF', fill: 'rgba(255,255,255,.14)', h: 150,
+              label: '速卖通近 ' + series.length + ' 天支付趋势'
+            })
+          + '<div class="chart-meta"><span>' + esc(dateShort(series.length ? series[0].d : '')) + '</span><span>' + esc(dateShort(series.length ? series[series.length - 1].d : '')) + '</span></div>'
+          + '<div class="chart-meta"><span>峰值 ' + usd(peak && peak.pay) + '</span><span>' + esc(peak ? dateShort(peak.d) : '') + '</span></div>'
+        + '</div>'
+      + '</div>'
+      + '<div class="metrics">'
+        + metric(n(k.orders), '单量')
+        + metric(n(k.units), '件数')
+        + metric(usd(k.aov), '客单价')
+        + metric(pct(k.cvr, 2), '转化率')
+      + '</div>'
+      + '<div class="card-foot">'
+        + '<span>POP 有数 ' + n(k.popActive) + '/' + n(ali.storesTotal) + ' · 全托 ' + n(k.ftActive) + '/' + n(ali.storesTotal) + '</span>'
+        + '<span>广告 ' + usd(k.adSpend) + ' · ROI ' + n(k.roi, 2) + '</span>'
+        + '<span>更新 ' + esc(String(ali.snapshot || '').slice(11, 16) || '—') + '</span>'
+      + '</div>';
+  })();
+
+  // 亚马逊
+  (function () {
+    var k = amz.kpi || {};
+    var series = amz.intraday || [];
+    $('#cardAmz').innerHTML =
+      '<div class="card-top">'
+        + '<span class="plogo">amz</span>'
+        + '<div class="card-id"><h3 class="card-title">' + esc(amz.name) + '</h3><p class="card-sub">' + esc(amz.sub) + '</p></div>'
+        + flag('金额口径 · ' + (amz.currency || '—'))
+      + '</div>'
+      + '<div class="card-main">'
+        + '<div class="card-lead">'
+          + '<p class="label">今日销售额</p>'
+          + '<div class="big">' + usd(k.sales) + '</div>'
+          + '<div class="delta-row">'
+            + (has(k.salesSamePct)
+              ? '<span class="delta">' + (k.salesSamePct < 0 ? '↓ ' : '↑ ') + pct(Math.abs(k.salesSamePct), 1) + '</span>'
+                + '<span class="delta-note">较昨日同时刻 ' + usd(k.salesSamePrev) + '</span>'
+              : '<span class="delta-note">昨日同时刻无数据（采集首日）</span>')
+          + '</div>'
+        + '</div>'
+        + '<div class="chart">'
+          + '<p class="chart-head">当日 ' + series.length + ' 个采集点 · 累计</p>'
+          + spark(series.map(function (s) { return s.sales; }), {
+              stroke: '#111111', fill: 'rgba(17,17,17,.1)', h: 78,
+              label: '亚马逊当日 ' + series.length + ' 个采集点累计销售额'
+            })
+          + '<div class="chart-meta"><span>' + esc(timeShort(series.length ? series[0].t : '')) + '</span><span>' + esc(timeShort(series.length ? series[series.length - 1].t : '')) + '</span></div>'
+        + '</div>'
+      + '</div>'
+      + '<div class="metrics">'
+        + metric(n(k.units), '销量 / 件')
+        + metric(n(k.orders), '单量')
+        + metric(pct(k.gmRate, 1), '毛利率')
+        + metric(usd(k.gp), '毛利')
+      + '</div>'
+      + '<div class="card-foot">'
+        + '<span>' + n(k.devCount) + ' 个开发员 · 广告 ' + usd(k.ad) + ' · 占比 ' + pct(k.adRate, 1) + '</span>'
+        + '<span>更新 ' + esc(String(amz.snapshot || '').slice(11, 16) || '—') + '</span>'
+      + '</div>';
+  })();
+
+  // TikTok 小店
+  (function () {
+    var k = tk.kpi || {};
+    var recs = tk.intraday || [];
+    $('#cardTk').innerHTML =
+      '<div class="card-top">'
+        + '<span class="plogo">tk</span>'
+        + '<div class="card-id"><h3 class="card-title">' + esc(tk.name) + '</h3><p class="card-sub">' + esc(tk.sub) + '</p></div>'
+        + flag('件数口径')
+      + '</div>'
+      + '<div class="card-main">'
+        + '<div class="card-lead">'
+          + '<p class="label">今日销量</p>'
+          + '<div class="big">' + n(k.units) + '<span class="big-unit">件</span></div>'
+        + '</div>'
+        + '<div class="records">'
+          + '<p class="chart-head" style="padding:9px 0 1px">今日 ' + recs.length + ' 个采集点</p>'
+          + recs.map(function (r) {
+              return '<div class="rec"><span class="rec-t">' + esc(timeShort(r.t)) + '</span><span class="rec-v">曝光 ' + n(r.expo) + '</span></div>';
+            }).join('')
+        + '</div>'
+      + '</div>'
+      + '<div class="metrics">'
+        + metric(n(k.expo), '曝光')
+        + metric(pct(k.badRate, 2), '差评率')
+        + metric(n(k.storesActive) + '/' + n(k.storesTotal), '有数店铺')
+        + metric(n(k.sku), 'SKU')
+      + '</div>'
+      + '<div class="card-foot">'
+        + '<span class="chip-samples">样本少 · 仅 ' + recs.length + ' 次采集</span>'
+        + '<span>数据积累中，不画趋势线</span>'
+        + '<span>更新 ' + esc(String(tk.snapshot || '').slice(11, 16) || '—') + '</span>'
+      + '</div>';
+  })();
+
+  // 美客多
+  (function () {
+    var k = ml.kpi || {};
+    var recs = ml.intraday || [];
+    var sites = ml.sites || [];
+    var lastRec = recs.length ? recs[recs.length - 1] : null;
+    var siteRows = sites.map(function (s) {
+      var country = String(s.name || '').split('-').pop();
+      var on = has(s.visits) && s.visits > 0;
+      return '<div class="site' + (on ? ' site--on' : '') + '">'
+        + '<span class="site-n">' + esc(country) + '</span>'
+        + '<span class="site-v">' + n(s.visits) + ' 访问 · ' + n(s.orders) + ' 单</span>'
+      + '</div>';
+    }).join('');
+    $('#cardMl').innerHTML =
+      '<div class="card-top">'
+        + '<span class="plogo">ML</span>'
+        + '<div class="card-id"><h3 class="card-title">' + esc(ml.name) + '</h3><p class="card-sub">' + esc(ml.sub) + '</p></div>'
+        + flag('访问口径')
+      + '</div>'
+      + '<div class="card-main">'
+        + '<div class="card-lead">'
+          + '<p class="label">今日访问</p>'
+          + '<div class="big">' + n(k.visits) + '<span class="big-unit">次</span></div>'
+          + '<p class="lead-note">' + (lastRec ? esc(timeShort(lastRec.t)) + ' 采集 · ' + n(lastRec.orders) + ' 单' : '暂无采集点') + '</p>'
+        + '</div>'
+        + '<div class="sitelist">'
+          + '<p class="chart-head">' + sites.length + ' 个站点 · ' + n(k.sitesActive) + ' 站有访问</p>'
+          + siteRows
+        + '</div>'
+      + '</div>'
+      + '<div class="metrics">'
+        + metric(n(k.orders), '订单')
+        + metric(n(k.buyers), '买家')
+        + metric(pct(k.cvr, 0), '转化率')
+        + metric(n(k.sitesActive) + '/' + n(k.sitesTotal), '有数站点')
+      + '</div>'
+      + '<div class="card-foot">'
+        + '<span class="chip-samples">样本少 · 仅 ' + recs.length + ' 次采集</span>'
+        + '<span>拉美 ' + sites.length + ' 站 · ' + Math.max(sites.length - n(k.sitesActive), 0) + ' 站今日无数据</span>'
+        + '<span>更新 ' + esc(String(ml.snapshot || '').slice(11, 16) || '—') + '</span>'
+      + '</div>';
+  })();
+
+  $('#cardsNote').textContent = '金额合计 ' + usd(totals.usd) + ' 只来自速卖通 + 亚马逊；每块一个平台，颜色即身份';
+
+  /* ---------- 平台明细抽屉（点卡片展开） ---------- */
+  (function () {
+    var drawer = $('#drawer');
+    if (!drawer) return;
+    var drLogo = $('#drLogo'), drTitle = $('#drTitle'), drNote = $('#drNote'),
+        drTable = $('#drTable'), drFoot = $('#drFoot');
+
+    function cell(cls, v, label, sub) {
+      return '<div class="dcell ' + cls + '">'
+        + (label ? '<span class="dl">' + esc(label) + '</span>' : '')
+        + '<span class="dv">' + v + '</span>'
+        + (sub ? '<span class="dsub">' + sub + '</span>' : '')
+      + '</div>';
+    }
+
+    var PLATS = {
+      aliexpress: {
+        logo: '11',
+        title: ali.name + ' · ' + (ali.stores || []).length + ' 家店明细',
+        note: '按今日支付排序。支付为 POP 口径（USD），件数与浏览为全托口径；余额为店铺可用余额。',
+        dt: '38px minmax(0,1.6fr) minmax(0,1.05fr) 62px 62px 74px 74px 78px minmax(0,.95fr)',
+        head: ['#', '店铺 / 余额', '支付 / USD', '单量', '件数', '访客', '转化', '广告', 'ROI / ACOS'],
+        numFrom: 2,
+        quiet: function (r) { return r.pay === 0 && r.orders === 0; },
+        rows: ali.stores || [],
+        cells: function (r, i) {
+          return cell('idx', String(i + 1).padStart(2, '0'))
+            + cell('dname', esc(r.name), '店铺', '余额 ' + usd(r.balance) + ' · 纠纷 ' + n(r.disputes))
+            + cell('num', usd(r.pay), '支付')
+            + cell('num', n(r.orders), '单量')
+            + cell('num', n(r.units), '件数')
+            + cell('num', n(r.visitors), '访客')
+            + cell('num', pct(r.cvr, 2), '转化')
+            + cell('num', usd(r.ad), '广告')
+            + cell('num', n(r.roi, 2) + ' / ' + pct(r.acos, 2), 'ROI / ACOS');
+        },
+        foot: function () {
+          var s = ali.stores || [];
+          return '<span>合计 <b>' + usd(sum(s, 'pay')) + '</b></span>'
+            + '<span>单量 <b>' + n(sum(s, 'orders')) + '</b></span>'
+            + '<span>件数 <b>' + n(sum(s, 'units')) + '</b></span>'
+            + '<span>访客 <b>' + n(sum(s, 'visitors')) + '</b></span>'
+            + '<span>广告 <b>' + usd(sum(s, 'ad')) + '</b></span>';
+        }
+      },
+      amazon: {
+        logo: 'amz',
+        title: amz.name + ' · ' + (amz.developers || []).length + ' 个开发员明细',
+        note: '账号按开发员拆分；"无开发员"为未归属订单，已并入对应开发员口径。',
+        dt: 'minmax(0,1.4fr) repeat(6, minmax(0,1fr))',
+        head: ['开发员', '销售额 / USD', '件数', '单量', '毛利率', '毛利', '广告'],
+        numFrom: 1,
+        rows: amz.developers || [],
+        cells: function (r) {
+          return cell('dname', esc(r.name), '开发员', '更新时间 ' + esc(timeShort(r.ts)))
+            + cell('num', usd(r.sales), '销售额')
+            + cell('num', n(r.units), '件数')
+            + cell('num', n(r.orders), '单量')
+            + cell('num', pct(r.gm, 2), '毛利率')
+            + cell('num', usd(r.gp), '毛利')
+            + cell('num', usd(r.ad), '广告');
+        },
+        foot: function () {
+          var s = amz.developers || [];
+          return '<span>合计 <b>' + usd(sum(s, 'sales')) + '</b></span>'
+            + '<span>件数 <b>' + n(sum(s, 'units')) + '</b></span>'
+            + '<span>单量 <b>' + n(sum(s, 'orders')) + '</b></span>'
+            + '<span>毛利 <b>' + usd(sum(s, 'gp')) + '</b></span>';
+        }
+      },
+      tiktok: {
+        logo: 'tk',
+        title: tk.name + ' · ' + (tk.stores || []).length + ' 家店明细',
+        note: '按销量、曝光排序；没有采集到数据的店标为"无数据"，不参与合计。',
+        dt: 'minmax(0,1.6fr) repeat(5, minmax(0,1fr))',
+        head: ['店铺', '销量', '曝光', '差评率', 'SKU', '短视频 / 直播'],
+        numFrom: 1,
+        quiet: function (r) { return r.hasData === false; },
+        rows: tk.stores || [],
+        cells: function (r) {
+          return cell('dname', esc(r.name), '店铺', r.hasData === false ? '无数据 · 未采集到今日指标' : '')
+            + cell('num', n(r.units), '销量')
+            + cell('num', n(r.expo), '曝光')
+            + cell('num', r.hasData === false ? '—' : pct(r.bad, 2), '差评率')
+            + cell('num', n(r.sku), 'SKU')
+            + cell('num', n(r.short) + ' / ' + n(r.live), '短视频 / 直播');
+        },
+        foot: function () {
+          var s = (tk.stores || []).filter(function (r) { return r.hasData !== false; });
+          return '<span>有数据 <b>' + s.length + '</b> 家</span>'
+            + '<span>销量 <b>' + n(sum(s, 'units')) + '</b></span>'
+            + '<span>曝光 <b>' + n(sum(s, 'expo')) + '</b></span>';
+        }
+      },
+      ml: {
+        logo: 'ML',
+        title: ml.name + ' · ' + (ml.sites || []).length + ' 个站点明细',
+        note: '站点按访问排序；无数据的站点显示 0，不参与买家/订单合计。',
+        dt: 'minmax(0,1.25fr) repeat(6, minmax(0,1fr))',
+        head: ['站点', '访问', '买家', '订单', '转化率', '已售', '平均价格'],
+        numFrom: 1,
+        quiet: function (r) { return !r.visits && !r.orders && !r.buyers && !r.sold; },
+        rows: ml.sites || [],
+        cells: function (r) {
+          var short = String(r.name || '').split('-').pop();
+          return cell('dname', esc(short), '站点', esc(r.name))
+            + cell('num', n(r.visits), '访问')
+            + cell('num', n(r.buyers), '买家')
+            + cell('num', n(r.orders), '订单')
+            + cell('num', pct(r.cvr, 2), '转化率')
+            + cell('num', n(r.sold), '已售')
+            + cell('num', usd(r.price), '均价');
+        },
+        foot: function () {
+          var s = ml.sites || [];
+          return '<span>访问 <b>' + n(sum(s, 'visits')) + '</b></span>'
+            + '<span>买家 <b>' + n(sum(s, 'buyers')) + '</b></span>'
+            + '<span>订单 <b>' + n(sum(s, 'orders')) + '</b></span>'
+            + '<span>有数据站点 <b>' + n((ml.kpi || {}).sitesActive) + '/' + n((ml.kpi || {}).sitesTotal) + '</b></span>';
+        }
+      }
+    };
+
+    var CARDS = { cardAli: 'aliexpress', cardAmz: 'amazon', cardTk: 'tiktok', cardMl: 'ml' };
+    var current = null;
+
+    function render(key) {
+      var P = PLATS[key];
+      drLogo.textContent = P.logo;
+      drTitle.textContent = P.title;
+      drNote.textContent = P.note;
+      drTable.innerHTML = '<div class="dhead" style="--dt:' + P.dt + '">'
+        + P.head.map(function (h, i) {
+            return '<span class="' + (i >= P.numFrom ? 'hnum' : '') + '">' + esc(h) + '</span>';
+          }).join('')
+        + '</div>'
+        + (P.rows.length
+          ? P.rows.map(function (r, i) {
+              var cls = r.hasData === false ? ' is-empty' : (P.quiet && P.quiet(r) ? ' is-quiet' : '');
+              return '<div class="drow' + cls + '" style="--dt:' + P.dt + '">'
+                + P.cells(r, i) + '</div>';
+            }).join('')
+          : '<p class="drawer-empty">本平台今天还没有明细数据。</p>');
+      drFoot.innerHTML = P.foot ? P.foot() : '';
+    }
+
+    function close() {
+      current = null;
+      drawer.hidden = true;
+      Object.keys(CARDS).forEach(function (id) {
+        var el = document.getElementById(id);
+        if (el) { el.classList.remove('is-open'); el.setAttribute('aria-expanded', 'false'); }
+      });
+    }
+
+    function open(key, el) {
+      if (current === key) { close(); return; }
+      current = key;
+      Object.keys(CARDS).forEach(function (id) {
+        var c = document.getElementById(id);
+        if (c) {
+          var on = CARDS[id] === key;
+          c.classList.toggle('is-open', on);
+          c.setAttribute('aria-expanded', String(on));
+        }
+      });
+      render(key);
+      // 窄屏：抽屉插到被点卡片正下方；宽屏：保持在四块网格之后
+      var grid = document.querySelector('.sec--cards .cards');
+      var narrow = window.matchMedia('(max-width: 1024px)').matches;
+      if (grid) {
+        if (narrow && el) grid.insertBefore(drawer, el.nextSibling);
+        else grid.parentNode.insertBefore(drawer, grid.nextSibling);
+      }
+      drawer.hidden = false;
+      try { drawer.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); } catch (e) { drawer.scrollIntoView(false); }
+    }
+
+    Object.keys(CARDS).forEach(function (id) {
+      var el = document.getElementById(id);
+      if (!el) return;
+      el.setAttribute('role', 'button');
+      el.setAttribute('tabindex', '0');
+      el.setAttribute('aria-expanded', 'false');
+      el.setAttribute('aria-controls', 'drawer');
+      el.addEventListener('click', function () { open(CARDS[id], el); });
+      el.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' || e.key === ' ' || e.key === 'Spacebar') {
+          e.preventDefault();
+          open(CARDS[id], el);
+        }
+      });
+      var foot = el.querySelector('.card-foot');
+      if (foot) {
+        var hint = document.createElement('span');
+        hint.className = 'hint';
+        hint.textContent = '点击展开明细 →';
+        foot.appendChild(hint);
+      }
+    });
+    $('#drClose').addEventListener('click', close);
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && current) close(); });
+  })();
+
+  /* ---------- 数字墙 ---------- */
+  $('#wallBody').innerHTML = compare.map(function (c) {
+    var color = COLOR[c.key] || 'transparent';
+    var amount = (c.amountText && c.amountText !== '—') ? c.amountText : (has(c.amount) ? usd(c.amount) : '—');
+    return '<div class="wall-row" role="row" style="--pc:' + color + '">'
+      + '<div class="wall-plat" role="cell"><span class="wname">' + esc(c.platform) + '</span><span class="wmetric">' + esc(c.metric) + '</span></div>'
+      + '<div class="wall-amt" role="cell"><span class="wlabel">金额 / USD</span><span class="wnum">' + esc(amount) + '</span></div>'
+      + '<div class="wall-count" role="cell"><span class="wlabel">单量</span><span class="wnum">' + n(c.orders) + '</span></div>'
+      + '<div class="wall-count" role="cell"><span class="wlabel">销量</span><span class="wnum">' + n(c.units) + '</span></div>'
+      + '<div class="wall-note" role="cell">' + esc(c.note) + '</div>'
+    + '</div>';
+  }).join('');
+  $('#wallTotal').textContent = usd(totals.usd);
+
+  /* ---------- 店铺榜 ---------- */
+  (function () {
+    var stores = ali.topStores || [];
+    var maxPay = stores.reduce(function (m, s) { return has(s.pay) && s.pay > m ? s.pay : m; }, 0) || 1;
+    var topSum = sum(stores, 'pay');
+    $('#stores').innerHTML = stores.map(function (s, i) {
+      var w = has(s.pay) ? Math.max(s.pay / maxPay * 100, 1.5) : 0;
+      return '<li class="store">'
+        + '<span class="store-fill" style="width:' + w.toFixed(1) + '%"></span>'
+        + '<span class="rank">' + String(i + 1).padStart(2, '0') + '</span>'
+        + '<div class="store-body">'
+          + '<div class="store-line"><span class="store-name">' + esc(s.name) + '</span><span class="store-pay">' + usd(s.pay) + '</span></div>'
+          + '<div class="store-meta">' + n(s.orders) + ' 单 · ROI ' + n(s.roi, 2) + ' · ACOS ' + pct(s.acos, 2) + ' · 广告 ' + usd(s.ad) + '</div>'
+        + '</div>'
+      + '</li>';
+    }).join('');
+    $('#storeNote').textContent = 'TOP ' + stores.length + ' 合计 ' + usd(topSum)
+      + ' · 占速卖通 ' + safePct(topSum, ali.kpi && ali.kpi.pay, 1) + ' · 按今日支付排序';
+  })();
+
+  /* ---------- 开发员拆分 ---------- */
+  (function () {
+    var devs = amz.developers || [];
+    $('#devs').innerHTML = devs.map(function (d) {
+      var isNa = /无开发员|未分配|unassigned/i.test(d.name || '');
+      return '<article class="dev">'
+        + '<div class="dev-top"><span class="dev-name">' + esc(d.name) + '</span><span class="dev-tag">' + (isNa ? '未分配' : '开发员') + '</span></div>'
+        + '<div class="dev-sales">' + usd(d.sales) + '</div>'
+        + '<div class="dev-metrics">'
+          + '<div class="dm"><b>' + n(d.units) + '</b><span>件</span></div>'
+          + '<div class="dm"><b>' + n(d.orders) + '</b><span>单</span></div>'
+          + '<div class="dm"><b>' + usd(d.gp) + '</b><span>毛利</span></div>'
+          + '<div class="dm"><b>' + pct(d.gm, 2) + '</b><span>毛利率</span></div>'
+        + '</div>'
+        + '<div class="dev-foot">广告 ' + usd(d.ad) + '</div>'
+      + '</article>';
+    }).join('');
+    $('#devNote').textContent = devs.length + ' 行合计 ' + usd(sum(devs, 'sales'))
+      + ' · ' + n(sum(devs, 'units')) + ' 件 · 毛利 ' + usd(sum(devs, 'gp'))
+      + '（= 亚马逊当日）';
+  })();
+
+  /* ---------- 页脚 ---------- */
+  (function () {
+    var items = [
+      { label: '数据来源', text: meta.source || '—' },
+      { label: '快照时间', text: (meta.snapshot || '—') + '（北京时间）' + (west ? '\n≈ ' + west.text + ' 美西' : '') },
+      { label: '时区口径', text: meta.tzNote || '—' },
+      { label: '生成时间', text: (meta.generated || '—') + '\nDB 快照 ' + (meta.dbMtime || '—') }
+    ];
+    $('#footGrid').innerHTML = items.map(function (it) {
+      return '<div class="foot-item"><span class="label">' + esc(it.label) + '</span><p>'
+        + esc(it.text).replace(/\n/g, '<br>') + '</p></div>';
+    }).join('');
+    $('#footCaveat').textContent = meta.caveat || '';
+    $('#footBrand').textContent = (meta.brand || '多平台') + ' · ' + (meta.title || '经营数据');
+  })();
+
+})();
+</script>
+</body>
+</html>
