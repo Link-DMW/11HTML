@@ -1,28 +1,28 @@
 /* 由 build_shop_data.py 自动生成，请勿手改 */
 window.SHOP_DATA = {
-  "generated": "2026-11-05 16:02:54",
+  "generated": "2026-11-05 16:13:27",
   "db": "D:\\共享盘\\其他\\数据\\shop_data_readonly.db",
   "dbMtime": "2026-11-05 16:02:19",
   "latestSnapshot": "2026-11-05 15:59:47",
   "stores": [
     {
       "name": "8Li",
-      "ts": "2026-11-05 15:59:47",
-      "tsWest": "2026-11-04 23:59:47",
-      "sales": 0.0,
-      "views": 0.0,
-      "visitors": 0.0,
+      "ts": "2026-11-05 15:13:53",
+      "tsWest": "2026-11-04 23:13:53",
+      "sales": 19.0,
+      "views": 272.0,
+      "visitors": 144.0,
       "disputes": 0.0,
       "balance": 665.49,
       "popDisputes": 0.0,
-      "popPay": 0.0,
-      "popVisitors": 2.0,
-      "popOrders": 0.0,
-      "cvr": 0.0,
-      "adSpend": 0.0,
-      "adSpendRaw": "¥0.00",
-      "roi": null,
-      "acos": null,
+      "popPay": 2228.54,
+      "popVisitors": 1579.0,
+      "popOrders": 41.0,
+      "cvr": 2.47,
+      "adSpend": 110.93,
+      "adSpendRaw": "¥110.93",
+      "roi": 20.09,
+      "acos": 4.98,
       "version": "2026-11-05 16:02:53",
       "history": [
         {
@@ -968,22 +968,6 @@ window.SHOP_DATA = {
           "cvr": 2.47,
           "adSpend": 110.93,
           "adSpendRaw": "¥110.93"
-        },
-        {
-          "ts": "2026-11-05 15:59:47",
-          "tsWest": "2026-11-04 23:59:47",
-          "sales": 0.0,
-          "views": 0.0,
-          "visitors": 0.0,
-          "disputes": 0.0,
-          "balance": 665.49,
-          "popDisputes": 0.0,
-          "popPay": 0.0,
-          "popVisitors": 2.0,
-          "popOrders": 0.0,
-          "cvr": 0.0,
-          "adSpend": 0.0,
-          "adSpendRaw": "¥0.00"
         }
       ]
     },
