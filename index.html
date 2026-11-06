@@ -531,32 +531,11 @@
   .clock .cz{font-size:11px;font-weight:800;letter-spacing:.06em;opacity:.72}
   .clock.is-stale{border-style:dashed;background:rgba(0,0,0,.10)}
 
-  /* ============ 顶部「维护中」条 ============ */
-  .maint{
-    position:sticky;top:0;z-index:80;
-    background:repeating-linear-gradient(135deg,#FFE300 0 14px,#EFD400 14px 28px);
-    border-bottom:2px solid var(--ink);
-  }
-  .maint-in{
-    width:calc(100% - var(--gutter));max-width:var(--maxw);margin:0 auto;
-    display:flex;align-items:center;gap:9px 14px;flex-wrap:wrap;
-    padding:9px 0;
-  }
-  .maint-tag{
-    flex:0 0 auto;background:var(--ink);color:#FFE300;
-    font-size:12.5px;font-weight:900;letter-spacing:.16em;
-    padding:3px 9px 2px;
-  }
-  .maint-txt{font-size:12.5px;font-weight:700;color:var(--ink);line-height:1.55}
-  .maint-txt b{font-weight:900}
-
   @media (max-width:780px){
     .snap{display:flex;width:100%;margin-top:22px}
     .snap-c{flex:1 1 auto;padding:9px 12px}
   }
   @media (max-width:640px){
-    .maint-in{padding:7px 0}
-    .maint-txt{font-size:11.5px;letter-spacing:.01em}
     .records{grid-template-columns:minmax(0,1fr)}
     .snap-v{font-size:16px}
     .snap-k{font-size:8.5px;letter-spacing:.14em}
@@ -564,13 +543,6 @@
 </style>
 </head>
 <body>
-
-<div class="maint" role="status" aria-label="数据采集维护中提示">
-  <div class="maint-in">
-    <span class="maint-tag">维护中</span>
-    <span class="maint-txt"><b>数据采集维护中</b>：速卖通北京 16:00 刚日切（今日支付从 0 重新累计）、TikTok 小店改「一店一表」后重算，各平台采集间隔 30~60 分钟，页面数字可能延迟或不完整，请以店铺后台为准。</span>
-  </div>
-</div>
 
 <header class="hero" aria-label="数据抬头与今日大盘">
   <div class="wrap">
@@ -648,24 +620,24 @@ window.SHOWCASE = {
   "brand": "跨境多平台",
   "title": "多平台经营数据",
   "campaign": "2026十一大促月",
-  "snapshot": "2026-11-06 18:32:01",
+  "snapshot": "2026-11-06 18:45:55",
   "snapshotDay": "2026-11-06",
-  "snapshotTime": "18:32",
+  "snapshotTime": "18:45",
   "westDay": "2026-11-06",
-  "westNow": "11-06 02:32",
+  "westNow": "11-06 02:45",
   "dayState": "进行中",
-  "generated": "2026-11-06 18:39:00",
-  "dbMtime": "2026-11-06 18:38:28",
+  "generated": "2026-11-06 18:48:44",
+  "dbMtime": "2026-11-06 18:48:16",
   "tzNote": "速卖通按美西 0 点归零；亚马逊、美客多按北京 0 点归零；TikTok 按 UTC 0 点归零（= 北京 08:00）",
   "caveat": "速卖通、亚马逊为美元金额；TikTok 小店与美客多当前只有件数/访问口径，不计入金额合计。",
   "source": "shop_data_readonly.db → shop_data.js",
   "staleNote": "",
-  "freshness": "各平台快照时间不同：速卖通 18:32 / 亚马逊 17:52 / TikTok 17:52 / 美客多 17:54（北京时间）"
+  "freshness": "各平台快照时间不同：速卖通 18:32 / 亚马逊 18:43 / TikTok 18:43 / 美客多 18:45（北京时间）"
  },
  "totals": {
-  "usd": 2670.45,
-  "aliexpressShare": 70.2,
-  "amazonShare": 29.8,
+  "usd": 2810.63,
+  "aliexpressShare": 66.7,
+  "amazonShare": 33.3,
   "platformsWithAmount": 2,
   "platformsTotal": 4
  },
@@ -684,11 +656,11 @@ window.SHOWCASE = {
    "platform": "亚马逊",
    "key": "amazon",
    "metric": "今日销售额",
-   "amount": 795.4,
-   "amountText": "$795.40",
-   "orders": 24,
-   "units": 29,
-   "note": "毛利 43.0% · 3 个开发员"
+   "amount": 935.58,
+   "amountText": "$935.58",
+   "orders": 28,
+   "units": 33,
+   "note": "毛利 44.4% · 3 个开发员"
   },
   {
    "platform": "TikTok 小店",
@@ -698,7 +670,7 @@ window.SHOWCASE = {
    "amountText": "—",
    "orders": null,
    "units": 0,
-   "note": "3/3 店在采 · 曝光 6,183"
+   "note": "3/3 店在采 · 曝光 6,446"
   },
   {
    "platform": "美客多",
@@ -1672,20 +1644,20 @@ window.SHOWCASE = {
    "sub": "美国站 · 3 个开发员",
    "currency": "USD",
    "kpi": {
-    "sales": 795.4,
-    "units": 29,
-    "orders": 24,
-    "ad": 29.91,
-    "gmRate": 43.0,
-    "gp": 342.24,
-    "adRate": 3.8,
+    "sales": 935.58,
+    "units": 33,
+    "orders": 28,
+    "ad": 30.66,
+    "gmRate": 44.4,
+    "gp": 415.76,
+    "adRate": 3.3,
     "devCount": 3,
     "salesPrev": 506.64,
-    "salesPct": 57.0,
-    "salesSamePrev": 938.08,
-    "salesSamePct": -15.2
+    "salesPct": 84.7,
+    "salesSamePrev": 977.46,
+    "salesSamePct": -4.3
    },
-   "snapshot": "2026-11-06 17:52:35",
+   "snapshot": "2026-11-06 18:43:35",
    "series": [
     {
      "d": "2026-11-04",
@@ -1710,38 +1682,43 @@ window.SHOWCASE = {
      "t": "11-06 17:00",
      "sales": 795.4,
      "units": 29
+    },
+    {
+     "t": "11-06 18:00",
+     "sales": 935.58,
+     "units": 33
     }
    ],
    "developers": [
     {
      "name": "peng",
-     "units": 18,
-     "orders": 14,
-     "sales": 440.32,
+     "units": 20,
+     "orders": 16,
+     "sales": 527.09,
      "ad": 18.96,
-     "gm": 50.33,
-     "gp": 221.61,
-     "ts": "2026-11-06 17:52:26"
+     "gm": 51.0,
+     "gp": 268.82,
+     "ts": "2026-11-06 18:43:26"
     },
     {
      "name": "jasim",
-     "units": 10,
-     "orders": 9,
-     "sales": 340.44,
+     "units": 12,
+     "orders": 11,
+     "sales": 393.85,
      "ad": 9.06,
-     "gm": 33.18,
-     "gp": 112.96,
-     "ts": "2026-11-06 17:52:30"
+     "gm": 35.55,
+     "gp": 140.01,
+     "ts": "2026-11-06 18:43:30"
     },
     {
      "name": "无开发员",
      "units": 1,
      "orders": 1,
      "sales": 14.64,
-     "ad": 1.89,
-     "gm": 52.42,
-     "gp": 7.67,
-     "ts": "2026-11-06 17:52:35"
+     "ad": 2.64,
+     "gm": 47.34,
+     "gp": 6.93,
+     "ts": "2026-11-06 18:43:35"
     }
    ],
    "tzReset": "归零 · 北京 0 点"
@@ -1753,10 +1730,10 @@ window.SHOWCASE = {
    "currency": null,
    "kpi": {
     "units": 0,
-    "expo": 6183,
-    "visitors": 250,
+    "expo": 6446,
+    "visitors": 257,
     "badRate": 0.44,
-    "sku": 1,
+    "sku": 2,
     "storesActive": 3,
     "storesLive": 3,
     "storesStale": 0,
@@ -1764,7 +1741,7 @@ window.SHOWCASE = {
     "unitsSamePrev": 0.0,
     "unitsSamePct": null
    },
-   "snapshot": "2026-11-06 17:52:02",
+   "snapshot": "2026-11-06 18:43:02",
    "series": [
     {
      "d": "2026-11-05",
@@ -1780,14 +1757,14 @@ window.SHOWCASE = {
      "units": 0,
      "short": 1,
      "live": 0,
-     "sku": 1,
-     "expo": 4136,
-     "visitors": 185,
+     "sku": 0,
+     "expo": 4318,
+     "visitors": 190,
      "bad": 1.33,
      "ret": 0.0,
-     "ts": "2026-11-06 17:51:19",
-     "lastTs": "2026-11-06 17:51:19",
-     "ageH": 0.7,
+     "ts": "2026-11-06 18:42:18",
+     "lastTs": "2026-11-06 18:42:18",
+     "ageH": 0.1,
      "status": "live",
      "hasData": true
     },
@@ -1797,14 +1774,14 @@ window.SHOWCASE = {
      "units": 0,
      "short": 0,
      "live": 0,
-     "sku": 0,
-     "expo": 1258,
-     "visitors": 37,
+     "sku": 2,
+     "expo": 1334,
+     "visitors": 39,
      "bad": 0.0,
      "ret": 0.0,
-     "ts": "2026-11-06 17:51:34",
-     "lastTs": "2026-11-06 17:51:34",
-     "ageH": 0.7,
+     "ts": "2026-11-06 18:42:34",
+     "lastTs": "2026-11-06 18:42:34",
+     "ageH": 0.1,
      "status": "live",
      "hasData": true
     },
@@ -1815,13 +1792,13 @@ window.SHOWCASE = {
      "short": 0,
      "live": 0,
      "sku": 0,
-     "expo": 789,
+     "expo": 794,
      "visitors": 28,
      "bad": 0.0,
      "ret": 0.0,
-     "ts": "2026-11-06 17:52:02",
-     "lastTs": "2026-11-06 17:52:02",
-     "ageH": 0.7,
+     "ts": "2026-11-06 18:43:02",
+     "lastTs": "2026-11-06 18:43:02",
+     "ageH": 0.0,
      "status": "live",
      "hasData": true
     }
@@ -1842,10 +1819,10 @@ window.SHOWCASE = {
     "cvr": 0.0,
     "sitesActive": 2,
     "sitesTotal": 5,
-    "visitsSamePrev": 1.0,
-    "visitsSamePct": 800.0
+    "visitsSamePrev": 3.0,
+    "visitsSamePct": 200.0
    },
-   "snapshot": "2026-11-06 17:54:55",
+   "snapshot": "2026-11-06 18:45:55",
    "series": [
     {
      "d": "2026-11-04",
@@ -1868,6 +1845,11 @@ window.SHOWCASE = {
      "t": "11-06 17:00",
      "visits": 9,
      "orders": 0
+    },
+    {
+     "t": "11-06 18:00",
+     "visits": 9,
+     "orders": 0
     }
    ],
    "sites": [
@@ -1880,7 +1862,7 @@ window.SHOWCASE = {
      "cvr": 0.0,
      "sold": 0,
      "price": 0.0,
-     "ts": "2026-11-06 17:54:26",
+     "ts": "2026-11-06 18:45:28",
      "localName": "巴西",
      "resetBj": "11:00",
      "hasData": true
@@ -1894,7 +1876,7 @@ window.SHOWCASE = {
      "cvr": 0.0,
      "sold": 0,
      "price": 0.0,
-     "ts": "2026-11-06 17:54:17",
+     "ts": "2026-11-06 18:45:19",
      "localName": "墨西哥",
      "resetBj": "14:00",
      "hasData": true
@@ -1908,7 +1890,7 @@ window.SHOWCASE = {
      "cvr": 0.0,
      "sold": 0,
      "price": 0.0,
-     "ts": "2026-11-06 17:54:36",
+     "ts": "2026-11-06 18:45:37",
      "localName": "阿根廷",
      "resetBj": "11:00",
      "hasData": false
@@ -1922,7 +1904,7 @@ window.SHOWCASE = {
      "cvr": 0.0,
      "sold": 0,
      "price": 0.0,
-     "ts": "2026-11-06 17:54:45",
+     "ts": "2026-11-06 18:45:46",
      "localName": "智利",
      "resetBj": "11:00",
      "hasData": false
@@ -1936,7 +1918,7 @@ window.SHOWCASE = {
      "cvr": 0.0,
      "sold": 0,
      "price": 0.0,
-     "ts": "2026-11-06 17:54:55",
+     "ts": "2026-11-06 18:45:55",
      "localName": "哥伦比亚",
      "resetBj": "13:00",
      "hasData": false
