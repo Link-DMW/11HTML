@@ -469,6 +469,18 @@
   .snap-c--ago .snap-v{color:var(--ali)}
   .snap-c--ago.is-old .snap-v,.snap-c--ago.is-old .snap-k{color:#FFCBBD}
 
+  /* ============ 卡片内的“维护中”条（目前只有 TikTok 用） ============ */
+  .card-maint{
+    display:flex;align-items:center;gap:8px 10px;flex-wrap:wrap;
+    padding:6px 9px;background:#FFD400;color:#111111;border:1.5px solid #111111;
+    font-size:11px;font-weight:800;letter-spacing:.02em;line-height:1.35;
+  }
+  .card-maint .cm-tag{
+    flex:0 0 auto;background:#111111;color:#FFD400;padding:2px 8px;
+    font-size:11px;font-weight:800;letter-spacing:.12em;line-height:1.5;
+  }
+  .card-maint .cm-txt{color:#111111;font-weight:700}
+
   /* ============ 店铺行里的两条线 + 点评 ============ */
   .barcell .dv{line-height:1.15}
   .barcell .bar{display:block;margin-top:5px;height:4px;background:rgba(17,17,17,.12)}
@@ -585,24 +597,24 @@ window.SHOWCASE = {
   "brand": "跨境多平台",
   "title": "多平台经营数据",
   "campaign": "2026十一大促月",
-  "snapshot": "2026-11-06 11:42:46",
+  "snapshot": "2026-11-06 12:02:14",
   "snapshotDay": "2026-11-06",
-  "snapshotTime": "11:42",
+  "snapshotTime": "12:02",
   "westDay": "2026-11-05",
-  "westNow": "11-05 19:42",
+  "westNow": "11-05 20:02",
   "dayState": "进行中",
-  "generated": "2026-11-06 11:47:07",
-  "dbMtime": "2026-11-06 11:46:15",
+  "generated": "2026-11-06 12:02:31",
+  "dbMtime": "2026-11-06 12:02:15",
   "tzNote": "速卖通按美西 0 点归零；亚马逊、美客多按北京 0 点归零；TikTok 按 UTC 0 点归零（= 北京 08:00）",
   "caveat": "速卖通、亚马逊为美元金额；TikTok 小店与美客多当前只有件数/访问口径，不计入金额合计。",
   "source": "shop_data_readonly.db → shop_data.js",
   "staleNote": "",
-  "freshness": "各平台快照时间不同：速卖通 11:42 / 亚马逊 11:01 / TikTok 11:01 / 美客多 11:04（北京时间）"
+  "freshness": "各平台快照时间不同：速卖通 11:47 / 亚马逊 12:02 / TikTok 12:01 / 美客多 11:55（北京时间）"
  },
  "totals": {
-  "usd": 15256.44,
-  "aliexpressShare": 97.3,
-  "amazonShare": 2.7,
+  "usd": 15482.23,
+  "aliexpressShare": 97.4,
+  "amazonShare": 2.6,
   "platformsWithAmount": 2,
   "platformsTotal": 4
  },
@@ -611,10 +623,10 @@ window.SHOWCASE = {
    "platform": "速卖通",
    "key": "aliexpress",
    "metric": "今日支付",
-   "amount": 14848.2,
-   "amountText": "$14,848.20",
-   "orders": 298,
-   "units": 278,
+   "amount": 15073.99,
+   "amountText": "$15,073.99",
+   "orders": 302,
+   "units": 279,
    "note": "12 店有数"
   },
   {
@@ -625,7 +637,7 @@ window.SHOWCASE = {
    "amountText": "$408.24",
    "orders": 10,
    "units": 13,
-   "note": "毛利 44.7% · 3 个开发员"
+   "note": "毛利 44.3% · 3 个开发员"
   },
   {
    "platform": "TikTok 小店",
@@ -635,7 +647,7 @@ window.SHOWCASE = {
    "amountText": "—",
    "orders": null,
    "units": 0,
-   "note": "1 店有数 · 曝光 347"
+   "note": "1 店有数 · 曝光 465"
   },
   {
    "platform": "美客多",
@@ -656,27 +668,27 @@ window.SHOWCASE = {
    "currency": "USD",
    "storesTotal": 19,
    "kpi": {
-    "pay": 14848.2,
-    "orders": 298,
-    "units": 278,
-    "aov": 49.83,
-    "popVisitors": 10030,
+    "pay": 15073.99,
+    "orders": 302,
+    "units": 279,
+    "aov": 49.91,
+    "popVisitors": 10175,
     "cvr": 2.97,
-    "visitors": 6799,
-    "views": 13795,
+    "visitors": 6816,
+    "views": 13836,
     "disputes": 7,
     "popDisputes": 2,
     "balance": 4834.79,
-    "adSpend": 164.84,
-    "roi": 90.08,
+    "adSpend": 362.79,
+    "roi": 41.55,
     "popActive": 12,
     "ftActive": 16,
     "payPrev": 13541.28,
-    "payPct": 9.7,
+    "payPct": 11.3,
     "paySamePrev": 11864.85,
-    "paySamePct": 25.1
+    "paySamePct": 27.0
    },
-   "snapshot": "2026-11-06 11:42:46",
+   "snapshot": "2026-11-06 11:47:55",
    "series": [
     {
      "d": "2026-10-27",
@@ -750,8 +762,8 @@ window.SHOWCASE = {
     },
     {
      "t": "11-06 11:00",
-     "pay": 14848.2,
-     "orders": 298
+     "pay": 15073.99,
+     "orders": 302
     }
    ],
    "channels": {
@@ -760,6 +772,53 @@ window.SHOWCASE = {
     "dual": 8
    },
    "topStores": [
+    {
+     "name": "profile",
+     "pay": 4085.93,
+     "orders": 76,
+     "units": 0,
+     "visitors": 2975,
+     "views": 0,
+     "ftVisitors": 0,
+     "cvr": 2.45,
+     "ad": 197.95,
+     "roi": 20.64,
+     "acos": 4.84,
+     "balance": 0.0,
+     "disputes": 0,
+     "popDisputes": 0,
+     "ts": "2026-11-06 11:45:56",
+     "hasData": true,
+     "hasPop": true,
+     "hasTuo": false,
+     "flow": {
+      "hourCount": 11,
+      "peakHour": "20",
+      "peakPay": 1107.29,
+      "peakShare": 28.0,
+      "peakOrderHour": "20",
+      "peakOrderCount": 17,
+      "peakUnitHour": "20",
+      "peakUnits": 0,
+      "peakUnitShare": 0,
+      "peakVisHour": "20",
+      "peakVisitors": 0,
+      "bigCount": 0,
+      "bigSum": 0,
+      "bigJump": null,
+      "maxJump": {
+       "t": "20:36",
+       "pay": 1107.29
+      },
+      "smallHour": "09",
+      "smallHourOrders": 10,
+      "smallHourAov": 30.29
+     },
+     "prevPay": 3122.4,
+     "prevUnits": 0.0,
+     "prevPopVisitors": 2828.0,
+     "prevFtVisitors": 0.0
+    },
     {
      "name": "Sara",
      "pay": 4002.51,
@@ -810,53 +869,6 @@ window.SHOWCASE = {
      "prevUnits": 14.0,
      "prevPopVisitors": 2374.0,
      "prevFtVisitors": 240.0
-    },
-    {
-     "name": "profile",
-     "pay": 3860.14,
-     "orders": 72,
-     "units": 0,
-     "visitors": 2830,
-     "views": 0,
-     "ftVisitors": 0,
-     "cvr": 2.44,
-     "ad": 0.0,
-     "roi": 0.0,
-     "acos": 0.0,
-     "balance": 0.0,
-     "disputes": 0,
-     "popDisputes": 0,
-     "ts": "2026-11-06 09:52:05",
-     "hasData": true,
-     "hasPop": true,
-     "hasTuo": false,
-     "flow": {
-      "hourCount": 10,
-      "peakHour": "20",
-      "peakPay": 1107.29,
-      "peakShare": 29.7,
-      "peakOrderHour": "20",
-      "peakOrderCount": 17,
-      "peakUnitHour": "20",
-      "peakUnits": 0,
-      "peakUnitShare": 0,
-      "peakVisHour": "20",
-      "peakVisitors": 0,
-      "bigCount": 0,
-      "bigSum": 0,
-      "bigJump": null,
-      "maxJump": {
-       "t": "20:36",
-       "pay": 1107.29
-      },
-      "smallHour": "09",
-      "smallHourOrders": 10,
-      "smallHourAov": 30.29
-     },
-     "prevPay": 3122.4,
-     "prevUnits": 0.0,
-     "prevPopVisitors": 2828.0,
-     "prevFtVisitors": 0.0
     },
     {
      "name": "8Li",
@@ -1159,6 +1171,53 @@ window.SHOWCASE = {
    ],
    "stores": [
     {
+     "name": "profile",
+     "pay": 4085.93,
+     "orders": 76,
+     "units": 0,
+     "visitors": 2975,
+     "views": 0,
+     "ftVisitors": 0,
+     "cvr": 2.45,
+     "ad": 197.95,
+     "roi": 20.64,
+     "acos": 4.84,
+     "balance": 0.0,
+     "disputes": 0,
+     "popDisputes": 0,
+     "ts": "2026-11-06 11:45:56",
+     "hasData": true,
+     "hasPop": true,
+     "hasTuo": false,
+     "flow": {
+      "hourCount": 11,
+      "peakHour": "20",
+      "peakPay": 1107.29,
+      "peakShare": 28.0,
+      "peakOrderHour": "20",
+      "peakOrderCount": 17,
+      "peakUnitHour": "20",
+      "peakUnits": 0,
+      "peakUnitShare": 0,
+      "peakVisHour": "20",
+      "peakVisitors": 0,
+      "bigCount": 0,
+      "bigSum": 0,
+      "bigJump": null,
+      "maxJump": {
+       "t": "20:36",
+       "pay": 1107.29
+      },
+      "smallHour": "09",
+      "smallHourOrders": 10,
+      "smallHourAov": 30.29
+     },
+     "prevPay": 3122.4,
+     "prevUnits": 0.0,
+     "prevPopVisitors": 2828.0,
+     "prevFtVisitors": 0.0
+    },
+    {
      "name": "Sara",
      "pay": 4002.51,
      "orders": 94,
@@ -1208,53 +1267,6 @@ window.SHOWCASE = {
      "prevUnits": 14.0,
      "prevPopVisitors": 2374.0,
      "prevFtVisitors": 240.0
-    },
-    {
-     "name": "profile",
-     "pay": 3860.14,
-     "orders": 72,
-     "units": 0,
-     "visitors": 2830,
-     "views": 0,
-     "ftVisitors": 0,
-     "cvr": 2.44,
-     "ad": 0.0,
-     "roi": 0.0,
-     "acos": 0.0,
-     "balance": 0.0,
-     "disputes": 0,
-     "popDisputes": 0,
-     "ts": "2026-11-06 09:52:05",
-     "hasData": true,
-     "hasPop": true,
-     "hasTuo": false,
-     "flow": {
-      "hourCount": 10,
-      "peakHour": "20",
-      "peakPay": 1107.29,
-      "peakShare": 29.7,
-      "peakOrderHour": "20",
-      "peakOrderCount": 17,
-      "peakUnitHour": "20",
-      "peakUnits": 0,
-      "peakUnitShare": 0,
-      "peakVisHour": "20",
-      "peakVisitors": 0,
-      "bigCount": 0,
-      "bigSum": 0,
-      "bigJump": null,
-      "maxJump": {
-       "t": "20:36",
-       "pay": 1107.29
-      },
-      "smallHour": "09",
-      "smallHourOrders": 10,
-      "smallHourAov": 30.29
-     },
-     "prevPay": 3122.4,
-     "prevUnits": 0.0,
-     "prevPopVisitors": 2828.0,
-     "prevFtVisitors": 0.0
     },
     {
      "name": "8Li",
@@ -2007,10 +2019,10 @@ window.SHOWCASE = {
      "name": "yoyo",
      "pay": 0.0,
      "orders": 0,
-     "units": 21,
+     "units": 22,
      "visitors": 0,
-     "views": 732,
-     "ftVisitors": 338,
+     "views": 773,
+     "ftVisitors": 355,
      "cvr": 0.0,
      "ad": 0.0,
      "roi": 0.0,
@@ -2018,12 +2030,12 @@ window.SHOWCASE = {
      "balance": 1441.46,
      "disputes": 0,
      "popDisputes": 0,
-     "ts": "2026-11-06 10:51:19",
+     "ts": "2026-11-06 11:47:55",
      "hasData": true,
      "hasPop": false,
      "hasTuo": true,
      "flow": {
-      "hourCount": 11,
+      "hourCount": 12,
       "peakHour": "20",
       "peakPay": 0.0,
       "peakShare": 0,
@@ -2031,7 +2043,7 @@ window.SHOWCASE = {
       "peakOrderCount": 0,
       "peakUnitHour": "09",
       "peakUnits": 6,
-      "peakUnitShare": 28.6,
+      "peakUnitShare": 27.3,
       "peakVisHour": "09",
       "peakVisitors": 65,
       "bigCount": 0,
@@ -2059,17 +2071,17 @@ window.SHOWCASE = {
     "sales": 408.24,
     "units": 13,
     "orders": 10,
-    "ad": 5.11,
-    "gmRate": 44.7,
-    "gp": 182.52,
-    "adRate": 1.3,
+    "ad": 6.82,
+    "gmRate": 44.3,
+    "gp": 180.82,
+    "adRate": 1.7,
     "devCount": 3,
     "salesPrev": 411.84,
     "salesPct": -0.9,
     "salesSamePrev": 272.01,
     "salesSamePct": 50.1
    },
-   "snapshot": "2026-11-06 11:01:51",
+   "snapshot": "2026-11-06 12:02:10",
    "series": [
     {
      "d": "2026-11-04",
@@ -2088,6 +2100,11 @@ window.SHOWCASE = {
      "t": "11-06 11:00",
      "sales": 348.99,
      "units": 11
+    },
+    {
+     "t": "11-06 12:00",
+     "sales": 348.99,
+     "units": 11
     }
    ],
    "developers": [
@@ -2096,20 +2113,20 @@ window.SHOWCASE = {
      "units": 7,
      "orders": 4,
      "sales": 195.75,
-     "ad": 0.0,
-     "gm": 54.14,
-     "gp": 105.98,
-     "ts": "2026-11-06 11:01:47"
+     "ad": 1.53,
+     "gm": 53.36,
+     "gp": 104.45,
+     "ts": "2026-11-06 12:02:05"
     },
     {
      "name": "jasim",
      "units": 4,
      "orders": 4,
      "sales": 153.24,
-     "ad": 0.0,
-     "gm": 39.75,
-     "gp": 60.91,
-     "ts": "2026-11-06 11:01:51"
+     "ad": 0.18,
+     "gm": 39.64,
+     "gp": 60.74,
+     "ts": "2026-11-06 12:02:10"
     },
     {
      "name": "无开发员",
@@ -2131,15 +2148,15 @@ window.SHOWCASE = {
    "currency": null,
    "kpi": {
     "units": 0,
-    "expo": 347,
+    "expo": 465,
     "badRate": 0.0,
     "sku": 0,
     "storesActive": 1,
     "storesTotal": 4,
-    "unitsSamePrev": null,
-    "unitsSamePct": null
+    "unitsSamePrev": 1.0,
+    "unitsSamePct": -100.0
    },
-   "snapshot": "2026-11-06 11:01:25",
+   "snapshot": "2026-11-06 12:01:42",
    "series": [
     {
      "d": "2026-11-04",
@@ -2231,7 +2248,12 @@ window.SHOWCASE = {
     {
      "t": "11-06 11:00",
      "units": 0,
-     "expo": 347
+     "expo": 442
+    },
+    {
+     "t": "11-06 12:00",
+     "units": 0,
+     "expo": 465
     }
    ],
    "stores": [
@@ -2241,10 +2263,10 @@ window.SHOWCASE = {
      "short": 0,
      "live": 0,
      "sku": 0,
-     "expo": 347,
+     "expo": 465,
      "bad": 0.0,
      "ret": 0.0,
-     "ts": "2026-11-06 11:01:25",
+     "ts": "2026-11-06 12:01:42",
      "hasData": true
     },
     {
@@ -2292,16 +2314,16 @@ window.SHOWCASE = {
    "sub": "拉美 · 5 个站点",
    "currency": null,
    "kpi": {
-    "visits": 23,
+    "visits": 24,
     "buyers": 0,
     "orders": 0,
     "cvr": 0.0,
     "sitesActive": 4,
     "sitesTotal": 5,
-    "visitsSamePrev": null,
-    "visitsSamePct": null
+    "visitsSamePrev": 9.0,
+    "visitsSamePct": 166.7
    },
-   "snapshot": "2026-11-06 11:04:08",
+   "snapshot": "2026-11-06 11:55:38",
    "series": [
     {
      "d": "2026-11-04",
@@ -2312,11 +2334,22 @@ window.SHOWCASE = {
    "intraday": [
     {
      "t": "11-06 11:00",
-     "visits": 8,
+     "visits": 9,
      "orders": 0
     }
    ],
    "sites": [
+    {
+     "name": "nexusclick-MLi-墨西哥",
+     "visits": 8,
+     "buyers": 0,
+     "orders": 0,
+     "cvr": 0.0,
+     "sold": 0,
+     "price": 0.0,
+     "ts": "2026-11-06 11:55:01",
+     "hasData": true
+    },
     {
      "name": "nexusclick-MLi-巴西",
      "visits": 8,
@@ -2326,17 +2359,6 @@ window.SHOWCASE = {
      "sold": 0,
      "price": 0.0,
      "ts": "2026-11-06 10:05:53",
-     "hasData": true
-    },
-    {
-     "name": "nexusclick-MLi-墨西哥",
-     "visits": 7,
-     "buyers": 0,
-     "orders": 0,
-     "cvr": 0.0,
-     "sold": 0,
-     "price": 0.0,
-     "ts": "2026-11-06 11:03:32",
      "hasData": true
     },
     {
@@ -2358,7 +2380,7 @@ window.SHOWCASE = {
      "cvr": 0.0,
      "sold": 0,
      "price": 0.0,
-     "ts": "2026-11-06 11:04:08",
+     "ts": "2026-11-06 11:55:38",
      "hasData": true
     },
     {
@@ -2369,7 +2391,7 @@ window.SHOWCASE = {
      "cvr": 0.0,
      "sold": 0,
      "price": 0.0,
-     "ts": "2026-11-06 11:04:00",
+     "ts": "2026-11-06 11:55:29",
      "hasData": false
     }
    ],
@@ -2668,7 +2690,11 @@ window.SHOWCASE = {
     var k = tk.kpi || {};
     var recs = tk.intraday || [];
     $('#cardTk').innerHTML =
-      '<div class="card-top">'
+      '<div class="card-maint">'
+        + '<span class="cm-tag">维护中</span>'
+        + '<span class="cm-txt">TikTok 小店采集维护中，数字可能延迟</span>'
+      + '</div>'
+      + '<div class="card-top">'
         + '<span class="plogo">tk</span>'
         + '<div class="card-id"><h3 class="card-title">' + esc(tk.name) + '</h3><p class="card-sub">' + esc(tk.sub) + '</p></div>'
         + flag('件数口径')
