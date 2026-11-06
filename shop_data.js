@@ -1,8 +1,8 @@
 /* 由 build_shop_data.py 自动生成，请勿手改 */
 window.SHOP_DATA = {
-  "generated": "2026-11-06 14:41:18",
+  "generated": "2026-11-06 14:48:25",
   "db": "Z:\\其他\\数据\\shop_data_readonly.db",
-  "dbMtime": "2026-11-06 14:41:15",
+  "dbMtime": "2026-11-06 14:48:21",
   "latestSnapshot": "2026-11-06 14:36:12",
   "stores": [
     {
@@ -23,7 +23,7 @@ window.SHOP_DATA = {
       "adSpendRaw": "--",
       "roi": null,
       "acos": null,
-      "version": "2026-11-06 14:41:18",
+      "version": "2026-11-06 14:48:25",
       "history": [
         {
           "ts": "2026-10-28 12:36:36",
@@ -2797,7 +2797,7 @@ window.SHOP_DATA = {
       "adSpendRaw": "¥0.00",
       "roi": null,
       "acos": null,
-      "version": "2026-11-06 14:41:18",
+      "version": "2026-11-06 14:48:25",
       "history": [
         {
           "ts": "2026-10-28 12:34:40",
@@ -5603,7 +5603,7 @@ window.SHOP_DATA = {
       "adSpendRaw": "未采集到",
       "roi": null,
       "acos": null,
-      "version": "2026-11-06 14:41:18",
+      "version": "2026-11-06 14:48:25",
       "history": [
         {
           "ts": "2026-10-28 12:32:50",
@@ -8441,7 +8441,7 @@ window.SHOP_DATA = {
       "adSpendRaw": "¥0.00",
       "roi": null,
       "acos": null,
-      "version": "2026-11-06 14:41:18",
+      "version": "2026-11-06 14:48:25",
       "history": [
         {
           "ts": "2026-10-28 12:30:46",
@@ -11295,7 +11295,7 @@ window.SHOP_DATA = {
       "adSpendRaw": "¥0.00",
       "roi": null,
       "acos": null,
-      "version": "2026-11-06 14:41:18",
+      "version": "2026-11-06 14:48:25",
       "history": [
         {
           "ts": "2026-10-28 12:28:21",
@@ -14213,7 +14213,7 @@ window.SHOP_DATA = {
       "adSpendRaw": "¥51.78",
       "roi": 10.63,
       "acos": 9.41,
-      "version": "2026-11-06 14:41:18",
+      "version": "2026-11-06 14:48:25",
       "history": [
         {
           "ts": "2026-10-28 12:26:27",
@@ -17147,7 +17147,7 @@ window.SHOP_DATA = {
       "adSpendRaw": "未采集到",
       "roi": null,
       "acos": null,
-      "version": "2026-11-06 14:41:18",
+      "version": "2026-11-06 14:48:25",
       "history": [
         {
           "ts": "2026-10-28 12:24:23",
@@ -20161,7 +20161,7 @@ window.SHOP_DATA = {
       "adSpendRaw": "未采集到",
       "roi": null,
       "acos": null,
-      "version": "2026-11-06 14:41:18",
+      "version": "2026-11-06 14:48:25",
       "history": [
         {
           "ts": "2026-10-28 12:22:30",
@@ -23175,7 +23175,7 @@ window.SHOP_DATA = {
       "adSpendRaw": "未采集到",
       "roi": null,
       "acos": null,
-      "version": "2026-11-06 14:41:18",
+      "version": "2026-11-06 14:48:25",
       "history": [
         {
           "ts": "2026-10-28 11:57:29",
@@ -26189,7 +26189,7 @@ window.SHOP_DATA = {
       "adSpendRaw": "¥0.00",
       "roi": null,
       "acos": null,
-      "version": "2026-11-06 14:41:18",
+      "version": "2026-11-06 14:48:25",
       "history": [
         {
           "ts": "2026-10-28 11:57:29",
@@ -29219,7 +29219,7 @@ window.SHOP_DATA = {
       "adSpendRaw": "¥0.00",
       "roi": null,
       "acos": null,
-      "version": "2026-11-06 14:41:18",
+      "version": "2026-11-06 14:48:25",
       "history": [
         {
           "ts": "2026-10-28 11:57:29",
@@ -32249,7 +32249,7 @@ window.SHOP_DATA = {
       "adSpendRaw": "未采集到",
       "roi": null,
       "acos": null,
-      "version": "2026-11-06 14:41:18",
+      "version": "2026-11-06 14:48:25",
       "history": [
         {
           "ts": "2026-10-28 11:57:29",
@@ -35343,7 +35343,7 @@ window.SHOP_DATA = {
       "adSpendRaw": "¥0.00",
       "roi": null,
       "acos": null,
-      "version": "2026-11-06 14:41:18",
+      "version": "2026-11-06 14:48:25",
       "history": [
         {
           "ts": "2026-10-28 11:57:29",
@@ -38501,7 +38501,7 @@ window.SHOP_DATA = {
       "adSpendRaw": "¥78.52",
       "roi": 23.51,
       "acos": 4.25,
-      "version": "2026-11-06 14:41:18",
+      "version": "2026-11-06 14:48:25",
       "history": [
         {
           "ts": "2026-10-28 11:09:21",
@@ -41739,7 +41739,7 @@ window.SHOP_DATA = {
       "adSpendRaw": "¥103.14",
       "roi": 31.37,
       "acos": 3.19,
-      "version": "2026-11-06 14:41:18",
+      "version": "2026-11-06 14:48:25",
       "history": [
         {
           "ts": "2026-10-28 11:09:21",
@@ -45169,7 +45169,7 @@ window.SHOP_DATA = {
       "adSpendRaw": "未采集到",
       "roi": null,
       "acos": null,
-      "version": "2026-11-06 14:41:18",
+      "version": "2026-11-06 14:48:25",
       "history": [
         {
           "ts": "2026-10-28 12:39:45",
@@ -48455,7 +48455,7 @@ window.SHOP_DATA = {
       "adSpendRaw": "¥290.82",
       "roi": 15.48,
       "acos": 6.46,
-      "version": "2026-11-06 14:41:18",
+      "version": "2026-11-06 14:48:25",
       "history": [
         {
           "ts": "2026-10-28 11:02:29",
@@ -52045,7 +52045,7 @@ window.SHOP_DATA = {
       "adSpendRaw": "未采集到",
       "roi": null,
       "acos": null,
-      "version": "2026-11-06 14:41:18",
+      "version": "2026-11-06 14:48:25",
       "history": [
         {
           "ts": "2026-10-28 12:41:17",
@@ -54771,7 +54771,7 @@ window.SHOP_DATA = {
       "adSpendRaw": "¥197.95",
       "roi": 20.64,
       "acos": 4.84,
-      "version": "2026-11-06 14:41:18",
+      "version": "2026-11-06 14:48:25",
       "history": [
         {
           "ts": "2026-11-01 02:38:15",
@@ -56919,6 +56919,16 @@ window.SHOP_DATA = {
             "ad": 0.18,
             "gm": 39.64,
             "gp": 60.74
+          },
+          {
+            "ts": "2026-11-06 14:45:28",
+            "tsWest": "2026-11-05 22:45:28",
+            "units": 4.0,
+            "orders": 4.0,
+            "sales": 153.24,
+            "ad": 2.89,
+            "gm": 37.87,
+            "gp": 58.03
           }
         ],
         "peng": [
@@ -57401,6 +57411,16 @@ window.SHOP_DATA = {
             "ad": 2.15,
             "gm": 51.72,
             "gp": 138.73
+          },
+          {
+            "ts": "2026-11-06 14:45:24",
+            "tsWest": "2026-11-05 22:45:24",
+            "units": 12.0,
+            "orders": 9.0,
+            "sales": 294.15,
+            "ad": 3.43,
+            "gm": 52.19,
+            "gp": 153.52
           }
         ],
         "无开发员": [
@@ -57831,6 +57851,16 @@ window.SHOP_DATA = {
             "orders": 0.0,
             "sales": 0.0,
             "ad": 0.0,
+            "gm": 0.0,
+            "gp": 0.0
+          },
+          {
+            "ts": "2026-11-06 14:45:32",
+            "tsWest": "2026-11-05 22:45:32",
+            "units": 0.0,
+            "orders": 0.0,
+            "sales": 0.0,
+            "ad": 1.35,
             "gm": 0.0,
             "gp": 0.0
           }
@@ -59095,6 +59125,39 @@ window.SHOP_DATA = {
             "live": 0.0,
             "sku": 0.0,
             "expo": 651.0,
+            "bad": 0.0,
+            "ret": 0.0
+          },
+          {
+            "ts": "2026-11-06 14:44:23",
+            "tsWest": "2026-11-05 22:44:23",
+            "units": 0.0,
+            "short": 0.0,
+            "live": 0.0,
+            "sku": 0.0,
+            "expo": 3312.0,
+            "bad": 1.33,
+            "ret": 0.0
+          },
+          {
+            "ts": "2026-11-06 14:44:36",
+            "tsWest": "2026-11-05 22:44:36",
+            "units": 0.0,
+            "short": 0.0,
+            "live": 0.0,
+            "sku": 0.0,
+            "expo": 1010.0,
+            "bad": 0.0,
+            "ret": 0.0
+          },
+          {
+            "ts": "2026-11-06 14:45:02",
+            "tsWest": "2026-11-05 22:45:02",
+            "units": 0.0,
+            "short": 0.0,
+            "live": 0.0,
+            "sku": 0.0,
+            "expo": 694.0,
             "bad": 0.0,
             "ret": 0.0
           }
