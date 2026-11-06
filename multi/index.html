@@ -502,10 +502,12 @@
 
   /* ============ 卡片快照时间徽章 ============ */
   .clock{
-    display:inline-flex;align-items:center;gap:5px;padding:2px 8px;
-    border:1.5px solid currentColor;font-size:11px;font-weight:800;
-    letter-spacing:.04em;line-height:1.5;white-space:nowrap;
+    display:inline-flex;align-items:baseline;gap:7px;padding:5px 12px;
+    border:2px solid currentColor;font-size:12.5px;font-weight:800;
+    letter-spacing:.03em;line-height:1.35;white-space:nowrap;
   }
+  .clock b{font-size:17px;font-weight:800;letter-spacing:-.01em;line-height:1.1}
+  .clock .cz{font-size:10.5px;font-weight:800;letter-spacing:.06em;opacity:.72}
   .clock.is-stale{border-style:dashed;background:rgba(0,0,0,.10)}
 
   @media (max-width:780px){
@@ -603,8 +605,8 @@ window.SHOWCASE = {
   "westDay": "2026-11-05",
   "westNow": "11-05 20:02",
   "dayState": "进行中",
-  "generated": "2026-11-06 12:02:31",
-  "dbMtime": "2026-11-06 12:02:15",
+  "generated": "2026-11-06 12:04:06",
+  "dbMtime": "2026-11-06 12:03:15",
   "tzNote": "速卖通按美西 0 点归零；亚马逊、美客多按北京 0 点归零；TikTok 按 UTC 0 点归零（= 北京 08:00）",
   "caveat": "速卖通、亚马逊为美元金额；TikTok 小店与美客多当前只有件数/访问口径，不计入金额合计。",
   "source": "shop_data_readonly.db → shop_data.js",
@@ -2535,8 +2537,8 @@ window.SHOWCASE = {
     var a = beijingMs(meta.snapshot), b = beijingMs(plat.snapshot);
     var lag = (a != null && b != null) ? Math.round((a - b) / 60000) : 0;
     var stale = lag >= 45;
-    return '<span class="clock' + (stale ? ' is-stale' : '') + '">● 快照 ' + esc(t)
-      + (stale ? ' · 慢 ' + lag + ' 分' : '') + '</span>';
+    return '<span class="clock' + (stale ? ' is-stale' : '') + '">● 快照 <b>' + esc(t) + '</b>'
+      + '<span class="cz">北京时间' + (stale ? ' · 慢 ' + lag + ' 分' : '') + '</span></span>';
   }
 
   /* ---------- 大盘 ---------- */
