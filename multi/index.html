@@ -323,20 +323,7 @@
   .drow.is-quiet .dv{font-weight:700}
   .dcell{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
   .dcell.num{text-align:right;font-variant-numeric:tabular-nums}
-  .drow.is-alt{background:rgba(17,17,17,.035)}
-  .drow:hover{background:rgba(255,90,31,.09)}
-  .drow:last-child{border-bottom:2px solid var(--ink)}
-  .dcell.idx{
-    display:inline-flex;align-items:center;justify-content:center;
-    width:26px;height:20px;background:var(--ink);color:#fff;
-    font-size:10px;font-weight:800;letter-spacing:.04em;
-  }
-  .didx-badge{}
-  .dcell.dname .dv{font-size:14.5px;line-height:1.25}
-  .dtag{
-    display:inline-block;margin-top:3px;padding:1px 6px;border:1px solid var(--ink-3);
-    font-size:9.5px;font-weight:800;letter-spacing:.06em;color:var(--ink-2);
-  }
+  .dcell.idx{font-size:11px;font-weight:800;color:var(--ink-3);letter-spacing:.06em}
   .dcell.dname{white-space:normal}
   .dcell.dname .dv{display:block;font-weight:800;letter-spacing:-.005em}
   .dsub{display:block;margin-top:2px;font-size:10.5px;font-weight:600;color:var(--ink-3);letter-spacing:.02em}
@@ -618,7 +605,7 @@ window.SHOWCASE = {
   "westDay": "2026-11-05",
   "westNow": "11-05 17:59",
   "dayState": "进行中",
-  "generated": "2026-11-06 10:57:59",
+  "generated": "2026-11-06 10:20:33",
   "dbMtime": "2026-11-06 09:59:22",
   "tzNote": "速卖通按美西 0 点归零；亚马逊、美客多按北京 0 点归零；TikTok 按 UTC 0 点归零（= 北京 08:00）",
   "caveat": "速卖通、亚马逊为美元金额；TikTok 小店与美客多当前只有件数/访问口径，不计入金额合计。",
@@ -1998,7 +1985,7 @@ window.SHOWCASE = {
         + metric(pct(k.cvr, 2), '转化率')
       + '</div>'
       + '<div class="card-foot">'
-        + '<span>全托 ' + n((ali.channels || {}).tuo) + ' 家 · 半托 ' + n((ali.channels || {}).pop) + ' 家</span>'
+        + '<span>广告 ' + usd(k.adSpend) + ' · ROI ' + n(k.roi, 2) + '</span>'
         + snapClock(ali)
       + '</div>';
   })();
@@ -2146,60 +2133,45 @@ window.SHOWCASE = {
       aliexpress: {
         logo: '11',
         title: ali.name + ' · 全托 ' + n((ali.channels || {}).tuo) + ' 家 / 半托 ' + n((ali.channels || {}).pop) + ' 家',
-        note: '全托组只看 销量 / 今日访客 / 浏览量；半托（POP）组只看 今日支付 / 订单数 / 访客 / 转化率。只有两条渠道都做的店才会在两组各出现一次，抽屉最下面的合计是整体合计（不重复）。',
+        note: '按渠道分成两组：全托组看销量/访客/浏览，半托（POP）组看支付/单量（USD）。两条渠道都做的店会在两组各出现一次，组内合计会重复计入，整体合计不重复。',
+        dt: '38px minmax(0,1.6fr) minmax(0,1.05fr) 62px 62px 74px 74px 78px minmax(0,.95fr)',
+        head: ['#', '店铺 / 余额', '支付 / USD', '单量', '件数', '访客', '转化', '广告', 'ROI / ACOS'],
+        numFrom: 2,
+        quiet: function (r) { return r.pay === 0 && r.orders === 0; },
         rows: ali.stores || [],
         groups: function () {
           var s = ali.stores || [];
           var tuo = s.filter(function (r) { return r.hasTuo; }).sort(function (a, b) {
-            return (b.units - a.units) || (b.ftVisitors - a.ftVisitors) || (b.views - a.views);
+            return (b.units - a.units) || (b.visitors - a.visitors) || (b.pay - a.pay);
           });
           var pop = s.filter(function (r) { return r.hasPop; }).sort(function (a, b) {
             return (b.pay - a.pay) || (b.orders - a.orders);
           });
-          function chTag(r) { return (r.hasPop && r.hasTuo) ? '<span class="dtag">全托 + 半托</span>' : ''; }
           return [
-            {
-              label: '全托',
-              rows: tuo,
-              sumText: '销量 ' + n(sum(tuo, 'units')) + ' 件 · 访客 ' + n(sum(tuo, 'ftVisitors')),
-              hint: '全托管：不涉及支付和单量；余额波动无规律、广告数据不全，均不展示',
-              numFrom: 2,
-              dt: '46px minmax(0,1.85fr) repeat(3,minmax(0,1fr))',
-              head: ['#', '店铺', '今日销量', '今日访客', '浏览量'],
-              cells: function (r, i) {
-                return cell('idx', String(i + 1).padStart(2, '0'))
-                  + cell('dname', esc(r.name), '店铺', chTag(r))
-                  + cell('num', n(r.units), '销量')
-                  + cell('num', n(r.ftVisitors), '访客')
-                  + cell('num', n(r.views), '浏览量');
-              }
-            },
-            {
-              label: '半托（POP）',
-              rows: pop,
-              sumText: '支付 ' + usd(sum(pop, 'pay')) + ' · 订单 ' + n(sum(pop, 'orders')),
-              hint: 'POP 半托管：金额与订单来自 POP 后台；广告 / ROI / ACOS 不展示',
-              numFrom: 2,
-              dt: '46px minmax(0,1.85fr) minmax(0,1.1fr) repeat(3,minmax(0,1fr))',
-              head: ['#', '店铺', '今日支付 / USD', '订单数', '访客', '转化率'],
-              cells: function (r, i) {
-                return cell('idx', String(i + 1).padStart(2, '0'))
-                  + cell('dname', esc(r.name), '店铺', chTag(r))
-                  + cell('num', usd(r.pay), '支付')
-                  + cell('num', n(r.orders), '订单')
-                  + cell('num', n(r.visitors), '访客')
-                  + cell('num', pct(r.cvr, 2), '转化率');
-              }
-            }
+            { label: '全托', rows: tuo, sumText: '销量 ' + n(sum(tuo, 'units')) + ' 件',
+              hint: '全托管店铺：销量 / 访客 / 浏览量口径，支付与单量为 0 属正常' },
+            { label: '半托（POP）', rows: pop, sumText: '支付 ' + usd(sum(pop, 'pay')),
+              hint: 'POP 店铺：支付金额 / 单量为美元口径，销量与全托不同源' }
           ];
+        },
+        cells: function (r, i) {
+          return cell('idx', String(i + 1).padStart(2, '0'))
+            + cell('dname', esc(r.name), '店铺', (r.hasPop && r.hasTuo ? '全托+半托 · ' : '') + '余额 ' + usd(r.balance) + ' · 纠纷 ' + n(r.disputes))
+            + cell('num', usd(r.pay), '支付')
+            + cell('num', n(r.orders), '单量')
+            + cell('num', n(r.units), '件数')
+            + cell('num', n(r.visitors), '访客')
+            + cell('num', pct(r.cvr, 2), '转化')
+            + cell('num', usd(r.ad), '广告')
+            + cell('num', n(r.roi, 2) + ' / ' + pct(r.acos, 2), 'ROI / ACOS');
         },
         foot: function () {
           var s = ali.stores || [];
           return '<span>合计 <b>' + usd(sum(s, 'pay')) + '</b></span>'
-            + '<span>POP 订单 <b>' + n(sum(s, 'orders')) + '</b></span>'
-            + '<span>全托销量 <b>' + n(sum(s, 'units')) + '</b> 件</span>'
-            + '<span>POP 访客 <b>' + n(sum(s, 'visitors')) + '</b></span>'
-            + '<span>全托访客 <b>' + n(sum(s, 'ftVisitors')) + '</b></span>';
+            + '<span>单量 <b>' + n(sum(s, 'orders')) + '</b></span>'
+            + '<span>件数 <b>' + n(sum(s, 'units')) + '</b></span>'
+            + '<span>访客 <b>' + n(sum(s, 'visitors')) + '</b></span>'
+            + '<span>广告 <b>' + usd(sum(s, 'ad')) + '</b></span>';
         }
       },
       amazon: {
@@ -2291,8 +2263,7 @@ window.SHOWCASE = {
     }
     function rowsHtml(P, rows) {
       return rows.map(function (r, i) {
-        var cls = (i % 2 ? ' is-alt' : '')
-          + (r.hasData === false ? ' is-empty' : (P.quiet && P.quiet(r) ? ' is-quiet' : ''));
+        var cls = r.hasData === false ? ' is-empty' : (P.quiet && P.quiet(r) ? ' is-quiet' : '');
         return '<div class="drow' + cls + '" style="--dt:' + P.dt + '">'
           + P.cells(r, i) + '</div>';
       }).join('');
@@ -2303,16 +2274,14 @@ window.SHOWCASE = {
       drTitle.textContent = P.title;
       drNote.textContent = P.note;
       if (P.groups) {
-        drTable.innerHTML = P.groups().map(function (g) {
-          var GP = { dt: g.dt, head: g.head, numFrom: g.numFrom, cells: g.cells, quiet: g.quiet };
+        drTable.innerHTML = headHtml(P) + P.groups().map(function (g) {
           return '<div class="dgroup">'
             + '<span class="dg-name">' + esc(g.label) + '</span>'
             + '<span class="dg-n">' + g.rows.length + ' 家</span>'
             + (g.sumText ? '<span class="dg-sum">' + esc(g.sumText) + '</span>' : '')
             + (g.hint ? '<span class="dg-hint">' + esc(g.hint) + '</span>' : '')
             + '</div>'
-            + headHtml(GP)
-            + (g.rows.length ? rowsHtml(GP, g.rows) : '<p class="drawer-empty">该渠道今天没有店铺数据。</p>');
+            + (g.rows.length ? rowsHtml(P, g.rows) : '<p class="drawer-empty">该渠道今天没有店铺数据。</p>');
         }).join('');
       } else {
         drTable.innerHTML = headHtml(P) + (P.rows.length
