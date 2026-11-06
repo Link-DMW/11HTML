@@ -477,6 +477,17 @@
   .snap-c--ago .snap-v{color:var(--ali)}
   .snap-c--ago.is-old .snap-v,.snap-c--ago.is-old .snap-k{color:#FFCBBD}
 
+  /* ============ 抽屉里的渠道分区 ============ */
+  .dgroup{
+    display:flex;align-items:baseline;gap:10px 12px;flex-wrap:wrap;
+    margin:20px 0 2px;padding:10px 0 8px;border-bottom:2px solid var(--ink);
+  }
+  .dgroup:first-of-type{margin-top:2px}
+  .dg-name{font-size:15px;font-weight:800;letter-spacing:.02em}
+  .dg-n{font-size:11px;font-weight:800;letter-spacing:.1em;color:var(--ink-2)}
+  .dg-sum{margin-left:auto;font-size:12px;font-weight:800;color:var(--ink)}
+  .dg-hint{flex:1 1 100%;font-size:10.5px;font-weight:600;color:var(--ink-2);letter-spacing:.02em}
+
   /* ============ 卡片快照时间徽章 ============ */
   .clock{
     display:inline-flex;align-items:center;gap:5px;padding:2px 8px;
@@ -594,7 +605,7 @@ window.SHOWCASE = {
   "westDay": "2026-11-05",
   "westNow": "11-05 17:59",
   "dayState": "进行中",
-  "generated": "2026-11-06 10:05:09",
+  "generated": "2026-11-06 10:20:33",
   "dbMtime": "2026-11-06 09:59:22",
   "tzNote": "速卖通按美西 0 点归零；亚马逊、美客多按北京 0 点归零；TikTok 按 UTC 0 点归零（= 北京 08:00）",
   "caveat": "速卖通、亚马逊为美元金额；TikTok 小店与美客多当前只有件数/访问口径，不计入金额合计。",
@@ -822,6 +833,11 @@ window.SHOWCASE = {
      "orders": 286
     }
    ],
+   "channels": {
+    "pop": 11,
+    "tuo": 16,
+    "dual": 8
+   },
    "topStores": [
     {
      "name": "profile",
@@ -839,7 +855,9 @@ window.SHOWCASE = {
      "disputes": 0,
      "popDisputes": 0,
      "ts": "2026-11-06 09:52:05",
-     "hasData": true
+     "hasData": true,
+     "hasPop": true,
+     "hasTuo": false
     },
     {
      "name": "Sara",
@@ -857,7 +875,9 @@ window.SHOWCASE = {
      "disputes": 2,
      "popDisputes": 1,
      "ts": "2026-11-06 09:16:56",
-     "hasData": true
+     "hasData": true,
+     "hasPop": true,
+     "hasTuo": true
     },
     {
      "name": "8Li",
@@ -875,7 +895,9 @@ window.SHOWCASE = {
      "disputes": 0,
      "popDisputes": 0,
      "ts": "2026-11-06 09:20:18",
-     "hasData": true
+     "hasData": true,
+     "hasPop": true,
+     "hasTuo": true
     },
     {
      "name": "Catherine",
@@ -893,7 +915,9 @@ window.SHOWCASE = {
      "disputes": 0,
      "popDisputes": 0,
      "ts": "2026-11-06 09:22:38",
-     "hasData": true
+     "hasData": true,
+     "hasPop": true,
+     "hasTuo": true
     },
     {
      "name": "Petery",
@@ -911,7 +935,9 @@ window.SHOWCASE = {
      "disputes": 0,
      "popDisputes": 0,
      "ts": "2026-11-06 09:49:38",
-     "hasData": true
+     "hasData": true,
+     "hasPop": true,
+     "hasTuo": true
     },
     {
      "name": "Otmil",
@@ -929,7 +955,9 @@ window.SHOWCASE = {
      "disputes": 1,
      "popDisputes": 0,
      "ts": "2026-11-06 09:38:24",
-     "hasData": true
+     "hasData": true,
+     "hasPop": true,
+     "hasTuo": true
     },
     {
      "name": "Elong",
@@ -947,7 +975,9 @@ window.SHOWCASE = {
      "disputes": 0,
      "popDisputes": 0,
      "ts": "2026-11-06 09:47:28",
-     "hasData": true
+     "hasData": true,
+     "hasPop": true,
+     "hasTuo": true
     },
     {
      "name": "Ella",
@@ -965,7 +995,9 @@ window.SHOWCASE = {
      "disputes": 0,
      "popDisputes": 1,
      "ts": "2026-11-06 09:40:17",
-     "hasData": true
+     "hasData": true,
+     "hasPop": true,
+     "hasTuo": true
     }
    ],
    "stores": [
@@ -985,7 +1017,9 @@ window.SHOWCASE = {
      "disputes": 0,
      "popDisputes": 0,
      "ts": "2026-11-06 09:52:05",
-     "hasData": true
+     "hasData": true,
+     "hasPop": true,
+     "hasTuo": false
     },
     {
      "name": "Sara",
@@ -1003,7 +1037,9 @@ window.SHOWCASE = {
      "disputes": 2,
      "popDisputes": 1,
      "ts": "2026-11-06 09:16:56",
-     "hasData": true
+     "hasData": true,
+     "hasPop": true,
+     "hasTuo": true
     },
     {
      "name": "8Li",
@@ -1021,7 +1057,9 @@ window.SHOWCASE = {
      "disputes": 0,
      "popDisputes": 0,
      "ts": "2026-11-06 09:20:18",
-     "hasData": true
+     "hasData": true,
+     "hasPop": true,
+     "hasTuo": true
     },
     {
      "name": "Catherine",
@@ -1039,7 +1077,9 @@ window.SHOWCASE = {
      "disputes": 0,
      "popDisputes": 0,
      "ts": "2026-11-06 09:22:38",
-     "hasData": true
+     "hasData": true,
+     "hasPop": true,
+     "hasTuo": true
     },
     {
      "name": "Petery",
@@ -1057,7 +1097,9 @@ window.SHOWCASE = {
      "disputes": 0,
      "popDisputes": 0,
      "ts": "2026-11-06 09:49:38",
-     "hasData": true
+     "hasData": true,
+     "hasPop": true,
+     "hasTuo": true
     },
     {
      "name": "Otmil",
@@ -1075,7 +1117,9 @@ window.SHOWCASE = {
      "disputes": 1,
      "popDisputes": 0,
      "ts": "2026-11-06 09:38:24",
-     "hasData": true
+     "hasData": true,
+     "hasPop": true,
+     "hasTuo": true
     },
     {
      "name": "Elong",
@@ -1093,7 +1137,9 @@ window.SHOWCASE = {
      "disputes": 0,
      "popDisputes": 0,
      "ts": "2026-11-06 09:47:28",
-     "hasData": true
+     "hasData": true,
+     "hasPop": true,
+     "hasTuo": true
     },
     {
      "name": "Ella",
@@ -1111,7 +1157,9 @@ window.SHOWCASE = {
      "disputes": 0,
      "popDisputes": 1,
      "ts": "2026-11-06 09:40:17",
-     "hasData": true
+     "hasData": true,
+     "hasPop": true,
+     "hasTuo": true
     },
     {
      "name": "Imice",
@@ -1129,7 +1177,9 @@ window.SHOWCASE = {
      "disputes": 0,
      "popDisputes": 0,
      "ts": "2026-11-06 09:24:40",
-     "hasData": true
+     "hasData": true,
+     "hasPop": true,
+     "hasTuo": false
     },
     {
      "name": "Eric",
@@ -1147,7 +1197,9 @@ window.SHOWCASE = {
      "disputes": 0,
      "popDisputes": 0,
      "ts": "2026-11-06 09:42:53",
-     "hasData": true
+     "hasData": true,
+     "hasPop": true,
+     "hasTuo": true
     },
     {
      "name": "NexusPOP",
@@ -1165,7 +1217,9 @@ window.SHOWCASE = {
      "disputes": 0,
      "popDisputes": 0,
      "ts": "2026-11-06 09:28:00",
-     "hasData": true
+     "hasData": true,
+     "hasPop": true,
+     "hasTuo": false
     },
     {
      "name": "David",
@@ -1183,7 +1237,9 @@ window.SHOWCASE = {
      "disputes": 0,
      "popDisputes": 0,
      "ts": "2026-11-06 09:29:45",
-     "hasData": true
+     "hasData": true,
+     "hasPop": false,
+     "hasTuo": true
     },
     {
      "name": "Linda",
@@ -1201,7 +1257,9 @@ window.SHOWCASE = {
      "disputes": 0,
      "popDisputes": 0,
      "ts": "2026-11-06 09:33:54",
-     "hasData": true
+     "hasData": true,
+     "hasPop": false,
+     "hasTuo": true
     },
     {
      "name": "NKtuo",
@@ -1219,7 +1277,9 @@ window.SHOWCASE = {
      "disputes": 2,
      "popDisputes": 0,
      "ts": "2026-11-06 09:18:42",
-     "hasData": true
+     "hasData": true,
+     "hasPop": false,
+     "hasTuo": true
     },
     {
      "name": "bana",
@@ -1237,7 +1297,9 @@ window.SHOWCASE = {
      "disputes": 0,
      "popDisputes": 0,
      "ts": "2026-11-06 09:36:25",
-     "hasData": true
+     "hasData": true,
+     "hasPop": false,
+     "hasTuo": true
     },
     {
      "name": "nancytuo",
@@ -1255,7 +1317,9 @@ window.SHOWCASE = {
      "disputes": 2,
      "popDisputes": 0,
      "ts": "2026-11-06 09:32:15",
-     "hasData": true
+     "hasData": true,
+     "hasPop": false,
+     "hasTuo": true
     },
     {
      "name": "nexusclick",
@@ -1273,7 +1337,9 @@ window.SHOWCASE = {
      "disputes": 0,
      "popDisputes": 0,
      "ts": "2026-11-06 09:26:00",
-     "hasData": true
+     "hasData": true,
+     "hasPop": false,
+     "hasTuo": true
     },
     {
      "name": "sam",
@@ -1291,7 +1357,9 @@ window.SHOWCASE = {
      "disputes": 0,
      "popDisputes": 0,
      "ts": "2026-11-06 09:45:11",
-     "hasData": true
+     "hasData": true,
+     "hasPop": false,
+     "hasTuo": true
     },
     {
      "name": "yoyo",
@@ -1309,7 +1377,9 @@ window.SHOWCASE = {
      "disputes": 0,
      "popDisputes": 0,
      "ts": "2026-11-06 09:53:59",
-     "hasData": true
+     "hasData": true,
+     "hasPop": false,
+     "hasTuo": true
     }
    ],
    "tzReset": "归零 · 美西 0 点"
@@ -2062,16 +2132,31 @@ window.SHOWCASE = {
     var PLATS = {
       aliexpress: {
         logo: '11',
-        title: ali.name + ' · ' + (ali.stores || []).length + ' 家店明细',
-        note: '按今日支付排序。支付为 POP 口径（USD），件数与浏览为全托口径；余额为店铺可用余额。',
+        title: ali.name + ' · 全托 ' + n((ali.channels || {}).tuo) + ' 家 / 半托 ' + n((ali.channels || {}).pop) + ' 家',
+        note: '按渠道分成两组：全托组看销量/访客/浏览，半托（POP）组看支付/单量（USD）。两条渠道都做的店会在两组各出现一次，组内合计会重复计入，整体合计不重复。',
         dt: '38px minmax(0,1.6fr) minmax(0,1.05fr) 62px 62px 74px 74px 78px minmax(0,.95fr)',
         head: ['#', '店铺 / 余额', '支付 / USD', '单量', '件数', '访客', '转化', '广告', 'ROI / ACOS'],
         numFrom: 2,
         quiet: function (r) { return r.pay === 0 && r.orders === 0; },
         rows: ali.stores || [],
+        groups: function () {
+          var s = ali.stores || [];
+          var tuo = s.filter(function (r) { return r.hasTuo; }).sort(function (a, b) {
+            return (b.units - a.units) || (b.visitors - a.visitors) || (b.pay - a.pay);
+          });
+          var pop = s.filter(function (r) { return r.hasPop; }).sort(function (a, b) {
+            return (b.pay - a.pay) || (b.orders - a.orders);
+          });
+          return [
+            { label: '全托', rows: tuo, sumText: '销量 ' + n(sum(tuo, 'units')) + ' 件',
+              hint: '全托管店铺：销量 / 访客 / 浏览量口径，支付与单量为 0 属正常' },
+            { label: '半托（POP）', rows: pop, sumText: '支付 ' + usd(sum(pop, 'pay')),
+              hint: 'POP 店铺：支付金额 / 单量为美元口径，销量与全托不同源' }
+          ];
+        },
         cells: function (r, i) {
           return cell('idx', String(i + 1).padStart(2, '0'))
-            + cell('dname', esc(r.name), '店铺', '余额 ' + usd(r.balance) + ' · 纠纷 ' + n(r.disputes))
+            + cell('dname', esc(r.name), '店铺', (r.hasPop && r.hasTuo ? '全托+半托 · ' : '') + '余额 ' + usd(r.balance) + ' · 纠纷 ' + n(r.disputes))
             + cell('num', usd(r.pay), '支付')
             + cell('num', n(r.orders), '单量')
             + cell('num', n(r.units), '件数')
@@ -2169,23 +2254,40 @@ window.SHOWCASE = {
     var CARDS = { cardAli: 'aliexpress', cardAmz: 'amazon', cardTk: 'tiktok', cardMl: 'ml' };
     var current = null;
 
+    function headHtml(P) {
+      return '<div class="dhead" style="--dt:' + P.dt + '">'
+        + P.head.map(function (h, i) {
+            return '<span class="' + (i >= P.numFrom ? 'hnum' : '') + '">' + esc(h) + '</span>';
+          }).join('')
+        + '</div>';
+    }
+    function rowsHtml(P, rows) {
+      return rows.map(function (r, i) {
+        var cls = r.hasData === false ? ' is-empty' : (P.quiet && P.quiet(r) ? ' is-quiet' : '');
+        return '<div class="drow' + cls + '" style="--dt:' + P.dt + '">'
+          + P.cells(r, i) + '</div>';
+      }).join('');
+    }
     function render(key) {
       var P = PLATS[key];
       drLogo.textContent = P.logo;
       drTitle.textContent = P.title;
       drNote.textContent = P.note;
-      drTable.innerHTML = '<div class="dhead" style="--dt:' + P.dt + '">'
-        + P.head.map(function (h, i) {
-            return '<span class="' + (i >= P.numFrom ? 'hnum' : '') + '">' + esc(h) + '</span>';
-          }).join('')
-        + '</div>'
-        + (P.rows.length
-          ? P.rows.map(function (r, i) {
-              var cls = r.hasData === false ? ' is-empty' : (P.quiet && P.quiet(r) ? ' is-quiet' : '');
-              return '<div class="drow' + cls + '" style="--dt:' + P.dt + '">'
-                + P.cells(r, i) + '</div>';
-            }).join('')
+      if (P.groups) {
+        drTable.innerHTML = headHtml(P) + P.groups().map(function (g) {
+          return '<div class="dgroup">'
+            + '<span class="dg-name">' + esc(g.label) + '</span>'
+            + '<span class="dg-n">' + g.rows.length + ' 家</span>'
+            + (g.sumText ? '<span class="dg-sum">' + esc(g.sumText) + '</span>' : '')
+            + (g.hint ? '<span class="dg-hint">' + esc(g.hint) + '</span>' : '')
+            + '</div>'
+            + (g.rows.length ? rowsHtml(P, g.rows) : '<p class="drawer-empty">该渠道今天没有店铺数据。</p>');
+        }).join('');
+      } else {
+        drTable.innerHTML = headHtml(P) + (P.rows.length
+          ? rowsHtml(P, P.rows)
           : '<p class="drawer-empty">本平台今天还没有明细数据。</p>');
+      }
       drFoot.innerHTML = P.foot ? P.foot() : '';
     }
 
