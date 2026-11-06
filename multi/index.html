@@ -121,8 +121,9 @@
     font-size:11.5px;line-height:1.6;font-weight:700;letter-spacing:.02em;
     color:#FFCBBD;border:1px solid rgba(255,120,90,.5);background:rgba(255,110,80,.12);
   }
+  .hero-warn[hidden]{display:none}
   .breakdown{
-    display:grid;grid-template-columns:repeat(4,minmax(0,1fr));
+    display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
     margin-top:38px;border-top:1px solid rgba(255,255,255,.22);
   }
   .bd{padding:14px 18px 0 0;min-width:0}
@@ -137,26 +138,6 @@
     margin-top:3px;font-size:11px;font-weight:700;letter-spacing:.1em;
     color:rgba(255,255,255,.55);text-transform:uppercase;
   }
-
-  /* 占比色带 */
-  .share{margin-top:34px;padding-bottom:42px}
-  .share-legend{
-    display:flex;align-items:center;justify-content:space-between;gap:16px 24px;flex-wrap:wrap;
-    margin-bottom:10px;font-size:11px;font-weight:700;letter-spacing:.12em;
-    color:rgba(255,255,255,.75);
-  }
-  .sl{display:inline-flex;align-items:center;gap:7px;text-transform:uppercase}
-  .sl i{width:10px;height:10px;display:inline-block}
-  .sl--muted{color:rgba(255,255,255,.42);font-weight:600;text-transform:none;letter-spacing:.06em}
-  .share-bar{display:flex;width:100%;height:26px;background:rgba(255,255,255,.1)}
-  .sb{height:100%;min-width:3px;display:block}
-  .sb-ali{background:var(--ali);width:var(--share-ali,50%)}
-  .sb-amz{background:var(--amz);width:var(--share-amz,50%)}
-  .share-caption{
-    margin-top:10px;font-size:10.5px;font-weight:600;letter-spacing:.06em;
-    color:rgba(255,255,255,.58);
-  }
-  .share-rows{display:none}
 
   /* ============ SECTION SHELL ============ */
   .sec{padding:60px 0 64px}
@@ -288,7 +269,11 @@
     letter-spacing:.02em;padding:4px 9px;line-height:1.2;
   }
   .card--ml .chip-samples{background:#111;color:var(--ml)}
-  .records{border-top:1px solid var(--line);margin-top:2px}
+  .records{
+    border-top:1px solid var(--line);margin-top:2px;
+    display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 24px;
+  }
+  .records .chart-head{grid-column:1 / -1}
   .rec{
     display:flex;align-items:baseline;justify-content:space-between;gap:12px;
     padding:8px 0;border-bottom:1px solid var(--line);font-size:13px;font-weight:700;
@@ -348,104 +333,6 @@
   }
   .drawer-foot b{color:var(--ink);font-weight:800}
 
-  /* ============ WALL ============ */
-  .sec--wall{
-    background:var(--paper-2);border-top:2px solid var(--ink);
-    border-bottom:2px solid var(--ink);padding:56px 0 62px;
-  }
-  .wall{display:grid;border-top:2px solid var(--ink)}
-  .wall-row{
-    display:grid;
-    grid-template-columns:minmax(0,1.15fr) minmax(0,1.5fr) minmax(0,.8fr) minmax(0,.8fr) minmax(0,1.5fr);
-    gap:14px;align-items:baseline;
-    padding:16px 0 16px 16px;border-bottom:1px solid rgba(17,17,17,.22);
-    border-left:6px solid var(--pc,transparent);
-  }
-  .wall-head{
-    padding:10px 0 10px 16px;border-bottom:1px solid var(--ink);
-    border-left:6px solid transparent;
-    font-size:10px;font-weight:800;letter-spacing:.16em;
-    color:rgba(17,17,17,.62);text-transform:uppercase;
-  }
-  .wall-head span:nth-child(2),.wall-head span:nth-child(3),.wall-head span:nth-child(4){text-align:right}
-  .wall-plat{display:flex;flex-direction:column;gap:2px;min-width:0}
-  .wname{font-size:20px;font-weight:800;letter-spacing:-.01em;line-height:1.2}
-  .wmetric{font-size:10.5px;font-weight:700;letter-spacing:.1em;color:rgba(17,17,17,.6);text-transform:uppercase}
-  .wall-amt,.wall-count{text-align:right;min-width:0}
-  .wnum{
-    display:block;font-size:clamp(28px,3.4vw,44px);font-weight:800;
-    letter-spacing:-.02em;line-height:1.05;white-space:nowrap;
-  }
-  .wall-count .wnum{font-size:clamp(22px,2.5vw,32px)}
-  .wlabel{display:none;font-size:10px;font-weight:700;letter-spacing:.12em;color:rgba(17,17,17,.6);text-transform:uppercase}
-  .wall-note{
-    font-size:12.5px;font-weight:600;line-height:1.5;color:rgba(17,17,17,.7);
-    min-width:0;padding-right:8px;
-  }
-  .wall-foot{
-    display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;
-    margin-top:16px;font-size:11.5px;font-weight:700;letter-spacing:.04em;
-    color:rgba(17,17,17,.65);
-  }
-  .wall-foot b{font-weight:800;color:var(--ink)}
-
-  /* ============ STORES ============ */
-  .sec--stores{background:var(--dark);color:#fff;padding:56px 0 62px}
-  .sec--stores .sec-head{border-bottom-color:rgba(255,255,255,.34)}
-  .sec--stores .sec-no{background:var(--ali);color:#111}
-  .sec--stores h2{color:#fff}
-  .sec--stores .sec-note{color:rgba(255,255,255,.6)}
-  .stores{list-style:none;padding:0}
-  .store{
-    position:relative;display:grid;grid-template-columns:62px minmax(0,1fr);
-    gap:12px;align-items:center;
-    padding:13px 0;border-bottom:1px solid rgba(255,255,255,.14);
-  }
-  .store-fill{
-    position:absolute;left:0;top:6px;bottom:6px;z-index:0;
-    background:rgba(255,90,31,.2);pointer-events:none;
-  }
-  .store .rank,.store .store-body{position:relative;z-index:1}
-  .rank{
-    font-size:19px;font-weight:800;letter-spacing:-.02em;
-    color:var(--ali);line-height:1;
-  }
-  .store-body{min-width:0}
-  .store-line{display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap}
-  .store-name{font-size:18px;font-weight:700;letter-spacing:.01em;line-height:1.2}
-  .store-pay{
-    font-size:clamp(22px,2.4vw,32px);font-weight:800;letter-spacing:-.02em;
-    line-height:1.1;white-space:nowrap;
-  }
-  .store-meta{margin-top:2px;font-size:12px;font-weight:500;color:rgba(255,255,255,.6)}
-
-  /* ============ DEVS ============ */
-  .sec--devs{padding:56px 0 64px}
-  .devs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
-  .dev{
-    position:relative;display:flex;flex-direction:column;gap:12px;
-    background:#fff;border:2px solid var(--ink);padding:22px 22px 18px;
-    min-width:0;
-  }
-  .dev::before{content:"";position:absolute;left:0;right:0;top:0;height:8px;background:var(--amz)}
-  .dev-top{display:flex;align-items:center;justify-content:space-between;gap:10px}
-  .dev-name{font-size:20px;font-weight:800;letter-spacing:-.01em;line-height:1.2}
-  .dev-tag{
-    font-size:10px;font-weight:700;letter-spacing:.1em;color:rgba(17,17,17,.62);
-    border:1px solid rgba(17,17,17,.28);padding:3px 6px;text-transform:uppercase;
-  }
-  .dev-sales{font-size:clamp(30px,3.3vw,42px);font-weight:800;letter-spacing:-.02em;line-height:1;white-space:nowrap}
-  .dev-metrics{
-    display:grid;grid-template-columns:1fr 1fr;gap:10px 12px;
-    border-top:1px solid rgba(17,17,17,.25);padding-top:12px;
-  }
-  .dm b{display:block;font-size:18px;font-weight:800;letter-spacing:-.01em;line-height:1.2}
-  .dm span{display:block;font-size:10px;font-weight:700;letter-spacing:.12em;color:rgba(17,17,17,.6);text-transform:uppercase}
-  .dev-foot{
-    font-size:11.5px;font-weight:600;color:rgba(17,17,17,.66);
-    border-top:1px solid rgba(17,17,17,.18);padding-top:10px;
-  }
-
   /* ============ FOOTER ============ */
   .foot{background:var(--dark);color:#fff;padding:44px 0 40px;border-top:2px solid var(--dark)}
   .foot-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:22px}
@@ -465,10 +352,8 @@
   @media (max-width:1024px){
     .card--ali,.card--amz,.card--tk,.card--ml{grid-column:span 12}
     .card--ali .card-main{grid-template-columns:minmax(0,1fr) minmax(0,.92fr)}
-    .devs{grid-template-columns:repeat(3,minmax(0,1fr))}
   }
   @media (max-width:900px){
-    .devs{grid-template-columns:minmax(0,1fr)}
     .foot-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
   }
   @media (max-width:780px){
@@ -476,21 +361,7 @@
     .bd + .bd{border-left:0;padding-left:0}
     .bd:nth-child(even){padding-left:16px;border-left:1px solid rgba(255,255,255,.14)}
     .bd:nth-child(n+3){margin-top:14px;border-top:1px solid rgba(255,255,255,.14);padding-top:14px}
-    .wall-row{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px;padding:16px 0 18px 14px}
-    .wall-head{display:none}
-    .wall-plat{grid-column:1 / -1;flex-direction:row;align-items:baseline;gap:10px;flex-wrap:wrap}
-    .wall-amt{grid-column:1 / -1;text-align:left}
-    .wall-count{text-align:left}
-    .wlabel{display:block;margin-bottom:2px}
-    .wall-note{grid-column:1 / -1;border-top:1px solid rgba(17,17,17,.16);padding-top:10px;padding-right:0}
-    .wall-amt .wnum{font-size:clamp(32px,8vw,44px)}
-    .wall-count .wnum{font-size:clamp(24px,6vw,32px)}
     .sec-note{margin-left:0;flex:1 1 100%;font-size:11.5px}
-    .store{grid-template-columns:40px minmax(0,1fr);gap:10px}
-    .rank{font-size:16px}
-    .store-name{font-size:16px}
-    .store-pay{font-size:22px}
-    .store-meta{font-size:11.5px;line-height:1.55}
   }
   @media (max-width:640px){
     :root{--gutter:32px}
@@ -507,20 +378,6 @@
     .breakdown{margin-top:30px}
     .bd-amt{font-size:clamp(19px,5.6vw,26px)}
     .bd-share{font-size:10px;letter-spacing:.06em}
-    .share{margin-top:26px;padding-bottom:36px;display:flex;flex-direction:column}
-    .share-bar{display:none}
-    .share-legend{display:none}
-    .share-rows{order:2;display:block}
-    .share-caption{order:3;margin-top:14px;font-size:10px;letter-spacing:.04em}
-    .srow{display:flex;align-items:center;gap:10px;margin-bottom:12px;font-size:12px;font-weight:700}
-    .srow:last-child{margin-bottom:0}
-    .srow-k{display:flex;align-items:center;gap:6px;flex:0 0 auto;min-width:58px;white-space:nowrap}
-    .srow-k i{width:9px;height:9px;display:inline-block;flex:0 0 auto}
-    .srow-track{position:relative;flex:1 1 auto;min-width:36px;height:9px;background:rgba(255,255,255,.14)}
-    .srow-fill{position:absolute;left:0;top:0;bottom:0;min-width:3px}
-    .srow-fill.sb-ali{width:var(--share-ali,50%)}
-    .srow-fill.sb-amz{width:var(--share-amz,50%)}
-    .srow-v{flex:0 0 auto;font-size:10.5px;font-weight:700;letter-spacing:.02em;color:rgba(255,255,255,.7);white-space:nowrap}
     .sec{padding:42px 0 46px}
     .sec--cards{padding-top:38px}
     .sec-head{gap:10px 12px;margin-bottom:19px}
@@ -546,12 +403,6 @@
     .metric span{font-size:9px}
     .card-foot{font-size:11px;gap:8px 12px}
     .chart-meta{font-size:9px}
-    .store-pay{font-size:20px}
-    .sec--stores{padding:44px 0 48px}
-    .sec--wall{padding:42px 0 46px}
-    .sec--devs{padding:42px 0 46px}
-    .dev{padding:20px 18px 16px}
-    .dev-sales{font-size:34px}
     .foot{padding:36px 0 32px}
     .foot-grid{grid-template-columns:minmax(0,1fr);gap:18px}
     .foot-caveat{font-size:11.5px}
@@ -582,9 +433,82 @@
     .dcell .dv{display:block}
     .drawer-foot{font-size:11px;gap:6px 16px}
   }
+
+  /* ============ 维护中标识（维护结束：删掉本段 CSS + body 里的 .maint 整块） ============ */
+  .maint{
+    position:sticky;top:0;z-index:80;
+    background-color:#FFD400;
+    background-image:repeating-linear-gradient(135deg,rgba(17,17,17,.12) 0 12px,transparent 12px 24px);
+    border-bottom:3px solid var(--ink);
+  }
+  .maint-in{
+    display:flex;align-items:center;gap:10px 16px;flex-wrap:wrap;
+    width:calc(100% - var(--gutter));max-width:var(--maxw);margin:0 auto;padding:9px 0;
+  }
+  .maint-tag{
+    flex:0 0 auto;background:var(--ink);color:#FFD400;
+    font-size:clamp(17px,1.7vw,22px);font-weight:800;letter-spacing:.1em;
+    line-height:1;padding:9px 15px;white-space:nowrap;
+  }
+  .maint-txt{margin:0;font-size:13.5px;font-weight:800;line-height:1.45;color:var(--ink)}
+  .maint-txt b{text-decoration:underline;text-underline-offset:3px}
+  .maint-time{
+    margin-left:auto;font-size:11.5px;font-weight:800;letter-spacing:.05em;
+    color:rgba(17,17,17,.7);white-space:nowrap;
+  }
+
+  /* ============ 数据时刻条 ============ */
+  .snap{
+    display:inline-flex;flex-wrap:wrap;align-items:stretch;margin-top:26px;
+    border:2px solid rgba(255,255,255,.85);background:rgba(255,255,255,.05);
+  }
+  .snap-c{display:flex;flex-direction:column;gap:6px;padding:10px 16px;min-width:0}
+  .snap-c + .snap-c{border-left:1px solid rgba(255,255,255,.3)}
+  .snap-k{
+    font-size:9px;font-weight:800;letter-spacing:.2em;text-transform:uppercase;
+    color:rgba(255,255,255,.6);white-space:nowrap;
+  }
+  .snap-v{
+    font-size:clamp(17px,1.8vw,23px);font-weight:800;letter-spacing:-.01em;
+    line-height:1;white-space:nowrap;color:#fff;
+  }
+  .snap-c--ago .snap-v{color:var(--ali)}
+  .snap-c--ago.is-old .snap-v,.snap-c--ago.is-old .snap-k{color:#FFCBBD}
+
+  /* ============ 卡片快照时间徽章 ============ */
+  .clock{
+    display:inline-flex;align-items:center;gap:5px;padding:2px 8px;
+    border:1.5px solid currentColor;font-size:11px;font-weight:800;
+    letter-spacing:.04em;line-height:1.5;white-space:nowrap;
+  }
+  .clock.is-stale{border-style:dashed;background:rgba(0,0,0,.10)}
+
+  @media (max-width:780px){
+    .snap{display:flex;width:100%;margin-top:22px}
+    .snap-c{flex:1 1 auto;padding:9px 12px}
+  }
+  @media (max-width:640px){
+    .records{grid-template-columns:minmax(0,1fr)}
+    .maint-in{padding:8px 0;gap:8px 10px}
+    .maint-tag{font-size:18px;padding:7px 11px}
+    .maint-txt{flex:1 1 100%;font-size:12px;line-height:1.5}
+    .maint-time{flex:1 1 100%;margin-left:0;font-size:10.5px}
+    .snap-v{font-size:16px}
+    .snap-k{font-size:8.5px;letter-spacing:.14em}
+  }
 </style>
 </head>
 <body>
+
+<!-- ▼▼ 维护中标识｜维护结束：删掉这一整块 + CSS 里的 .maint-* ▼▼ -->
+<div class="maint" role="status">
+  <div class="maint-in">
+    <span class="maint-tag">维护中</span>
+    <p class="maint-txt"><b>数据采集维护中</b>，页面数字可能延迟或不完整，请以店铺后台为准。</p>
+    <span class="maint-time" id="maintTime"></span>
+  </div>
+</div>
+<!-- ▲▲ 维护中标识 ▲▲ -->
 
 <header class="hero" aria-label="数据抬头与今日大盘">
   <div class="wrap">
@@ -599,6 +523,7 @@
     <div class="hero-body">
       <p class="label kicker">速卖通 + 亚马逊 合计 · 金额口径 USD</p>
       <h1 class="total" id="heroTotal">$13,492.84</h1>
+      <div class="snap" id="snapBar"></div>
       <p class="hero-sub" id="heroSub"><b>4</b> 个平台 · <b>2</b> 个有金额口径</p>
       <div class="hero-facts" id="heroFacts"></div>
       <p class="hero-caveat" id="heroCaveat"></p>
@@ -606,7 +531,6 @@
 
       <div class="breakdown" id="breakdown"></div>
 
-      <div class="share" id="share"></div>
     </div>
   </div>
 </header>
@@ -642,52 +566,6 @@
     </div>
   </section>
 
-  <section class="sec sec--wall" aria-labelledby="h-wall">
-    <div class="wrap">
-      <div class="sec-head">
-        <span class="sec-no"><span>02</span></span>
-        <h2 id="h-wall">平台对比 · 数字墙</h2>
-        <span class="sec-note">粗数字 + 细标签，一眼对齐口径</span>
-      </div>
-      <div class="wall" role="table" aria-label="四平台金额、单量、销量对比">
-        <div class="wall-row wall-head" role="row">
-          <span role="columnheader">平台</span>
-          <span role="columnheader">金额 / USD</span>
-          <span role="columnheader">单量</span>
-          <span role="columnheader">销量</span>
-          <span role="columnheader">备注</span>
-        </div>
-        <div id="wallBody" role="rowgroup" style="display:contents"></div>
-      </div>
-      <div class="wall-foot">
-        <span>合计金额 <b id="wallTotal">$13,492.84</b> 仅含速卖通 + 亚马逊</span>
-        <span>TikTok 小店 / 美客多无金额口径，单量与销量按各平台原口径</span>
-      </div>
-    </div>
-  </section>
-
-  <section class="sec sec--stores" aria-labelledby="h-stores">
-    <div class="wrap">
-      <div class="sec-head">
-        <span class="sec-no"><span>03</span></span>
-        <h2 id="h-stores">速卖通 · 店铺 TOP 8</h2>
-        <span class="sec-note" id="storeNote"></span>
-      </div>
-      <ol class="stores" id="stores"></ol>
-    </div>
-  </section>
-
-  <section class="sec sec--devs" aria-labelledby="h-devs">
-    <div class="wrap">
-      <div class="sec-head">
-        <span class="sec-no"><span>04</span></span>
-        <h2 id="h-devs">亚马逊 · 按开发员拆分</h2>
-        <span class="sec-note" id="devNote"></span>
-      </div>
-      <div class="devs" id="devs"></div>
-    </div>
-  </section>
-
 </main>
 
 <footer class="foot" aria-label="数据口径与说明">
@@ -708,24 +586,24 @@ window.SHOWCASE = {
   "brand": "跨境多平台",
   "title": "多平台经营数据",
   "campaign": "2026 双十一大促",
-  "snapshot": "2026-11-05 19:20:28",
-  "snapshotDay": "2026-11-05",
-  "snapshotTime": "19:20",
+  "snapshot": "2026-11-06 09:40:17",
+  "snapshotDay": "2026-11-06",
+  "snapshotTime": "09:40",
   "westDay": "2026-11-05",
-  "westNow": "11-05 03:20",
+  "westNow": "11-05 17:40",
   "dayState": "进行中",
-  "generated": "2026-11-05 19:21:31",
-  "dbMtime": "2026-11-05 19:21:16",
+  "generated": "2026-11-06 09:42:33",
+  "dbMtime": "2026-11-06 09:42:16",
   "tzNote": "时间按美西；每天美西 0 点归零",
   "caveat": "速卖通、亚马逊为美元金额；TikTok 小店与美客多当前只有件数/访问口径，不计入金额合计。",
   "source": "shop_data_readonly.db → shop_data.js",
-  "staleNote": "速卖通快照停在 16:40，比整体慢 160 分钟（大概率受维护影响），它的今日数字只到那个时刻。",
-  "freshness": "各平台快照时间不同：速卖通 16:40 / 亚马逊 19:20 / TikTok 19:19 / 美客多 18:57（北京时间）"
+  "staleNote": "",
+  "freshness": "各平台快照时间不同：速卖通 09:40 / 亚马逊 09:13 / TikTok 09:13 / 美客多 09:15（北京时间）"
  },
  "totals": {
-  "usd": 1440.71,
-  "aliexpressShare": 24.0,
-  "amazonShare": 76.0,
+  "usd": 14700.99,
+  "aliexpressShare": 97.8,
+  "amazonShare": 2.2,
   "platformsWithAmount": 2,
   "platformsTotal": 4
  },
@@ -734,21 +612,21 @@ window.SHOWCASE = {
    "platform": "速卖通",
    "key": "aliexpress",
    "metric": "今日支付",
-   "amount": 345.44,
-   "amountText": "$345.44",
-   "orders": 10,
-   "units": 15,
-   "note": "9 店有数"
+   "amount": 14374.72,
+   "amountText": "$14,374.72",
+   "orders": 285,
+   "units": 257,
+   "note": "12 店有数"
   },
   {
    "platform": "亚马逊",
    "key": "amazon",
    "metric": "今日销售额",
-   "amount": 1095.27,
-   "amountText": "$1,095.27",
-   "orders": 42,
-   "units": 43,
-   "note": "毛利 43.3% · 3 个开发员"
+   "amount": 326.27,
+   "amountText": "$326.27",
+   "orders": 8,
+   "units": 11,
+   "note": "毛利 45.0% · 3 个开发员"
   },
   {
    "platform": "TikTok 小店",
@@ -758,7 +636,7 @@ window.SHOWCASE = {
    "amountText": "—",
    "orders": null,
    "units": 0,
-   "note": "1 店有数 · 曝光 921"
+   "note": "1 店有数 · 曝光 147"
   },
   {
    "platform": "美客多",
@@ -768,7 +646,7 @@ window.SHOWCASE = {
    "amountText": "—",
    "orders": 0,
    "units": null,
-   "note": "2 站有数"
+   "note": "4 站有数"
   }
  ],
  "platforms": {
@@ -779,27 +657,27 @@ window.SHOWCASE = {
    "currency": "USD",
    "storesTotal": 19,
    "kpi": {
-    "pay": 345.44,
-    "orders": 10,
-    "units": 15,
-    "aov": 34.54,
-    "popVisitors": 243,
-    "cvr": 4.12,
-    "visitors": 93,
-    "views": 145,
-    "disputes": 8,
+    "pay": 14374.72,
+    "orders": 285,
+    "units": 257,
+    "aov": 50.44,
+    "popVisitors": 9599,
+    "cvr": 2.97,
+    "visitors": 6229,
+    "views": 12636,
+    "disputes": 7,
     "popDisputes": 2,
-    "balance": 10343.64,
-    "adSpend": 8.08,
-    "roi": 42.75,
-    "popActive": 9,
-    "ftActive": 14,
+    "balance": 18573.15,
+    "adSpend": 714.81,
+    "roi": 20.11,
+    "popActive": 12,
+    "ftActive": 16,
     "payPrev": 13541.28,
-    "payPct": -97.4,
-    "paySamePrev": 377.85,
-    "paySamePct": -8.6
+    "payPct": 6.2,
+    "paySamePrev": 11559.25,
+    "paySamePct": 24.4
    },
-   "snapshot": "2026-11-05 16:40:53",
+   "snapshot": "2026-11-06 09:40:17",
    "series": [
     {
      "d": "2026-10-27",
@@ -870,495 +748,565 @@ window.SHOWCASE = {
      "t": "11-05 16:00",
      "pay": 345.44,
      "orders": 10
+    },
+    {
+     "t": "11-05 20:00",
+     "pay": 3562.75,
+     "orders": 76
+    },
+    {
+     "t": "11-05 21:00",
+     "pay": 4169.81,
+     "orders": 90
+    },
+    {
+     "t": "11-05 22:00",
+     "pay": 5348.72,
+     "orders": 113
+    },
+    {
+     "t": "11-05 23:00",
+     "pay": 5797.92,
+     "orders": 125
+    },
+    {
+     "t": "11-06 00:00",
+     "pay": 6459.98,
+     "orders": 142
+    },
+    {
+     "t": "11-06 01:00",
+     "pay": 7174.14,
+     "orders": 157
+    },
+    {
+     "t": "11-06 02:00",
+     "pay": 7699.29,
+     "orders": 173
+    },
+    {
+     "t": "11-06 03:00",
+     "pay": 8935.24,
+     "orders": 189
+    },
+    {
+     "t": "11-06 04:00",
+     "pay": 10283.54,
+     "orders": 208
+    },
+    {
+     "t": "11-06 05:00",
+     "pay": 10736.83,
+     "orders": 221
+    },
+    {
+     "t": "11-06 06:00",
+     "pay": 11843.58,
+     "orders": 241
+    },
+    {
+     "t": "11-06 07:00",
+     "pay": 13232.85,
+     "orders": 254
+    },
+    {
+     "t": "11-06 08:00",
+     "pay": 13846.66,
+     "orders": 267
+    },
+    {
+     "t": "11-06 09:00",
+     "pay": 14374.72,
+     "orders": 285
     }
    ],
    "topStores": [
     {
-     "name": "Sara",
-     "pay": 136.38,
-     "orders": 5,
-     "units": 1,
-     "visitors": 79,
-     "views": 7,
-     "ftVisitors": 5,
-     "cvr": 6.33,
-     "ad": 0.0,
-     "roi": 0.0,
-     "acos": 0.0,
-     "balance": 1050.66,
-     "disputes": 2,
-     "popDisputes": 1,
-     "ts": "2026-11-05 16:38:52",
-     "hasData": true
-    },
-    {
      "name": "profile",
-     "pay": 131.91,
-     "orders": 3,
+     "pay": 3860.14,
+     "orders": 72,
      "units": 0,
-     "visitors": 89,
+     "visitors": 2749,
      "views": 0,
      "ftVisitors": 0,
-     "cvr": 3.37,
-     "ad": 0.0,
-     "roi": 0.0,
-     "acos": 0.0,
+     "cvr": 2.51,
+     "ad": 194.29,
+     "roi": 19.87,
+     "acos": 5.03,
      "balance": 0.0,
      "disputes": 0,
      "popDisputes": 0,
-     "ts": "2026-11-05 16:34:54",
+     "ts": "2026-11-06 09:02:51",
      "hasData": true
     },
     {
-     "name": "Catherine",
-     "pay": 53.55,
-     "orders": 1,
-     "units": 0,
-     "visitors": 4,
-     "views": 0,
-     "ftVisitors": 0,
-     "cvr": 25.0,
-     "ad": 1.06,
-     "roi": 50.52,
-     "acos": 1.98,
-     "balance": 574.65,
-     "disputes": 1,
-     "popDisputes": 0,
-     "ts": "2026-11-05 16:02:22",
-     "hasData": true
-    },
-    {
-     "name": "Otmil",
-     "pay": 23.6,
-     "orders": 1,
-     "units": 0,
-     "visitors": 38,
-     "views": 10,
-     "ftVisitors": 7,
-     "cvr": 2.63,
-     "ad": 7.02,
-     "roi": 3.36,
-     "acos": 29.75,
-     "balance": 433.65,
-     "disputes": 1,
-     "popDisputes": 0,
-     "ts": "2026-11-05 16:19:46",
+     "name": "Sara",
+     "pay": 3793.97,
+     "orders": 87,
+     "units": 12,
+     "visitors": 2190,
+     "views": 412,
+     "ftVisitors": 241,
+     "cvr": 3.97,
+     "ad": 269.84,
+     "roi": 14.06,
+     "acos": 7.11,
+     "balance": 2107.68,
+     "disputes": 2,
+     "popDisputes": 1,
+     "ts": "2026-11-06 09:16:56",
      "hasData": true
     },
     {
      "name": "8Li",
-     "pay": 0.0,
-     "orders": 0,
-     "units": 0,
-     "visitors": 0,
-     "views": 0,
-     "ftVisitors": 0,
-     "cvr": 0.0,
-     "ad": 0.0,
-     "roi": 0.0,
-     "acos": 0.0,
-     "balance": 665.49,
+     "pay": 3135.75,
+     "orders": 43,
+     "units": 5,
+     "visitors": 1274,
+     "views": 214,
+     "ftVisitors": 116,
+     "cvr": 2.98,
+     "ad": 91.64,
+     "roi": 34.22,
+     "acos": 2.92,
+     "balance": 743.51,
      "disputes": 0,
      "popDisputes": 0,
-     "ts": "2026-11-05 15:59:47",
-     "hasData": false
-    },
-    {
-     "name": "David",
-     "pay": 0.0,
-     "orders": 0,
-     "units": 0,
-     "visitors": 0,
-     "views": 5,
-     "ftVisitors": 3,
-     "cvr": 0.0,
-     "ad": 0.0,
-     "roi": 0.0,
-     "acos": 0.0,
-     "balance": 529.29,
-     "disputes": 0,
-     "popDisputes": 0,
-     "ts": "2026-11-05 16:10:19",
+     "ts": "2026-11-06 09:20:18",
      "hasData": true
     },
     {
-     "name": "Ella",
-     "pay": 0.0,
-     "orders": 0,
-     "units": 0,
-     "visitors": 7,
-     "views": 17,
-     "ftVisitors": 10,
-     "cvr": 0.0,
-     "ad": 0.0,
-     "roi": 0.0,
-     "acos": 0.0,
-     "balance": 122.9,
+     "name": "Catherine",
+     "pay": 1745.3,
+     "orders": 30,
+     "units": 5,
+     "visitors": 983,
+     "views": 234,
+     "ftVisitors": 136,
+     "cvr": 3.05,
+     "ad": 56.1,
+     "roi": 31.11,
+     "acos": 3.21,
+     "balance": 1282.22,
      "disputes": 0,
-     "popDisputes": 1,
-     "ts": "2026-11-05 16:21:51",
+     "popDisputes": 0,
+     "ts": "2026-11-06 09:22:38",
+     "hasData": true
+    },
+    {
+     "name": "Petery",
+     "pay": 602.47,
+     "orders": 18,
+     "units": 3,
+     "visitors": 539,
+     "views": 13,
+     "ftVisitors": 12,
+     "cvr": 3.34,
+     "ad": 51.16,
+     "roi": 11.78,
+     "acos": 8.49,
+     "balance": 130.9,
+     "disputes": 0,
+     "popDisputes": 0,
+     "ts": "2026-11-06 09:00:07",
+     "hasData": true
+    },
+    {
+     "name": "Otmil",
+     "pay": 530.29,
+     "orders": 16,
+     "units": 16,
+     "visitors": 892,
+     "views": 880,
+     "ftVisitors": 411,
+     "cvr": 1.79,
+     "ad": 51.78,
+     "roi": 10.24,
+     "acos": 9.76,
+     "balance": 653.55,
+     "disputes": 1,
+     "popDisputes": 0,
+     "ts": "2026-11-06 09:38:24",
      "hasData": true
     },
     {
      "name": "Elong",
-     "pay": 0.0,
-     "orders": 0,
-     "units": 0,
-     "visitors": 2,
-     "views": 15,
-     "ftVisitors": 6,
-     "cvr": 0.0,
+     "pay": 274.34,
+     "orders": 8,
+     "units": 8,
+     "visitors": 192,
+     "views": 380,
+     "ftVisitors": 197,
+     "cvr": 3.65,
      "ad": 0.0,
      "roi": 0.0,
      "acos": 0.0,
-     "balance": 492.45,
+     "balance": 777.05,
      "disputes": 0,
      "popDisputes": 0,
-     "ts": "2026-11-05 16:29:38",
+     "ts": "2026-11-06 08:57:52",
+     "hasData": true
+    },
+    {
+     "name": "Ella",
+     "pay": 231.82,
+     "orders": 4,
+     "units": 12,
+     "visitors": 384,
+     "views": 601,
+     "ftVisitors": 303,
+     "cvr": 1.04,
+     "ad": 0.0,
+     "roi": 0.0,
+     "acos": 0.0,
+     "balance": 774.57,
+     "disputes": 0,
+     "popDisputes": 1,
+     "ts": "2026-11-06 09:40:17",
      "hasData": true
     }
    ],
    "stores": [
     {
-     "name": "Sara",
-     "pay": 136.38,
-     "orders": 5,
-     "units": 1,
-     "visitors": 79,
-     "views": 7,
-     "ftVisitors": 5,
-     "cvr": 6.33,
-     "ad": 0.0,
-     "roi": 0.0,
-     "acos": 0.0,
-     "balance": 1050.66,
-     "disputes": 2,
-     "popDisputes": 1,
-     "ts": "2026-11-05 16:38:52",
+     "name": "profile",
+     "pay": 3860.14,
+     "orders": 72,
+     "units": 0,
+     "visitors": 2749,
+     "views": 0,
+     "ftVisitors": 0,
+     "cvr": 2.51,
+     "ad": 194.29,
+     "roi": 19.87,
+     "acos": 5.03,
+     "balance": 0.0,
+     "disputes": 0,
+     "popDisputes": 0,
+     "ts": "2026-11-06 09:02:51",
      "hasData": true
     },
     {
-     "name": "profile",
-     "pay": 131.91,
-     "orders": 3,
+     "name": "Sara",
+     "pay": 3793.97,
+     "orders": 87,
+     "units": 12,
+     "visitors": 2190,
+     "views": 412,
+     "ftVisitors": 241,
+     "cvr": 3.97,
+     "ad": 269.84,
+     "roi": 14.06,
+     "acos": 7.11,
+     "balance": 2107.68,
+     "disputes": 2,
+     "popDisputes": 1,
+     "ts": "2026-11-06 09:16:56",
+     "hasData": true
+    },
+    {
+     "name": "8Li",
+     "pay": 3135.75,
+     "orders": 43,
+     "units": 5,
+     "visitors": 1274,
+     "views": 214,
+     "ftVisitors": 116,
+     "cvr": 2.98,
+     "ad": 91.64,
+     "roi": 34.22,
+     "acos": 2.92,
+     "balance": 743.51,
+     "disputes": 0,
+     "popDisputes": 0,
+     "ts": "2026-11-06 09:20:18",
+     "hasData": true
+    },
+    {
+     "name": "Catherine",
+     "pay": 1745.3,
+     "orders": 30,
+     "units": 5,
+     "visitors": 983,
+     "views": 234,
+     "ftVisitors": 136,
+     "cvr": 3.05,
+     "ad": 56.1,
+     "roi": 31.11,
+     "acos": 3.21,
+     "balance": 1282.22,
+     "disputes": 0,
+     "popDisputes": 0,
+     "ts": "2026-11-06 09:22:38",
+     "hasData": true
+    },
+    {
+     "name": "Petery",
+     "pay": 602.47,
+     "orders": 18,
+     "units": 3,
+     "visitors": 539,
+     "views": 13,
+     "ftVisitors": 12,
+     "cvr": 3.34,
+     "ad": 51.16,
+     "roi": 11.78,
+     "acos": 8.49,
+     "balance": 130.9,
+     "disputes": 0,
+     "popDisputes": 0,
+     "ts": "2026-11-06 09:00:07",
+     "hasData": true
+    },
+    {
+     "name": "Otmil",
+     "pay": 530.29,
+     "orders": 16,
+     "units": 16,
+     "visitors": 892,
+     "views": 880,
+     "ftVisitors": 411,
+     "cvr": 1.79,
+     "ad": 51.78,
+     "roi": 10.24,
+     "acos": 9.76,
+     "balance": 653.55,
+     "disputes": 1,
+     "popDisputes": 0,
+     "ts": "2026-11-06 09:38:24",
+     "hasData": true
+    },
+    {
+     "name": "Elong",
+     "pay": 274.34,
+     "orders": 8,
+     "units": 8,
+     "visitors": 192,
+     "views": 380,
+     "ftVisitors": 197,
+     "cvr": 3.65,
+     "ad": 0.0,
+     "roi": 0.0,
+     "acos": 0.0,
+     "balance": 777.05,
+     "disputes": 0,
+     "popDisputes": 0,
+     "ts": "2026-11-06 08:57:52",
+     "hasData": true
+    },
+    {
+     "name": "Ella",
+     "pay": 231.82,
+     "orders": 4,
+     "units": 12,
+     "visitors": 384,
+     "views": 601,
+     "ftVisitors": 303,
+     "cvr": 1.04,
+     "ad": 0.0,
+     "roi": 0.0,
+     "acos": 0.0,
+     "balance": 774.57,
+     "disputes": 0,
+     "popDisputes": 1,
+     "ts": "2026-11-06 09:40:17",
+     "hasData": true
+    },
+    {
+     "name": "Imice",
+     "pay": 146.57,
+     "orders": 4,
      "units": 0,
-     "visitors": 89,
+     "visitors": 236,
      "views": 0,
      "ftVisitors": 0,
-     "cvr": 3.37,
+     "cvr": 1.69,
      "ad": 0.0,
      "roi": 0.0,
      "acos": 0.0,
      "balance": 0.0,
      "disputes": 0,
      "popDisputes": 0,
-     "ts": "2026-11-05 16:34:54",
+     "ts": "2026-11-06 09:24:40",
      "hasData": true
     },
     {
-     "name": "Catherine",
-     "pay": 53.55,
-     "orders": 1,
-     "units": 0,
-     "visitors": 4,
-     "views": 0,
-     "ftVisitors": 0,
-     "cvr": 25.0,
-     "ad": 1.06,
-     "roi": 50.52,
-     "acos": 1.98,
-     "balance": 574.65,
-     "disputes": 1,
-     "popDisputes": 0,
-     "ts": "2026-11-05 16:02:22",
-     "hasData": true
-    },
-    {
-     "name": "Otmil",
-     "pay": 23.6,
-     "orders": 1,
-     "units": 0,
-     "visitors": 38,
-     "views": 10,
-     "ftVisitors": 7,
-     "cvr": 2.63,
-     "ad": 7.02,
-     "roi": 3.36,
-     "acos": 29.75,
-     "balance": 433.65,
-     "disputes": 1,
-     "popDisputes": 0,
-     "ts": "2026-11-05 16:19:46",
-     "hasData": true
-    },
-    {
-     "name": "8Li",
-     "pay": 0.0,
-     "orders": 0,
-     "units": 0,
-     "visitors": 0,
-     "views": 0,
-     "ftVisitors": 0,
-     "cvr": 0.0,
+     "name": "Eric",
+     "pay": 34.06,
+     "orders": 2,
+     "units": 6,
+     "visitors": 91,
+     "views": 196,
+     "ftVisitors": 114,
+     "cvr": 2.2,
      "ad": 0.0,
      "roi": 0.0,
      "acos": 0.0,
-     "balance": 665.49,
+     "balance": 1238.35,
      "disputes": 0,
      "popDisputes": 0,
-     "ts": "2026-11-05 15:59:47",
-     "hasData": false
+     "ts": "2026-11-06 08:52:56",
+     "hasData": true
+    },
+    {
+     "name": "NexusPOP",
+     "pay": 20.01,
+     "orders": 1,
+     "units": 0,
+     "visitors": 68,
+     "views": 0,
+     "ftVisitors": 0,
+     "cvr": 1.47,
+     "ad": 0.0,
+     "roi": 0.0,
+     "acos": 0.0,
+     "balance": 0.0,
+     "disputes": 0,
+     "popDisputes": 0,
+     "ts": "2026-11-06 09:28:00",
+     "hasData": true
     },
     {
      "name": "David",
      "pay": 0.0,
      "orders": 0,
-     "units": 0,
-     "visitors": 0,
-     "views": 5,
-     "ftVisitors": 3,
+     "units": 16,
+     "visitors": 1,
+     "views": 964,
+     "ftVisitors": 438,
      "cvr": 0.0,
      "ad": 0.0,
      "roi": 0.0,
      "acos": 0.0,
-     "balance": 529.29,
+     "balance": 1319.64,
      "disputes": 0,
      "popDisputes": 0,
-     "ts": "2026-11-05 16:10:19",
+     "ts": "2026-11-06 09:29:45",
      "hasData": true
-    },
-    {
-     "name": "Ella",
-     "pay": 0.0,
-     "orders": 0,
-     "units": 0,
-     "visitors": 7,
-     "views": 17,
-     "ftVisitors": 10,
-     "cvr": 0.0,
-     "ad": 0.0,
-     "roi": 0.0,
-     "acos": 0.0,
-     "balance": 122.9,
-     "disputes": 0,
-     "popDisputes": 1,
-     "ts": "2026-11-05 16:21:51",
-     "hasData": true
-    },
-    {
-     "name": "Elong",
-     "pay": 0.0,
-     "orders": 0,
-     "units": 0,
-     "visitors": 2,
-     "views": 15,
-     "ftVisitors": 6,
-     "cvr": 0.0,
-     "ad": 0.0,
-     "roi": 0.0,
-     "acos": 0.0,
-     "balance": 492.45,
-     "disputes": 0,
-     "popDisputes": 0,
-     "ts": "2026-11-05 16:29:38",
-     "hasData": true
-    },
-    {
-     "name": "Eric",
-     "pay": 0.0,
-     "orders": 0,
-     "units": 0,
-     "visitors": 3,
-     "views": 5,
-     "ftVisitors": 4,
-     "cvr": 0.0,
-     "ad": 0.0,
-     "roi": 0.0,
-     "acos": 0.0,
-     "balance": 894.57,
-     "disputes": 0,
-     "popDisputes": 0,
-     "ts": "2026-11-05 16:24:35",
-     "hasData": true
-    },
-    {
-     "name": "Imice",
-     "pay": 0.0,
-     "orders": 0,
-     "units": 0,
-     "visitors": 0,
-     "views": 0,
-     "ftVisitors": 0,
-     "cvr": 0.0,
-     "ad": 0.0,
-     "roi": 0.0,
-     "acos": 0.0,
-     "balance": 0.0,
-     "disputes": 0,
-     "popDisputes": 0,
-     "ts": "2026-11-05 16:04:45",
-     "hasData": false
     },
     {
      "name": "Linda",
      "pay": 0.0,
      "orders": 0,
-     "units": 2,
+     "units": 14,
      "visitors": 0,
-     "views": 5,
-     "ftVisitors": 2,
+     "views": 552,
+     "ftVisitors": 280,
      "cvr": 0.0,
      "ad": 0.0,
      "roi": 0.0,
      "acos": 0.0,
-     "balance": 668.52,
+     "balance": 1132.38,
      "disputes": 0,
      "popDisputes": 0,
-     "ts": "2026-11-05 16:15:21",
+     "ts": "2026-11-06 09:33:54",
      "hasData": true
     },
     {
      "name": "NKtuo",
      "pay": 0.0,
      "orders": 0,
-     "units": 9,
+     "units": 63,
      "visitors": 0,
-     "views": 43,
-     "ftVisitors": 29,
+     "views": 2807,
+     "ftVisitors": 1392,
      "cvr": 0.0,
      "ad": 0.0,
      "roi": 0.0,
      "acos": 0.0,
-     "balance": 926.37,
+     "balance": 1713.25,
      "disputes": 2,
      "popDisputes": 0,
-     "ts": "2026-11-05 16:40:53",
-     "hasData": true
-    },
-    {
-     "name": "NexusPOP",
-     "pay": 0.0,
-     "orders": 0,
-     "units": 0,
-     "visitors": 1,
-     "views": 0,
-     "ftVisitors": 0,
-     "cvr": 0.0,
-     "ad": 0.0,
-     "roi": 0.0,
-     "acos": 0.0,
-     "balance": 0.0,
-     "disputes": 0,
-     "popDisputes": 0,
-     "ts": "2026-11-05 16:08:31",
-     "hasData": true
-    },
-    {
-     "name": "Petery",
-     "pay": 0.0,
-     "orders": 0,
-     "units": 0,
-     "visitors": 20,
-     "views": 1,
-     "ftVisitors": 1,
-     "cvr": 0.0,
-     "ad": 0.0,
-     "roi": 0.0,
-     "acos": 0.0,
-     "balance": 190.9,
-     "disputes": 0,
-     "popDisputes": 0,
-     "ts": "2026-11-05 16:32:05",
+     "ts": "2026-11-06 09:18:42",
      "hasData": true
     },
     {
      "name": "bana",
      "pay": 0.0,
      "orders": 0,
-     "units": 3,
+     "units": 12,
      "visitors": 0,
-     "views": 1,
-     "ftVisitors": 1,
+     "views": 297,
+     "ftVisitors": 151,
      "cvr": 0.0,
      "ad": 0.0,
      "roi": 0.0,
      "acos": 0.0,
-     "balance": 565.82,
+     "balance": 1293.42,
      "disputes": 0,
      "popDisputes": 0,
-     "ts": "2026-11-05 16:17:37",
+     "ts": "2026-11-06 09:36:25",
      "hasData": true
     },
     {
      "name": "nancytuo",
      "pay": 0.0,
      "orders": 0,
-     "units": 0,
+     "units": 19,
      "visitors": 0,
-     "views": 6,
-     "ftVisitors": 5,
+     "views": 992,
+     "ftVisitors": 465,
      "cvr": 0.0,
      "ad": 0.0,
      "roi": 0.0,
      "acos": 0.0,
-     "balance": 541.52,
+     "balance": 1054.36,
      "disputes": 2,
      "popDisputes": 0,
-     "ts": "2026-11-05 16:13:30",
+     "ts": "2026-11-06 09:32:15",
      "hasData": true
     },
     {
      "name": "nexusclick",
      "pay": 0.0,
      "orders": 0,
-     "units": 0,
+     "units": 44,
      "visitors": 0,
-     "views": 9,
-     "ftVisitors": 4,
+     "views": 3368,
+     "ftVisitors": 1622,
      "cvr": 0.0,
      "ad": 0.0,
      "roi": 0.0,
      "acos": 0.0,
-     "balance": 715.23,
+     "balance": 1233.59,
      "disputes": 0,
      "popDisputes": 0,
-     "ts": "2026-11-05 16:06:16",
+     "ts": "2026-11-06 09:26:00",
      "hasData": true
     },
     {
      "name": "sam",
      "pay": 0.0,
      "orders": 0,
-     "units": 0,
+     "units": 3,
      "visitors": 0,
-     "views": 1,
-     "ftVisitors": 1,
+     "views": 73,
+     "ftVisitors": 48,
      "cvr": 0.0,
      "ad": 0.0,
      "roi": 0.0,
      "acos": 0.0,
-     "balance": 768.56,
+     "balance": 1677.22,
      "disputes": 0,
      "popDisputes": 0,
-     "ts": "2026-11-05 16:27:03",
+     "ts": "2026-11-06 08:56:01",
      "hasData": true
     },
     {
      "name": "yoyo",
      "pay": 0.0,
      "orders": 0,
-     "units": 0,
+     "units": 19,
      "visitors": 0,
-     "views": 20,
-     "ftVisitors": 15,
+     "views": 653,
+     "ftVisitors": 303,
      "cvr": 0.0,
      "ad": 0.0,
      "roi": 0.0,
      "acos": 0.0,
-     "balance": 1203.06,
+     "balance": 1441.46,
      "disputes": 0,
      "popDisputes": 0,
-     "ts": "2026-11-05 16:36:22",
+     "ts": "2026-11-06 09:04:33",
      "hasData": true
     }
    ]
@@ -1369,20 +1317,20 @@ window.SHOWCASE = {
    "sub": "美国站 · 3 个开发员",
    "currency": "USD",
    "kpi": {
-    "sales": 1095.27,
-    "units": 43,
-    "orders": 42,
-    "ad": 14.47,
-    "gmRate": 43.3,
-    "gp": 473.98,
-    "adRate": 1.3,
+    "sales": 326.27,
+    "units": 11,
+    "orders": 8,
+    "ad": 5.11,
+    "gmRate": 45.0,
+    "gp": 146.81,
+    "adRate": 1.6,
     "devCount": 3,
     "salesPrev": 411.84,
-    "salesPct": 165.9,
-    "salesSamePrev": null,
-    "salesSamePct": null
+    "salesPct": -20.8,
+    "salesSamePrev": 257.39,
+    "salesSamePct": 26.8
    },
-   "snapshot": "2026-11-05 19:20:28",
+   "snapshot": "2026-11-06 09:13:32",
    "series": [
     {
      "d": "2026-11-04",
@@ -1393,56 +1341,46 @@ window.SHOWCASE = {
    ],
    "intraday": [
     {
-     "t": "11-05 16:00",
-     "sales": 510.41,
-     "units": 21
+     "t": "11-06 08:00",
+     "sales": 240.65,
+     "units": 7
     },
     {
-     "t": "11-05 17:00",
-     "sales": 938.08,
-     "units": 35
-    },
-    {
-     "t": "11-05 18:00",
-     "sales": 1078.46,
-     "units": 42
-    },
-    {
-     "t": "11-05 19:00",
-     "sales": 1095.27,
-     "units": 43
+     "t": "11-06 09:00",
+     "sales": 326.27,
+     "units": 11
     }
    ],
    "developers": [
     {
-     "name": "jasim",
-     "units": 18,
-     "orders": 17,
-     "sales": 627.52,
-     "ad": 4.94,
-     "gm": 39.73,
-     "gp": 249.31,
-     "ts": "2026-11-05 19:20:24"
+     "name": "peng",
+     "units": 6,
+     "orders": 3,
+     "sales": 169.0,
+     "ad": 0.0,
+     "gm": 53.27,
+     "gp": 90.03,
+     "ts": "2026-11-06 09:13:28"
     },
     {
-     "name": "peng",
-     "units": 23,
-     "orders": 23,
-     "sales": 408.5,
-     "ad": 8.97,
-     "gm": 50.06,
-     "gp": 204.5,
-     "ts": "2026-11-05 19:20:20"
+     "name": "jasim",
+     "units": 3,
+     "orders": 3,
+     "sales": 98.02,
+     "ad": 0.0,
+     "gm": 41.98,
+     "gp": 41.15,
+     "ts": "2026-11-06 09:13:32"
     },
     {
      "name": "无开发员",
      "units": 2,
      "orders": 2,
      "sales": 59.25,
-     "ad": 0.56,
-     "gm": 34.05,
-     "gp": 20.17,
-     "ts": "2026-11-05 19:20:28"
+     "ad": 5.11,
+     "gm": 26.38,
+     "gp": 15.63,
+     "ts": "2026-11-05 23:10:25"
     }
    ]
   },
@@ -1453,15 +1391,15 @@ window.SHOWCASE = {
    "currency": null,
    "kpi": {
     "units": 0,
-    "expo": 921,
+    "expo": 147,
     "badRate": 0.0,
-    "sku": 2,
+    "sku": 0,
     "storesActive": 1,
     "storesTotal": 4,
     "unitsSamePrev": null,
     "unitsSamePct": null
    },
-   "snapshot": "2026-11-05 19:19:55",
+   "snapshot": "2026-11-06 09:13:07",
    "series": [
     {
      "d": "2026-11-04",
@@ -1483,7 +1421,67 @@ window.SHOWCASE = {
     {
      "t": "11-05 19:00",
      "units": 0,
-     "expo": 921
+     "expo": 924
+    },
+    {
+     "t": "11-05 20:00",
+     "units": 0,
+     "expo": 935
+    },
+    {
+     "t": "11-05 21:00",
+     "units": 0,
+     "expo": 953
+    },
+    {
+     "t": "11-05 23:00",
+     "units": 0,
+     "expo": 4705
+    },
+    {
+     "t": "11-06 00:00",
+     "units": 0,
+     "expo": 1075
+    },
+    {
+     "t": "11-06 01:00",
+     "units": 0,
+     "expo": 1135
+    },
+    {
+     "t": "11-06 02:00",
+     "units": 0,
+     "expo": 1186
+    },
+    {
+     "t": "11-06 03:00",
+     "units": 0,
+     "expo": 1259
+    },
+    {
+     "t": "11-06 04:00",
+     "units": 0,
+     "expo": 1314
+    },
+    {
+     "t": "11-06 05:00",
+     "units": 0,
+     "expo": 1416
+    },
+    {
+     "t": "11-06 06:00",
+     "units": 0,
+     "expo": 1515
+    },
+    {
+     "t": "11-06 08:00",
+     "units": 0,
+     "expo": 31
+    },
+    {
+     "t": "11-06 09:00",
+     "units": 0,
+     "expo": 147
     }
    ],
    "stores": [
@@ -1492,11 +1490,11 @@ window.SHOWCASE = {
      "units": 0,
      "short": 0,
      "live": 0,
-     "sku": 2,
-     "expo": 921,
+     "sku": 0,
+     "expo": 147,
      "bad": 0.0,
      "ret": 0.0,
-     "ts": "2026-11-05 19:19:55",
+     "ts": "2026-11-06 09:13:07",
      "hasData": true
     },
     {
@@ -1543,16 +1541,16 @@ window.SHOWCASE = {
    "sub": "拉美 · 5 个站点",
    "currency": null,
    "kpi": {
-    "visits": 3,
+    "visits": 22,
     "buyers": 0,
     "orders": 0,
     "cvr": 0.0,
-    "sitesActive": 2,
+    "sitesActive": 4,
     "sitesTotal": 5,
     "visitsSamePrev": null,
     "visitsSamePct": null
    },
-   "snapshot": "2026-11-05 18:57:01",
+   "snapshot": "2026-11-06 09:15:30",
    "series": [
     {
      "d": "2026-11-04",
@@ -1575,41 +1573,82 @@ window.SHOWCASE = {
      "t": "11-05 18:00",
      "visits": 3,
      "orders": 0
+    },
+    {
+     "t": "11-05 19:00",
+     "visits": 4,
+     "orders": 0
+    },
+    {
+     "t": "11-05 20:00",
+     "visits": 5,
+     "orders": 0
+    },
+    {
+     "t": "11-05 21:00",
+     "visits": 6,
+     "orders": 0
+    },
+    {
+     "t": "11-05 23:00",
+     "visits": 6,
+     "orders": 0
+    },
+    {
+     "t": "11-06 08:00",
+     "visits": 15,
+     "orders": 0
+    },
+    {
+     "t": "11-06 09:00",
+     "visits": 15,
+     "orders": 0
     }
    ],
    "sites": [
     {
      "name": "nexusclick-MLi-墨西哥",
-     "visits": 2,
+     "visits": 7,
      "buyers": 0,
      "orders": 0,
      "cvr": 0.0,
      "sold": 0,
      "price": 0.0,
-     "ts": "2026-11-05 18:56:25",
+     "ts": "2026-11-06 09:14:57",
      "hasData": true
     },
     {
      "name": "nexusclick-MLi-巴西",
+     "visits": 7,
+     "buyers": 0,
+     "orders": 0,
+     "cvr": 0.0,
+     "sold": 0,
+     "price": 0.0,
+     "ts": "2026-11-06 09:15:05",
+     "hasData": true
+    },
+    {
+     "name": "nexusclick-MLi-阿根廷",
+     "visits": 7,
+     "buyers": 0,
+     "orders": 0,
+     "cvr": 0.0,
+     "sold": 0,
+     "price": 0.0,
+     "ts": "2026-11-06 09:10:24",
+     "hasData": true
+    },
+    {
+     "name": "nexusclick-MLi-哥伦比亚",
      "visits": 1,
      "buyers": 0,
      "orders": 0,
      "cvr": 0.0,
      "sold": 0,
      "price": 0.0,
-     "ts": "2026-11-05 18:56:34",
+     "ts": "2026-11-06 09:15:30",
      "hasData": true
-    },
-    {
-     "name": "nexusclick-MLi-阿根廷",
-     "visits": 0,
-     "buyers": 0,
-     "orders": 0,
-     "cvr": 0.0,
-     "sold": 0,
-     "price": 0.0,
-     "ts": "2026-11-05 18:56:43",
-     "hasData": false
     },
     {
      "name": "nexusclick-MLi-智利",
@@ -1619,18 +1658,7 @@ window.SHOWCASE = {
      "cvr": 0.0,
      "sold": 0,
      "price": 0.0,
-     "ts": "2026-11-05 18:56:52",
-     "hasData": false
-    },
-    {
-     "name": "nexusclick-MLi-哥伦比亚",
-     "visits": 0,
-     "buyers": 0,
-     "orders": 0,
-     "cvr": 0.0,
-     "sold": 0,
-     "price": 0.0,
-     "ts": "2026-11-05 18:57:01",
+     "ts": "2026-11-06 09:15:22",
      "hasData": false
     }
    ]
@@ -1651,7 +1679,6 @@ window.SHOWCASE = {
 
   var meta = D.meta || {};
   var totals = D.totals || {};
-  var compare = D.compare || [];
   var P = D.platforms || {};
   var ali = P.aliexpress || {};
   var amz = P.amazon || {};
@@ -1741,6 +1768,48 @@ window.SHOWCASE = {
   $('#tbUpdated').innerHTML = '<b>' + (west ? west.day + ' 美西 ' + west.time : '—') + ' 更新</b> · '
     + esc(meta.tzNote || '每天美西 0 点归零');
 
+  /* ---------- 数据时刻：把快照时间做大（北京 / 美西 / 距今） ---------- */
+  function beijingMs(t) {                    /* '2026-11-06 09:24:40' 按北京时间解析 */
+    var m = /^(\d{4})-(\d{2})-(\d{2})[ T](\d{2}):(\d{2})(?::(\d{2}))?/.exec(String(t || ''));
+    if (!m) return null;
+    return Date.UTC(+m[1], +m[2] - 1, +m[3], +m[4] - 8, +m[5], +(m[6] || 0));
+  }
+  function agoText(ms) {
+    if (ms == null) return { text: '—', old: false };
+    var mins = Math.round((Date.now() - ms) / 60000);
+    if (mins < 1) return { text: '刚刚更新', old: false };
+    if (mins < 60) return { text: mins + ' 分钟前', old: mins >= 45 };
+    var h = Math.floor(mins / 60), r = mins % 60;
+    return { text: h + ' 小时' + (r ? ' ' + r + ' 分' : '') + '前', old: true };
+  }
+  function snapCell(k, v, cls) {
+    return '<div class="snap-c' + (cls ? ' ' + cls : '') + '">'
+      + '<span class="snap-k">' + esc(k) + '</span>'
+      + '<span class="snap-v">' + esc(v) + '</span></div>';
+  }
+  var _snapMs = beijingMs(meta.snapshot);
+  var _ago = agoText(_snapMs);
+  $('#snapBar').innerHTML =
+    snapCell('数据快照 · 北京', meta.snapshot || '—')
+    + snapCell('美西口径', west ? west.day + ' ' + west.time : '—')
+    + snapCell('距今', _ago.text, 'snap-c--ago' + (_ago.old ? ' is-old' : ''));
+  var _mt = $('#maintTime');
+  if (_mt) {
+    _mt.textContent = '数据快照 ' + (meta.snapshot || '—')
+      + (west ? ' · 美西 ' + west.text : '') + ' · ' + _ago.text;
+  }
+
+  /* 每张卡的快照时间徽章：比整体慢 45 分钟以上就标"慢 N 分" */
+  function snapClock(plat) {
+    var t = String((plat && plat.snapshot) || '').slice(11, 16);
+    if (!t) return '<span class="clock is-stale">● 快照 —</span>';
+    var a = beijingMs(meta.snapshot), b = beijingMs(plat.snapshot);
+    var lag = (a != null && b != null) ? Math.round((a - b) / 60000) : 0;
+    var stale = lag >= 45;
+    return '<span class="clock' + (stale ? ' is-stale' : '') + '">● 快照 ' + esc(t)
+      + (stale ? ' · 慢 ' + lag + ' 分' : '') + '</span>';
+  }
+
   /* ---------- 大盘 ---------- */
   $('#heroTotal').textContent = usd(totals.usd);
   $('#heroSub').innerHTML = '<b>' + n(totals.platformsTotal) + '</b> 个平台 · <b>'
@@ -1784,36 +1853,7 @@ window.SHOWCASE = {
   }
   $('#breakdown').innerHTML =
     bdCell(ali.name || '速卖通', COLOR.aliexpress, usd(ali.kpi && ali.kpi.pay), pct(totals.aliexpressShare, 1) + ' 金额占比')
-    + bdCell(amz.name || '亚马逊', COLOR.amazon, usd(amz.kpi && amz.kpi.sales), pct(totals.amazonShare, 1) + ' 金额占比')
-    + bdCell(tk.name || 'TikTok 小店', COLOR.tiktok, '—', '无金额口径 · 不计入')
-    + bdCell(ml.name || '美客多', COLOR.ml, '—', '无金额口径 · 不计入');
-
-  var shares = [
-    { label: ali.name || '速卖通', color: COLOR.aliexpress, p: totals.aliexpressShare, amt: usd(ali.kpi && ali.kpi.pay), cls: 'sb-ali' },
-    { label: amz.name || '亚马逊', color: COLOR.amazon, p: totals.amazonShare, amt: usd(amz.kpi && amz.kpi.sales), cls: 'sb-amz' }
-  ];
-  var shareEl = $('#share');
-  if (has(shares[0].p)) shareEl.style.setProperty('--share-ali', shares[0].p + '%');
-  if (has(shares[1].p)) shareEl.style.setProperty('--share-amz', shares[1].p + '%');
-  shareEl.innerHTML =
-    '<div class="share-legend">'
-      + shares.map(function (s) {
-          return '<span class="sl"><i style="background:' + s.color + '"></i>' + esc(s.label) + ' ' + pct(s.p, 1) + '</span>';
-        }).join('')
-    + '</div>'
-    + '<div class="share-bar" role="img" aria-label="金额占比：' + esc(shares[0].label) + ' ' + pct(shares[0].p, 1) + '，' + esc(shares[1].label) + ' ' + pct(shares[1].p, 1) + '">'
-      + '<span class="sb sb-ali"></span><span class="sb sb-amz"></span>'
-    + '</div>'
-    + '<div class="share-caption">TikTok 小店 / 美客多 无金额口径，不计入合计 · 两平台快照时间不同，占比仅作规模参考</div>'
-    + '<div class="share-rows">'
-      + shares.map(function (s) {
-          return '<div class="srow">'
-            + '<span class="srow-k"><i style="background:' + s.color + '"></i>' + esc(s.label) + '</span>'
-            + '<span class="srow-track"><i class="srow-fill ' + s.cls + '"></i></span>'
-            + '<span class="srow-v">' + pct(s.p, 1) + ' · ' + s.amt + '</span>'
-          + '</div>';
-        }).join('')
-    + '</div>';
+    + bdCell(amz.name || '亚马逊', COLOR.amazon, usd(amz.kpi && amz.kpi.sales), pct(totals.amazonShare, 1) + ' 金额占比');
 
   /* ---------- 平台卡 ---------- */
   function metric(v, label) {
@@ -1868,7 +1908,7 @@ window.SHOWCASE = {
       + '<div class="card-foot">'
         + '<span>POP 有数 ' + n(k.popActive) + '/' + n(ali.storesTotal) + ' · 全托 ' + n(k.ftActive) + '/' + n(ali.storesTotal) + '</span>'
         + '<span>广告 ' + usd(k.adSpend) + ' · ROI ' + n(k.roi, 2) + '</span>'
-        + '<span>更新 ' + esc(String(ali.snapshot || '').slice(11, 16) || '—') + '</span>'
+        + snapClock(ali)
       + '</div>';
   })();
 
@@ -1910,7 +1950,7 @@ window.SHOWCASE = {
       + '</div>'
       + '<div class="card-foot">'
         + '<span>' + n(k.devCount) + ' 个开发员 · 广告 ' + usd(k.ad) + ' · 占比 ' + pct(k.adRate, 1) + '</span>'
-        + '<span>更新 ' + esc(String(amz.snapshot || '').slice(11, 16) || '—') + '</span>'
+        + snapClock(amz)
       + '</div>';
   })();
 
@@ -1945,7 +1985,7 @@ window.SHOWCASE = {
       + '<div class="card-foot">'
         + '<span class="chip-samples">样本少 · 仅 ' + recs.length + ' 次采集</span>'
         + '<span>数据积累中，不画趋势线</span>'
-        + '<span>更新 ' + esc(String(tk.snapshot || '').slice(11, 16) || '—') + '</span>'
+        + snapClock(tk)
       + '</div>';
   })();
 
@@ -1989,7 +2029,7 @@ window.SHOWCASE = {
       + '<div class="card-foot">'
         + '<span class="chip-samples">样本少 · 仅 ' + recs.length + ' 次采集</span>'
         + '<span>拉美 ' + sites.length + ' 站 · ' + Math.max(sites.length - n(k.sitesActive), 0) + ' 站今日无数据</span>'
-        + '<span>更新 ' + esc(String(ml.snapshot || '').slice(11, 16) || '—') + '</span>'
+        + snapClock(ml)
       + '</div>';
   })();
 
@@ -2197,62 +2237,6 @@ window.SHOWCASE = {
     });
     $('#drClose').addEventListener('click', close);
     document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && current) close(); });
-  })();
-
-  /* ---------- 数字墙 ---------- */
-  $('#wallBody').innerHTML = compare.map(function (c) {
-    var color = COLOR[c.key] || 'transparent';
-    var amount = (c.amountText && c.amountText !== '—') ? c.amountText : (has(c.amount) ? usd(c.amount) : '—');
-    return '<div class="wall-row" role="row" style="--pc:' + color + '">'
-      + '<div class="wall-plat" role="cell"><span class="wname">' + esc(c.platform) + '</span><span class="wmetric">' + esc(c.metric) + '</span></div>'
-      + '<div class="wall-amt" role="cell"><span class="wlabel">金额 / USD</span><span class="wnum">' + esc(amount) + '</span></div>'
-      + '<div class="wall-count" role="cell"><span class="wlabel">单量</span><span class="wnum">' + n(c.orders) + '</span></div>'
-      + '<div class="wall-count" role="cell"><span class="wlabel">销量</span><span class="wnum">' + n(c.units) + '</span></div>'
-      + '<div class="wall-note" role="cell">' + esc(c.note) + '</div>'
-    + '</div>';
-  }).join('');
-  $('#wallTotal').textContent = usd(totals.usd);
-
-  /* ---------- 店铺榜 ---------- */
-  (function () {
-    var stores = ali.topStores || [];
-    var maxPay = stores.reduce(function (m, s) { return has(s.pay) && s.pay > m ? s.pay : m; }, 0) || 1;
-    var topSum = sum(stores, 'pay');
-    $('#stores').innerHTML = stores.map(function (s, i) {
-      var w = has(s.pay) ? Math.max(s.pay / maxPay * 100, 1.5) : 0;
-      return '<li class="store">'
-        + '<span class="store-fill" style="width:' + w.toFixed(1) + '%"></span>'
-        + '<span class="rank">' + String(i + 1).padStart(2, '0') + '</span>'
-        + '<div class="store-body">'
-          + '<div class="store-line"><span class="store-name">' + esc(s.name) + '</span><span class="store-pay">' + usd(s.pay) + '</span></div>'
-          + '<div class="store-meta">' + n(s.orders) + ' 单 · ROI ' + n(s.roi, 2) + ' · ACOS ' + pct(s.acos, 2) + ' · 广告 ' + usd(s.ad) + '</div>'
-        + '</div>'
-      + '</li>';
-    }).join('');
-    $('#storeNote').textContent = 'TOP ' + stores.length + ' 合计 ' + usd(topSum)
-      + ' · 占速卖通 ' + safePct(topSum, ali.kpi && ali.kpi.pay, 1) + ' · 按今日支付排序';
-  })();
-
-  /* ---------- 开发员拆分 ---------- */
-  (function () {
-    var devs = amz.developers || [];
-    $('#devs').innerHTML = devs.map(function (d) {
-      var isNa = /无开发员|未分配|unassigned/i.test(d.name || '');
-      return '<article class="dev">'
-        + '<div class="dev-top"><span class="dev-name">' + esc(d.name) + '</span><span class="dev-tag">' + (isNa ? '未分配' : '开发员') + '</span></div>'
-        + '<div class="dev-sales">' + usd(d.sales) + '</div>'
-        + '<div class="dev-metrics">'
-          + '<div class="dm"><b>' + n(d.units) + '</b><span>件</span></div>'
-          + '<div class="dm"><b>' + n(d.orders) + '</b><span>单</span></div>'
-          + '<div class="dm"><b>' + usd(d.gp) + '</b><span>毛利</span></div>'
-          + '<div class="dm"><b>' + pct(d.gm, 2) + '</b><span>毛利率</span></div>'
-        + '</div>'
-        + '<div class="dev-foot">广告 ' + usd(d.ad) + '</div>'
-      + '</article>';
-    }).join('');
-    $('#devNote').textContent = devs.length + ' 行合计 ' + usd(sum(devs, 'sales'))
-      + ' · ' + n(sum(devs, 'units')) + ' 件 · 毛利 ' + usd(sum(devs, 'gp'))
-      + '（= 亚马逊当日）';
   })();
 
   /* ---------- 页脚 ---------- */
