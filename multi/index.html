@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>多平台经营数据 · 2026 双十一大促</title>
+<title>多平台经营数据 · 2026十一大促月</title>
 <!-- 单文件交付版：数据已内联，可脱离 data.js 独立打开 -->
 <style>
   :root{
@@ -323,7 +323,20 @@
   .drow.is-quiet .dv{font-weight:700}
   .dcell{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
   .dcell.num{text-align:right;font-variant-numeric:tabular-nums}
-  .dcell.idx{font-size:11px;font-weight:800;color:var(--ink-3);letter-spacing:.06em}
+  .drow.is-alt{background:rgba(17,17,17,.035)}
+  .drow:hover{background:rgba(255,90,31,.09)}
+  .drow:last-child{border-bottom:2px solid var(--ink)}
+  .dcell.idx{
+    display:inline-flex;align-items:center;justify-content:center;
+    width:26px;height:20px;background:var(--ink);color:#fff;
+    font-size:10px;font-weight:800;letter-spacing:.04em;
+  }
+  .didx-badge{}
+  .dcell.dname .dv{font-size:14.5px;line-height:1.25}
+  .dtag{
+    display:inline-block;margin-top:3px;padding:1px 6px;border:1px solid var(--ink-3);
+    font-size:9.5px;font-weight:800;letter-spacing:.06em;color:var(--ink-2);
+  }
   .dcell.dname{white-space:normal}
   .dcell.dname .dv{display:block;font-weight:800;letter-spacing:-.005em}
   .dsub{display:block;margin-top:2px;font-size:10.5px;font-weight:600;color:var(--ink-3);letter-spacing:.02em}
@@ -427,6 +440,8 @@
       grid-column:1 / -1;padding-bottom:8px;border-bottom:1px solid var(--line);
     }
     .dcell.num{text-align:left}
+    .dcell.remark{grid-column:1 / -1}
+    .barcell .bar{height:5px}
     .dcell .dv{font-size:12px}
     .dl{
       display:block;font-size:8px;font-weight:800;letter-spacing:.1em;
@@ -434,29 +449,6 @@
     }
     .dcell .dv{display:block}
     .drawer-foot{font-size:11px;gap:6px 16px}
-  }
-
-  /* ============ 维护中标识（维护结束：删掉本段 CSS + body 里的 .maint 整块） ============ */
-  .maint{
-    position:sticky;top:0;z-index:80;
-    background-color:#FFD400;
-    background-image:repeating-linear-gradient(135deg,rgba(17,17,17,.12) 0 12px,transparent 12px 24px);
-    border-bottom:3px solid var(--ink);
-  }
-  .maint-in{
-    display:flex;align-items:center;gap:10px 16px;flex-wrap:wrap;
-    width:calc(100% - var(--gutter));max-width:var(--maxw);margin:0 auto;padding:9px 0;
-  }
-  .maint-tag{
-    flex:0 0 auto;background:var(--ink);color:#FFD400;
-    font-size:clamp(17px,1.7vw,22px);font-weight:800;letter-spacing:.1em;
-    line-height:1;padding:9px 15px;white-space:nowrap;
-  }
-  .maint-txt{margin:0;font-size:13.5px;font-weight:800;line-height:1.45;color:var(--ink)}
-  .maint-txt b{text-decoration:underline;text-underline-offset:3px}
-  .maint-time{
-    margin-left:auto;font-size:11.5px;font-weight:800;letter-spacing:.05em;
-    color:rgba(17,17,17,.7);white-space:nowrap;
   }
 
   /* ============ 数据时刻条 ============ */
@@ -476,6 +468,14 @@
   }
   .snap-c--ago .snap-v{color:var(--ali)}
   .snap-c--ago.is-old .snap-v,.snap-c--ago.is-old .snap-k{color:#FFCBBD}
+
+  /* ============ 店铺行里的两条线 + 点评 ============ */
+  .barcell .dv{line-height:1.15}
+  .barcell .bar{display:block;margin-top:5px;height:4px;background:rgba(17,17,17,.12)}
+  .barcell .bar i{display:block;height:100%;background:var(--ink)}
+  .barcell--ali .bar i{background:var(--ali)}
+  .dcell.remark{white-space:normal;overflow:visible;text-overflow:clip;font-size:11.5px;font-weight:600;line-height:1.5;color:var(--ink-2)}
+  .dcell.remark .dv{font-weight:600}
 
   /* ============ 抽屉里的渠道分区 ============ */
   .dgroup{
@@ -502,10 +502,6 @@
   }
   @media (max-width:640px){
     .records{grid-template-columns:minmax(0,1fr)}
-    .maint-in{padding:8px 0;gap:8px 10px}
-    .maint-tag{font-size:18px;padding:7px 11px}
-    .maint-txt{flex:1 1 100%;font-size:12px;line-height:1.5}
-    .maint-time{flex:1 1 100%;margin-left:0;font-size:10.5px}
     .snap-v{font-size:16px}
     .snap-k{font-size:8.5px;letter-spacing:.14em}
   }
@@ -513,22 +509,12 @@
 </head>
 <body>
 
-<!-- ▼▼ 维护中标识｜维护结束：删掉这一整块 + CSS 里的 .maint-* ▼▼ -->
-<div class="maint" role="status">
-  <div class="maint-in">
-    <span class="maint-tag">维护中</span>
-    <p class="maint-txt"><b>数据采集维护中</b>，页面数字可能延迟或不完整，请以店铺后台为准。</p>
-    <span class="maint-time" id="maintTime"></span>
-  </div>
-</div>
-<!-- ▲▲ 维护中标识 ▲▲ -->
-
 <header class="hero" aria-label="数据抬头与今日大盘">
   <div class="wrap">
     <div class="topbar">
       <div class="tb-left">
         <span class="stamp" id="tbBrand">跨境多平台</span>
-        <span class="campaign"><span id="tbCampaign">2026 双十一大促</span></span>
+        <span class="campaign"><span id="tbCampaign">2026十一大促月</span></span>
       </div>
       <div class="tb-right" id="tbUpdated"><b>11.04 美西 23:45 更新</b> · 每天美西 0 点归零</div>
     </div>
@@ -598,25 +584,25 @@ window.SHOWCASE = {
  "meta": {
   "brand": "跨境多平台",
   "title": "多平台经营数据",
-  "campaign": "2026 双十一大促",
-  "snapshot": "2026-11-06 09:59:06",
+  "campaign": "2026十一大促月",
+  "snapshot": "2026-11-06 11:38:02",
   "snapshotDay": "2026-11-06",
-  "snapshotTime": "09:59",
+  "snapshotTime": "11:38",
   "westDay": "2026-11-05",
-  "westNow": "11-05 17:59",
+  "westNow": "11-05 19:38",
   "dayState": "进行中",
-  "generated": "2026-11-06 10:20:33",
-  "dbMtime": "2026-11-06 09:59:22",
+  "generated": "2026-11-06 11:42:03",
+  "dbMtime": "2026-11-06 11:41:15",
   "tzNote": "速卖通按美西 0 点归零；亚马逊、美客多按北京 0 点归零；TikTok 按 UTC 0 点归零（= 北京 08:00）",
   "caveat": "速卖通、亚马逊为美元金额；TikTok 小店与美客多当前只有件数/访问口径，不计入金额合计。",
   "source": "shop_data_readonly.db → shop_data.js",
   "staleNote": "",
-  "freshness": "各平台快照时间不同：速卖通 09:53 / 亚马逊 09:13 / TikTok 09:59 / 美客多 09:15（北京时间）"
+  "freshness": "各平台快照时间不同：速卖通 11:38 / 亚马逊 11:01 / TikTok 11:01 / 美客多 11:04（北京时间）"
  },
  "totals": {
-  "usd": 14716.57,
-  "aliexpressShare": 97.8,
-  "amazonShare": 2.2,
+  "usd": 15215.24,
+  "aliexpressShare": 97.3,
+  "amazonShare": 2.7,
   "platformsWithAmount": 2,
   "platformsTotal": 4
  },
@@ -625,21 +611,21 @@ window.SHOWCASE = {
    "platform": "速卖通",
    "key": "aliexpress",
    "metric": "今日支付",
-   "amount": 14390.3,
-   "amountText": "$14,390.30",
-   "orders": 286,
-   "units": 258,
+   "amount": 14807.0,
+   "amountText": "$14,807.00",
+   "orders": 297,
+   "units": 278,
    "note": "12 店有数"
   },
   {
    "platform": "亚马逊",
    "key": "amazon",
    "metric": "今日销售额",
-   "amount": 326.27,
-   "amountText": "$326.27",
-   "orders": 8,
-   "units": 11,
-   "note": "毛利 45.0% · 3 个开发员"
+   "amount": 408.24,
+   "amountText": "$408.24",
+   "orders": 10,
+   "units": 13,
+   "note": "毛利 44.7% · 3 个开发员"
   },
   {
    "platform": "TikTok 小店",
@@ -649,7 +635,7 @@ window.SHOWCASE = {
    "amountText": "—",
    "orders": null,
    "units": 0,
-   "note": "1 店有数 · 曝光 225"
+   "note": "1 店有数 · 曝光 347"
   },
   {
    "platform": "美客多",
@@ -670,27 +656,27 @@ window.SHOWCASE = {
    "currency": "USD",
    "storesTotal": 19,
    "kpi": {
-    "pay": 14390.3,
-    "orders": 286,
-    "units": 258,
-    "aov": 50.32,
-    "popVisitors": 9697,
-    "cvr": 2.95,
-    "visitors": 6262,
-    "views": 12692,
+    "pay": 14807.0,
+    "orders": 297,
+    "units": 278,
+    "aov": 49.86,
+    "popVisitors": 10018,
+    "cvr": 2.96,
+    "visitors": 6791,
+    "views": 13783,
     "disputes": 7,
     "popDisputes": 2,
-    "balance": 18573.15,
-    "adSpend": 520.52,
-    "roi": 27.65,
+    "balance": 5408.71,
+    "adSpend": 164.84,
+    "roi": 89.83,
     "popActive": 12,
     "ftActive": 16,
     "payPrev": 13541.28,
-    "payPct": 6.3,
-    "paySamePrev": 11559.25,
-    "paySamePct": 24.5
+    "payPct": 9.3,
+    "paySamePrev": 11864.85,
+    "paySamePct": 24.8
    },
-   "snapshot": "2026-11-06 09:53:59",
+   "snapshot": "2026-11-06 11:38:02",
    "series": [
     {
      "d": "2026-10-27",
@@ -758,79 +744,14 @@ window.SHOWCASE = {
    ],
    "intraday": [
     {
-     "t": "11-05 16:00",
-     "pay": 345.44,
-     "orders": 10
+     "t": "11-06 10:00",
+     "pay": 10596.33,
+     "orders": 199
     },
     {
-     "t": "11-05 20:00",
-     "pay": 3562.75,
-     "orders": 76
-    },
-    {
-     "t": "11-05 21:00",
-     "pay": 4169.81,
-     "orders": 90
-    },
-    {
-     "t": "11-05 22:00",
-     "pay": 5348.72,
-     "orders": 113
-    },
-    {
-     "t": "11-05 23:00",
-     "pay": 5797.92,
-     "orders": 125
-    },
-    {
-     "t": "11-06 00:00",
-     "pay": 6459.98,
-     "orders": 142
-    },
-    {
-     "t": "11-06 01:00",
-     "pay": 7174.14,
-     "orders": 157
-    },
-    {
-     "t": "11-06 02:00",
-     "pay": 7699.29,
-     "orders": 173
-    },
-    {
-     "t": "11-06 03:00",
-     "pay": 8935.24,
-     "orders": 189
-    },
-    {
-     "t": "11-06 04:00",
-     "pay": 10283.54,
-     "orders": 208
-    },
-    {
-     "t": "11-06 05:00",
-     "pay": 10736.83,
-     "orders": 221
-    },
-    {
-     "t": "11-06 06:00",
-     "pay": 11843.58,
-     "orders": 241
-    },
-    {
-     "t": "11-06 07:00",
-     "pay": 13232.85,
-     "orders": 254
-    },
-    {
-     "t": "11-06 08:00",
-     "pay": 13846.66,
-     "orders": 267
-    },
-    {
-     "t": "11-06 09:00",
-     "pay": 14390.3,
-     "orders": 286
+     "t": "11-06 11:00",
+     "pay": 14807.0,
+     "orders": 297
     }
    ],
    "channels": {
@@ -840,6 +761,57 @@ window.SHOWCASE = {
    },
    "topStores": [
     {
+     "name": "Sara",
+     "pay": 4002.51,
+     "orders": 94,
+     "units": 13,
+     "visitors": 2294,
+     "views": 446,
+     "ftVisitors": 253,
+     "cvr": 3.97,
+     "ad": 0.0,
+     "roi": 0.0,
+     "acos": 0.0,
+     "balance": 0.68,
+     "disputes": 2,
+     "popDisputes": 1,
+     "ts": "2026-11-06 11:05:11",
+     "hasData": true,
+     "hasPop": true,
+     "hasTuo": true,
+     "flow": {
+      "hourCount": 15,
+      "peakHour": "11",
+      "peakPay": 4002.51,
+      "peakShare": 52.3,
+      "peakOrderHour": "11",
+      "peakOrderCount": 94,
+      "peakUnitHour": "11",
+      "peakUnits": 13,
+      "peakUnitShare": 54.2,
+      "peakVisHour": "11",
+      "peakVisitors": 253,
+      "bigCount": 1,
+      "bigSum": 332.76,
+      "bigJump": {
+       "t": "04:03",
+       "pay": 332.76,
+       "orders": 1
+      },
+      "maxJump": {
+       "t": "11:05",
+       "pay": 4002.51
+      },
+      "smallHour": "05",
+      "smallHourOrders": 6,
+      "smallHourAov": 29.08
+     },
+     "prevPay": 3737.43,
+     "prevUnits": 14.0,
+     "prevPopVisitors": 2374.0,
+     "prevFtVisitors": 240.0
+    },
+    {
      "name": "profile",
      "pay": 3860.14,
      "orders": 72,
@@ -857,151 +829,387 @@ window.SHOWCASE = {
      "ts": "2026-11-06 09:52:05",
      "hasData": true,
      "hasPop": true,
-     "hasTuo": false
-    },
-    {
-     "name": "Sara",
-     "pay": 3793.97,
-     "orders": 87,
-     "units": 12,
-     "visitors": 2190,
-     "views": 412,
-     "ftVisitors": 241,
-     "cvr": 3.97,
-     "ad": 269.84,
-     "roi": 14.06,
-     "acos": 7.11,
-     "balance": 2107.68,
-     "disputes": 2,
-     "popDisputes": 1,
-     "ts": "2026-11-06 09:16:56",
-     "hasData": true,
-     "hasPop": true,
-     "hasTuo": true
+     "hasTuo": false,
+     "flow": {
+      "hourCount": 10,
+      "peakHour": "20",
+      "peakPay": 1107.29,
+      "peakShare": 29.7,
+      "peakOrderHour": "20",
+      "peakOrderCount": 17,
+      "peakUnitHour": "20",
+      "peakUnits": 0,
+      "peakUnitShare": 0,
+      "peakVisHour": "20",
+      "peakVisitors": 0,
+      "bigCount": 0,
+      "bigSum": 0,
+      "bigJump": null,
+      "maxJump": {
+       "t": "20:36",
+       "pay": 1107.29
+      },
+      "smallHour": "09",
+      "smallHourOrders": 10,
+      "smallHourAov": 30.29
+     },
+     "prevPay": 3122.4,
+     "prevUnits": 0.0,
+     "prevPopVisitors": 2828.0,
+     "prevFtVisitors": 0.0
     },
     {
      "name": "8Li",
-     "pay": 3135.75,
-     "orders": 43,
+     "pay": 3212.67,
+     "orders": 45,
      "units": 5,
-     "visitors": 1274,
-     "views": 214,
-     "ftVisitors": 116,
-     "cvr": 2.98,
-     "ad": 91.64,
-     "roi": 34.22,
-     "acos": 2.92,
-     "balance": 743.51,
+     "visitors": 1317,
+     "views": 243,
+     "ftVisitors": 129,
+     "cvr": 3.04,
+     "ad": 0.0,
+     "roi": 0.0,
+     "acos": 0.0,
+     "balance": 0.0,
      "disputes": 0,
      "popDisputes": 0,
-     "ts": "2026-11-06 09:20:18",
+     "ts": "2026-11-06 11:09:19",
      "hasData": true,
      "hasPop": true,
-     "hasTuo": true
+     "hasTuo": true,
+     "flow": {
+      "hourCount": 15,
+      "peakHour": "07",
+      "peakPay": 915.34,
+      "peakShare": 32.4,
+      "peakOrderHour": "00",
+      "peakOrderCount": 5,
+      "peakUnitHour": "04",
+      "peakUnits": 2,
+      "peakUnitShare": 50.0,
+      "peakVisHour": "06",
+      "peakVisitors": 12,
+      "bigCount": 1,
+      "bigSum": 202.0,
+      "bigJump": {
+       "t": "21:09",
+       "pay": 202.0,
+       "orders": 2
+      },
+      "maxJump": {
+       "t": "07:08",
+       "pay": 915.34
+      },
+      "smallHour": "06",
+      "smallHourOrders": 5,
+      "smallHourAov": 49.81
+     },
+     "prevPay": 2170.7,
+     "prevUnits": 14.0,
+     "prevPopVisitors": 1346.0,
+     "prevFtVisitors": 128.0
     },
     {
      "name": "Catherine",
      "pay": 1745.3,
      "orders": 30,
      "units": 5,
-     "visitors": 983,
-     "views": 234,
-     "ftVisitors": 136,
-     "cvr": 3.05,
-     "ad": 56.1,
-     "roi": 31.11,
-     "acos": 3.21,
-     "balance": 1282.22,
+     "visitors": 1031,
+     "views": 249,
+     "ftVisitors": 143,
+     "cvr": 2.91,
+     "ad": 61.9,
+     "roi": 28.2,
+     "acos": 3.55,
+     "balance": 0.22,
      "disputes": 0,
      "popDisputes": 0,
-     "ts": "2026-11-06 09:22:38",
+     "ts": "2026-11-06 11:11:53",
      "hasData": true,
      "hasPop": true,
-     "hasTuo": true
+     "hasTuo": true,
+     "flow": {
+      "hourCount": 15,
+      "peakHour": "20",
+      "peakPay": 531.72,
+      "peakShare": 31.4,
+      "peakOrderHour": "20",
+      "peakOrderCount": 8,
+      "peakUnitHour": "02",
+      "peakUnits": 2,
+      "peakUnitShare": 40.0,
+      "peakVisHour": "20",
+      "peakVisitors": 35,
+      "bigCount": 1,
+      "bigSum": 179.71,
+      "bigJump": {
+       "t": "01:09",
+       "pay": 179.71,
+       "orders": 1
+      },
+      "maxJump": {
+       "t": "20:10",
+       "pay": 531.72
+      },
+      "smallHour": "04",
+      "smallHourOrders": 4,
+      "smallHourAov": 39.76
+     },
+     "prevPay": 1132.06,
+     "prevUnits": 8.0,
+     "prevPopVisitors": 1136.0,
+     "prevFtVisitors": 177.0
     },
     {
      "name": "Petery",
      "pay": 618.05,
      "orders": 19,
      "units": 3,
-     "visitors": 550,
-     "views": 13,
-     "ftVisitors": 12,
-     "cvr": 3.45,
+     "visitors": 559,
+     "views": 14,
+     "ftVisitors": 13,
+     "cvr": 3.4,
      "ad": 51.16,
      "roi": 12.08,
      "acos": 8.28,
      "balance": 130.9,
      "disputes": 0,
      "popDisputes": 0,
-     "ts": "2026-11-06 09:49:38",
+     "ts": "2026-11-06 10:48:30",
      "hasData": true,
      "hasPop": true,
-     "hasTuo": true
+     "hasTuo": true,
+     "flow": {
+      "hourCount": 12,
+      "peakHour": "20",
+      "peakPay": 222.28,
+      "peakShare": 36.0,
+      "peakOrderHour": "20",
+      "peakOrderCount": 6,
+      "peakUnitHour": "20",
+      "peakUnits": 1,
+      "peakUnitShare": 33.3,
+      "peakVisHour": "22",
+      "peakVisitors": 4,
+      "bigCount": 0,
+      "bigSum": 0,
+      "bigJump": null,
+      "maxJump": {
+       "t": "20:34",
+       "pay": 222.28
+      },
+      "smallHour": "09",
+      "smallHourOrders": 6,
+      "smallHourAov": 20.77
+     },
+     "prevPay": 598.62,
+     "prevUnits": 8.0,
+     "prevPopVisitors": 669.0,
+     "prevFtVisitors": 14.0
     },
     {
      "name": "Otmil",
      "pay": 530.29,
      "orders": 16,
      "units": 16,
-     "visitors": 892,
-     "views": 880,
-     "ftVisitors": 411,
-     "cvr": 1.79,
+     "visitors": 953,
+     "views": 955,
+     "ftVisitors": 444,
+     "cvr": 1.68,
      "ad": 51.78,
      "roi": 10.24,
      "acos": 9.76,
-     "balance": 653.55,
+     "balance": 0.0,
      "disputes": 1,
      "popDisputes": 0,
-     "ts": "2026-11-06 09:38:24",
+     "ts": "2026-11-06 11:30:37",
      "hasData": true,
      "hasPop": true,
-     "hasTuo": true
+     "hasTuo": true,
+     "flow": {
+      "hourCount": 15,
+      "peakHour": "06",
+      "peakPay": 183.52,
+      "peakShare": 36.2,
+      "peakOrderHour": "20",
+      "peakOrderCount": 5,
+      "peakUnitHour": "06",
+      "peakUnits": 7,
+      "peakUnitShare": 43.8,
+      "peakVisHour": "20",
+      "peakVisitors": 84,
+      "bigCount": 1,
+      "bigSum": 183.52,
+      "bigJump": {
+       "t": "06:25",
+       "pay": 183.52,
+       "orders": 2
+      },
+      "maxJump": {
+       "t": "06:25",
+       "pay": 183.52
+      },
+      "smallHour": "20",
+      "smallHourOrders": 5,
+      "smallHourAov": 21.39
+     },
+     "prevPay": 705.34,
+     "prevUnits": 22.0,
+     "prevPopVisitors": 926.0,
+     "prevFtVisitors": 456.0
+    },
+    {
+     "name": "Ella",
+     "pay": 363.06,
+     "orders": 6,
+     "units": 14,
+     "visitors": 404,
+     "views": 660,
+     "ftVisitors": 326,
+     "cvr": 1.24,
+     "ad": 0.0,
+     "roi": 0.0,
+     "acos": 0.0,
+     "balance": 0.57,
+     "disputes": 0,
+     "popDisputes": 1,
+     "ts": "2026-11-06 11:32:56",
+     "hasData": true,
+     "hasPop": true,
+     "hasTuo": true,
+     "flow": {
+      "hourCount": 15,
+      "peakHour": "11",
+      "peakPay": 131.24,
+      "peakShare": 36.1,
+      "peakOrderHour": "05",
+      "peakOrderCount": 3,
+      "peakUnitHour": "20",
+      "peakUnits": 3,
+      "peakUnitShare": 21.4,
+      "peakVisHour": "20",
+      "peakVisitors": 63,
+      "bigCount": 0,
+      "bigSum": 0,
+      "bigJump": null,
+      "maxJump": {
+       "t": "11:32",
+       "pay": 131.24
+      },
+      "smallHour": null,
+      "smallHourOrders": null,
+      "smallHourAov": null
+     },
+     "prevPay": 70.18,
+     "prevUnits": 17.0,
+     "prevPopVisitors": 431.0,
+     "prevFtVisitors": 309.0
     },
     {
      "name": "Elong",
      "pay": 274.34,
      "orders": 8,
-     "units": 8,
-     "visitors": 197,
-     "views": 393,
-     "ftVisitors": 204,
-     "cvr": 3.55,
+     "units": 12,
+     "visitors": 203,
+     "views": 421,
+     "ftVisitors": 213,
+     "cvr": 3.45,
      "ad": 0.0,
      "roi": 0.0,
      "acos": 0.0,
      "balance": 777.05,
      "disputes": 0,
      "popDisputes": 0,
-     "ts": "2026-11-06 09:47:28",
+     "ts": "2026-11-06 10:46:11",
      "hasData": true,
      "hasPop": true,
-     "hasTuo": true
-    },
-    {
-     "name": "Ella",
-     "pay": 231.82,
-     "orders": 4,
-     "units": 12,
-     "visitors": 384,
-     "views": 601,
-     "ftVisitors": 303,
-     "cvr": 1.04,
-     "ad": 0.0,
-     "roi": 0.0,
-     "acos": 0.0,
-     "balance": 774.57,
-     "disputes": 0,
-     "popDisputes": 1,
-     "ts": "2026-11-06 09:40:17",
-     "hasData": true,
-     "hasPop": true,
-     "hasTuo": true
+     "hasTuo": true,
+     "flow": {
+      "hourCount": 14,
+      "peakHour": "22",
+      "peakPay": 169.64,
+      "peakShare": 61.8,
+      "peakOrderHour": "22",
+      "peakOrderCount": 2,
+      "peakUnitHour": "20",
+      "peakUnits": 5,
+      "peakUnitShare": 41.7,
+      "peakVisHour": "20",
+      "peakVisitors": 39,
+      "bigCount": 1,
+      "bigSum": 169.64,
+      "bigJump": {
+       "t": "22:53",
+       "pay": 169.64,
+       "orders": 2
+      },
+      "maxJump": {
+       "t": "22:53",
+       "pay": 169.64
+      },
+      "smallHour": null,
+      "smallHourOrders": null,
+      "smallHourAov": null
+     },
+     "prevPay": 196.24,
+     "prevUnits": 12.0,
+     "prevPopVisitors": 210.0,
+     "prevFtVisitors": 245.0
     }
    ],
    "stores": [
     {
+     "name": "Sara",
+     "pay": 4002.51,
+     "orders": 94,
+     "units": 13,
+     "visitors": 2294,
+     "views": 446,
+     "ftVisitors": 253,
+     "cvr": 3.97,
+     "ad": 0.0,
+     "roi": 0.0,
+     "acos": 0.0,
+     "balance": 0.68,
+     "disputes": 2,
+     "popDisputes": 1,
+     "ts": "2026-11-06 11:05:11",
+     "hasData": true,
+     "hasPop": true,
+     "hasTuo": true,
+     "flow": {
+      "hourCount": 15,
+      "peakHour": "11",
+      "peakPay": 4002.51,
+      "peakShare": 52.3,
+      "peakOrderHour": "11",
+      "peakOrderCount": 94,
+      "peakUnitHour": "11",
+      "peakUnits": 13,
+      "peakUnitShare": 54.2,
+      "peakVisHour": "11",
+      "peakVisitors": 253,
+      "bigCount": 1,
+      "bigSum": 332.76,
+      "bigJump": {
+       "t": "04:03",
+       "pay": 332.76,
+       "orders": 1
+      },
+      "maxJump": {
+       "t": "11:05",
+       "pay": 4002.51
+      },
+      "smallHour": "05",
+      "smallHourOrders": 6,
+      "smallHourAov": 29.08
+     },
+     "prevPay": 3737.43,
+     "prevUnits": 14.0,
+     "prevPopVisitors": 2374.0,
+     "prevFtVisitors": 240.0
+    },
+    {
      "name": "profile",
      "pay": 3860.14,
      "orders": 72,
@@ -1019,207 +1227,473 @@ window.SHOWCASE = {
      "ts": "2026-11-06 09:52:05",
      "hasData": true,
      "hasPop": true,
-     "hasTuo": false
-    },
-    {
-     "name": "Sara",
-     "pay": 3793.97,
-     "orders": 87,
-     "units": 12,
-     "visitors": 2190,
-     "views": 412,
-     "ftVisitors": 241,
-     "cvr": 3.97,
-     "ad": 269.84,
-     "roi": 14.06,
-     "acos": 7.11,
-     "balance": 2107.68,
-     "disputes": 2,
-     "popDisputes": 1,
-     "ts": "2026-11-06 09:16:56",
-     "hasData": true,
-     "hasPop": true,
-     "hasTuo": true
+     "hasTuo": false,
+     "flow": {
+      "hourCount": 10,
+      "peakHour": "20",
+      "peakPay": 1107.29,
+      "peakShare": 29.7,
+      "peakOrderHour": "20",
+      "peakOrderCount": 17,
+      "peakUnitHour": "20",
+      "peakUnits": 0,
+      "peakUnitShare": 0,
+      "peakVisHour": "20",
+      "peakVisitors": 0,
+      "bigCount": 0,
+      "bigSum": 0,
+      "bigJump": null,
+      "maxJump": {
+       "t": "20:36",
+       "pay": 1107.29
+      },
+      "smallHour": "09",
+      "smallHourOrders": 10,
+      "smallHourAov": 30.29
+     },
+     "prevPay": 3122.4,
+     "prevUnits": 0.0,
+     "prevPopVisitors": 2828.0,
+     "prevFtVisitors": 0.0
     },
     {
      "name": "8Li",
-     "pay": 3135.75,
-     "orders": 43,
+     "pay": 3212.67,
+     "orders": 45,
      "units": 5,
-     "visitors": 1274,
-     "views": 214,
-     "ftVisitors": 116,
-     "cvr": 2.98,
-     "ad": 91.64,
-     "roi": 34.22,
-     "acos": 2.92,
-     "balance": 743.51,
+     "visitors": 1317,
+     "views": 243,
+     "ftVisitors": 129,
+     "cvr": 3.04,
+     "ad": 0.0,
+     "roi": 0.0,
+     "acos": 0.0,
+     "balance": 0.0,
      "disputes": 0,
      "popDisputes": 0,
-     "ts": "2026-11-06 09:20:18",
+     "ts": "2026-11-06 11:09:19",
      "hasData": true,
      "hasPop": true,
-     "hasTuo": true
+     "hasTuo": true,
+     "flow": {
+      "hourCount": 15,
+      "peakHour": "07",
+      "peakPay": 915.34,
+      "peakShare": 32.4,
+      "peakOrderHour": "00",
+      "peakOrderCount": 5,
+      "peakUnitHour": "04",
+      "peakUnits": 2,
+      "peakUnitShare": 50.0,
+      "peakVisHour": "06",
+      "peakVisitors": 12,
+      "bigCount": 1,
+      "bigSum": 202.0,
+      "bigJump": {
+       "t": "21:09",
+       "pay": 202.0,
+       "orders": 2
+      },
+      "maxJump": {
+       "t": "07:08",
+       "pay": 915.34
+      },
+      "smallHour": "06",
+      "smallHourOrders": 5,
+      "smallHourAov": 49.81
+     },
+     "prevPay": 2170.7,
+     "prevUnits": 14.0,
+     "prevPopVisitors": 1346.0,
+     "prevFtVisitors": 128.0
     },
     {
      "name": "Catherine",
      "pay": 1745.3,
      "orders": 30,
      "units": 5,
-     "visitors": 983,
-     "views": 234,
-     "ftVisitors": 136,
-     "cvr": 3.05,
-     "ad": 56.1,
-     "roi": 31.11,
-     "acos": 3.21,
-     "balance": 1282.22,
+     "visitors": 1031,
+     "views": 249,
+     "ftVisitors": 143,
+     "cvr": 2.91,
+     "ad": 61.9,
+     "roi": 28.2,
+     "acos": 3.55,
+     "balance": 0.22,
      "disputes": 0,
      "popDisputes": 0,
-     "ts": "2026-11-06 09:22:38",
+     "ts": "2026-11-06 11:11:53",
      "hasData": true,
      "hasPop": true,
-     "hasTuo": true
+     "hasTuo": true,
+     "flow": {
+      "hourCount": 15,
+      "peakHour": "20",
+      "peakPay": 531.72,
+      "peakShare": 31.4,
+      "peakOrderHour": "20",
+      "peakOrderCount": 8,
+      "peakUnitHour": "02",
+      "peakUnits": 2,
+      "peakUnitShare": 40.0,
+      "peakVisHour": "20",
+      "peakVisitors": 35,
+      "bigCount": 1,
+      "bigSum": 179.71,
+      "bigJump": {
+       "t": "01:09",
+       "pay": 179.71,
+       "orders": 1
+      },
+      "maxJump": {
+       "t": "20:10",
+       "pay": 531.72
+      },
+      "smallHour": "04",
+      "smallHourOrders": 4,
+      "smallHourAov": 39.76
+     },
+     "prevPay": 1132.06,
+     "prevUnits": 8.0,
+     "prevPopVisitors": 1136.0,
+     "prevFtVisitors": 177.0
     },
     {
      "name": "Petery",
      "pay": 618.05,
      "orders": 19,
      "units": 3,
-     "visitors": 550,
-     "views": 13,
-     "ftVisitors": 12,
-     "cvr": 3.45,
+     "visitors": 559,
+     "views": 14,
+     "ftVisitors": 13,
+     "cvr": 3.4,
      "ad": 51.16,
      "roi": 12.08,
      "acos": 8.28,
      "balance": 130.9,
      "disputes": 0,
      "popDisputes": 0,
-     "ts": "2026-11-06 09:49:38",
+     "ts": "2026-11-06 10:48:30",
      "hasData": true,
      "hasPop": true,
-     "hasTuo": true
+     "hasTuo": true,
+     "flow": {
+      "hourCount": 12,
+      "peakHour": "20",
+      "peakPay": 222.28,
+      "peakShare": 36.0,
+      "peakOrderHour": "20",
+      "peakOrderCount": 6,
+      "peakUnitHour": "20",
+      "peakUnits": 1,
+      "peakUnitShare": 33.3,
+      "peakVisHour": "22",
+      "peakVisitors": 4,
+      "bigCount": 0,
+      "bigSum": 0,
+      "bigJump": null,
+      "maxJump": {
+       "t": "20:34",
+       "pay": 222.28
+      },
+      "smallHour": "09",
+      "smallHourOrders": 6,
+      "smallHourAov": 20.77
+     },
+     "prevPay": 598.62,
+     "prevUnits": 8.0,
+     "prevPopVisitors": 669.0,
+     "prevFtVisitors": 14.0
     },
     {
      "name": "Otmil",
      "pay": 530.29,
      "orders": 16,
      "units": 16,
-     "visitors": 892,
-     "views": 880,
-     "ftVisitors": 411,
-     "cvr": 1.79,
+     "visitors": 953,
+     "views": 955,
+     "ftVisitors": 444,
+     "cvr": 1.68,
      "ad": 51.78,
      "roi": 10.24,
      "acos": 9.76,
-     "balance": 653.55,
+     "balance": 0.0,
      "disputes": 1,
      "popDisputes": 0,
-     "ts": "2026-11-06 09:38:24",
+     "ts": "2026-11-06 11:30:37",
      "hasData": true,
      "hasPop": true,
-     "hasTuo": true
+     "hasTuo": true,
+     "flow": {
+      "hourCount": 15,
+      "peakHour": "06",
+      "peakPay": 183.52,
+      "peakShare": 36.2,
+      "peakOrderHour": "20",
+      "peakOrderCount": 5,
+      "peakUnitHour": "06",
+      "peakUnits": 7,
+      "peakUnitShare": 43.8,
+      "peakVisHour": "20",
+      "peakVisitors": 84,
+      "bigCount": 1,
+      "bigSum": 183.52,
+      "bigJump": {
+       "t": "06:25",
+       "pay": 183.52,
+       "orders": 2
+      },
+      "maxJump": {
+       "t": "06:25",
+       "pay": 183.52
+      },
+      "smallHour": "20",
+      "smallHourOrders": 5,
+      "smallHourAov": 21.39
+     },
+     "prevPay": 705.34,
+     "prevUnits": 22.0,
+     "prevPopVisitors": 926.0,
+     "prevFtVisitors": 456.0
+    },
+    {
+     "name": "Ella",
+     "pay": 363.06,
+     "orders": 6,
+     "units": 14,
+     "visitors": 404,
+     "views": 660,
+     "ftVisitors": 326,
+     "cvr": 1.24,
+     "ad": 0.0,
+     "roi": 0.0,
+     "acos": 0.0,
+     "balance": 0.57,
+     "disputes": 0,
+     "popDisputes": 1,
+     "ts": "2026-11-06 11:32:56",
+     "hasData": true,
+     "hasPop": true,
+     "hasTuo": true,
+     "flow": {
+      "hourCount": 15,
+      "peakHour": "11",
+      "peakPay": 131.24,
+      "peakShare": 36.1,
+      "peakOrderHour": "05",
+      "peakOrderCount": 3,
+      "peakUnitHour": "20",
+      "peakUnits": 3,
+      "peakUnitShare": 21.4,
+      "peakVisHour": "20",
+      "peakVisitors": 63,
+      "bigCount": 0,
+      "bigSum": 0,
+      "bigJump": null,
+      "maxJump": {
+       "t": "11:32",
+       "pay": 131.24
+      },
+      "smallHour": null,
+      "smallHourOrders": null,
+      "smallHourAov": null
+     },
+     "prevPay": 70.18,
+     "prevUnits": 17.0,
+     "prevPopVisitors": 431.0,
+     "prevFtVisitors": 309.0
     },
     {
      "name": "Elong",
      "pay": 274.34,
      "orders": 8,
-     "units": 8,
-     "visitors": 197,
-     "views": 393,
-     "ftVisitors": 204,
-     "cvr": 3.55,
+     "units": 12,
+     "visitors": 203,
+     "views": 421,
+     "ftVisitors": 213,
+     "cvr": 3.45,
      "ad": 0.0,
      "roi": 0.0,
      "acos": 0.0,
      "balance": 777.05,
      "disputes": 0,
      "popDisputes": 0,
-     "ts": "2026-11-06 09:47:28",
+     "ts": "2026-11-06 10:46:11",
      "hasData": true,
      "hasPop": true,
-     "hasTuo": true
-    },
-    {
-     "name": "Ella",
-     "pay": 231.82,
-     "orders": 4,
-     "units": 12,
-     "visitors": 384,
-     "views": 601,
-     "ftVisitors": 303,
-     "cvr": 1.04,
-     "ad": 0.0,
-     "roi": 0.0,
-     "acos": 0.0,
-     "balance": 774.57,
-     "disputes": 0,
-     "popDisputes": 1,
-     "ts": "2026-11-06 09:40:17",
-     "hasData": true,
-     "hasPop": true,
-     "hasTuo": true
+     "hasTuo": true,
+     "flow": {
+      "hourCount": 14,
+      "peakHour": "22",
+      "peakPay": 169.64,
+      "peakShare": 61.8,
+      "peakOrderHour": "22",
+      "peakOrderCount": 2,
+      "peakUnitHour": "20",
+      "peakUnits": 5,
+      "peakUnitShare": 41.7,
+      "peakVisHour": "20",
+      "peakVisitors": 39,
+      "bigCount": 1,
+      "bigSum": 169.64,
+      "bigJump": {
+       "t": "22:53",
+       "pay": 169.64,
+       "orders": 2
+      },
+      "maxJump": {
+       "t": "22:53",
+       "pay": 169.64
+      },
+      "smallHour": null,
+      "smallHourOrders": null,
+      "smallHourAov": null
+     },
+     "prevPay": 196.24,
+     "prevUnits": 12.0,
+     "prevPopVisitors": 210.0,
+     "prevFtVisitors": 245.0
     },
     {
      "name": "Imice",
      "pay": 146.57,
      "orders": 4,
      "units": 0,
-     "visitors": 236,
+     "visitors": 253,
      "views": 0,
      "ftVisitors": 0,
-     "cvr": 1.69,
+     "cvr": 1.58,
      "ad": 0.0,
      "roi": 0.0,
      "acos": 0.0,
      "balance": 0.0,
      "disputes": 0,
      "popDisputes": 0,
-     "ts": "2026-11-06 09:24:40",
+     "ts": "2026-11-06 11:14:22",
      "hasData": true,
      "hasPop": true,
-     "hasTuo": false
+     "hasTuo": false,
+     "flow": {
+      "hourCount": 15,
+      "peakHour": "08",
+      "peakPay": 86.36,
+      "peakShare": 58.9,
+      "peakOrderHour": "08",
+      "peakOrderCount": 2,
+      "peakUnitHour": "20",
+      "peakUnits": 0,
+      "peakUnitShare": 0,
+      "peakVisHour": "20",
+      "peakVisitors": 0,
+      "bigCount": 0,
+      "bigSum": 0,
+      "bigJump": null,
+      "maxJump": {
+       "t": "08:34",
+       "pay": 86.36
+      },
+      "smallHour": null,
+      "smallHourOrders": null,
+      "smallHourAov": null
+     },
+     "prevPay": 78.31,
+     "prevUnits": 0.0,
+     "prevPopVisitors": 216.0,
+     "prevFtVisitors": 0.0
     },
     {
      "name": "Eric",
      "pay": 34.06,
      "orders": 2,
      "units": 6,
-     "visitors": 92,
-     "views": 207,
-     "ftVisitors": 120,
-     "cvr": 2.17,
+     "visitors": 97,
+     "views": 215,
+     "ftVisitors": 126,
+     "cvr": 2.06,
      "ad": 0.0,
      "roi": 0.0,
      "acos": 0.0,
-     "balance": 1238.35,
+     "balance": 0.35,
      "disputes": 0,
      "popDisputes": 0,
-     "ts": "2026-11-06 09:42:53",
+     "ts": "2026-11-06 11:35:40",
      "hasData": true,
      "hasPop": true,
-     "hasTuo": true
+     "hasTuo": true,
+     "flow": {
+      "hourCount": 14,
+      "peakHour": "06",
+      "peakPay": 34.06,
+      "peakShare": 100.0,
+      "peakOrderHour": "06",
+      "peakOrderCount": 2,
+      "peakUnitHour": "06",
+      "peakUnits": 6,
+      "peakUnitShare": 100.0,
+      "peakVisHour": "06",
+      "peakVisitors": 100,
+      "bigCount": 0,
+      "bigSum": 0,
+      "bigJump": null,
+      "maxJump": {
+       "t": "06:29",
+       "pay": 34.06
+      },
+      "smallHour": null,
+      "smallHourOrders": null,
+      "smallHourAov": null
+     },
+     "prevPay": 53.57,
+     "prevUnits": 10.0,
+     "prevPopVisitors": 103.0,
+     "prevFtVisitors": 131.0
     },
     {
      "name": "NexusPOP",
      "pay": 20.01,
      "orders": 1,
      "units": 0,
-     "visitors": 68,
+     "visitors": 76,
      "views": 0,
      "ftVisitors": 0,
-     "cvr": 1.47,
+     "cvr": 1.32,
      "ad": 0.0,
      "roi": 0.0,
      "acos": 0.0,
      "balance": 0.0,
      "disputes": 0,
      "popDisputes": 0,
-     "ts": "2026-11-06 09:28:00",
+     "ts": "2026-11-06 11:18:26",
      "hasData": true,
      "hasPop": true,
-     "hasTuo": false
+     "hasTuo": false,
+     "flow": {
+      "hourCount": 15,
+      "peakHour": "02",
+      "peakPay": 20.01,
+      "peakShare": 100.0,
+      "peakOrderHour": "02",
+      "peakOrderCount": 1,
+      "peakUnitHour": "20",
+      "peakUnits": 0,
+      "peakUnitShare": 0,
+      "peakVisHour": "20",
+      "peakVisitors": 0,
+      "bigCount": 0,
+      "bigSum": 0,
+      "bigJump": null,
+      "maxJump": {
+       "t": "02:13",
+       "pay": 20.01
+      },
+      "smallHour": null,
+      "smallHourOrders": null,
+      "smallHourAov": null
+     },
+     "prevPay": 0.0,
+     "prevUnits": 0.0,
+     "prevPopVisitors": 68.0,
+     "prevFtVisitors": 0.0
     },
     {
      "name": "David",
@@ -1227,48 +1701,96 @@ window.SHOWCASE = {
      "orders": 0,
      "units": 16,
      "visitors": 1,
-     "views": 964,
-     "ftVisitors": 438,
+     "views": 1006,
+     "ftVisitors": 460,
      "cvr": 0.0,
      "ad": 0.0,
      "roi": 0.0,
      "acos": 0.0,
-     "balance": 1319.64,
+     "balance": 0.0,
      "disputes": 0,
      "popDisputes": 0,
-     "ts": "2026-11-06 09:29:45",
+     "ts": "2026-11-06 11:20:15",
      "hasData": true,
      "hasPop": false,
-     "hasTuo": true
+     "hasTuo": true,
+     "flow": {
+      "hourCount": 15,
+      "peakHour": "20",
+      "peakPay": 0.0,
+      "peakShare": 0,
+      "peakOrderHour": "20",
+      "peakOrderCount": 0,
+      "peakUnitHour": "21",
+      "peakUnits": 3,
+      "peakUnitShare": 18.8,
+      "peakVisHour": "20",
+      "peakVisitors": 78,
+      "bigCount": 0,
+      "bigSum": 0,
+      "bigJump": null,
+      "maxJump": null,
+      "smallHour": null,
+      "smallHourOrders": null,
+      "smallHourAov": null
+     },
+     "prevPay": 0.0,
+     "prevUnits": 19.0,
+     "prevPopVisitors": 0.0,
+     "prevFtVisitors": 415.0
     },
     {
      "name": "Linda",
      "pay": 0.0,
      "orders": 0,
-     "units": 14,
+     "units": 15,
      "visitors": 0,
-     "views": 552,
-     "ftVisitors": 280,
+     "views": 608,
+     "ftVisitors": 304,
      "cvr": 0.0,
      "ad": 0.0,
      "roi": 0.0,
      "acos": 0.0,
-     "balance": 1132.38,
+     "balance": 0.38,
      "disputes": 0,
      "popDisputes": 0,
-     "ts": "2026-11-06 09:33:54",
+     "ts": "2026-11-06 11:25:28",
      "hasData": true,
      "hasPop": false,
-     "hasTuo": true
+     "hasTuo": true,
+     "flow": {
+      "hourCount": 15,
+      "peakHour": "20",
+      "peakPay": 0.0,
+      "peakShare": 0,
+      "peakOrderHour": "20",
+      "peakOrderCount": 0,
+      "peakUnitHour": "20",
+      "peakUnits": 2,
+      "peakUnitShare": 15.4,
+      "peakVisHour": "20",
+      "peakVisitors": 53,
+      "bigCount": 0,
+      "bigSum": 0,
+      "bigJump": null,
+      "maxJump": null,
+      "smallHour": null,
+      "smallHourOrders": null,
+      "smallHourAov": null
+     },
+     "prevPay": 0.0,
+     "prevUnits": 10.0,
+     "prevPopVisitors": 0.0,
+     "prevFtVisitors": 236.0
     },
     {
      "name": "NKtuo",
      "pay": 0.0,
      "orders": 0,
-     "units": 63,
+     "units": 71,
      "visitors": 0,
-     "views": 2807,
-     "ftVisitors": 1392,
+     "views": 3134,
+     "ftVisitors": 1559,
      "cvr": 0.0,
      "ad": 0.0,
      "roi": 0.0,
@@ -1276,10 +1798,34 @@ window.SHOWCASE = {
      "balance": 1713.25,
      "disputes": 2,
      "popDisputes": 0,
-     "ts": "2026-11-06 09:18:42",
+     "ts": "2026-11-06 11:07:30",
      "hasData": true,
      "hasPop": false,
-     "hasTuo": true
+     "hasTuo": true,
+     "flow": {
+      "hourCount": 14,
+      "peakHour": "21",
+      "peakPay": 0.0,
+      "peakShare": 0,
+      "peakOrderHour": "21",
+      "peakOrderCount": 0,
+      "peakUnitHour": "07",
+      "peakUnits": 58,
+      "peakUnitShare": 49.6,
+      "peakVisHour": "09",
+      "peakVisitors": 1247,
+      "bigCount": 0,
+      "bigSum": 0,
+      "bigJump": null,
+      "maxJump": null,
+      "smallHour": null,
+      "smallHourOrders": null,
+      "smallHourAov": null
+     },
+     "prevPay": 0.0,
+     "prevUnits": 74.0,
+     "prevPopVisitors": 0.0,
+     "prevFtVisitors": 1440.0
     },
     {
      "name": "bana",
@@ -1287,39 +1833,87 @@ window.SHOWCASE = {
      "orders": 0,
      "units": 12,
      "visitors": 0,
-     "views": 297,
-     "ftVisitors": 151,
+     "views": 317,
+     "ftVisitors": 165,
      "cvr": 0.0,
      "ad": 0.0,
      "roi": 0.0,
      "acos": 0.0,
-     "balance": 1293.42,
+     "balance": 0.42,
      "disputes": 0,
      "popDisputes": 0,
-     "ts": "2026-11-06 09:36:25",
+     "ts": "2026-11-06 11:28:11",
      "hasData": true,
      "hasPop": false,
-     "hasTuo": true
+     "hasTuo": true,
+     "flow": {
+      "hourCount": 15,
+      "peakHour": "20",
+      "peakPay": 0.0,
+      "peakShare": 0,
+      "peakOrderHour": "20",
+      "peakOrderCount": 0,
+      "peakUnitHour": "08",
+      "peakUnits": 4,
+      "peakUnitShare": 44.4,
+      "peakVisHour": "20",
+      "peakVisitors": 33,
+      "bigCount": 0,
+      "bigSum": 0,
+      "bigJump": null,
+      "maxJump": null,
+      "smallHour": null,
+      "smallHourOrders": null,
+      "smallHourAov": null
+     },
+     "prevPay": 0.0,
+     "prevUnits": 18.0,
+     "prevPopVisitors": 0.0,
+     "prevFtVisitors": 227.0
     },
     {
      "name": "nancytuo",
      "pay": 0.0,
      "orders": 0,
-     "units": 19,
+     "units": 22,
      "visitors": 0,
-     "views": 992,
-     "ftVisitors": 465,
+     "views": 1067,
+     "ftVisitors": 501,
      "cvr": 0.0,
      "ad": 0.0,
      "roi": 0.0,
      "acos": 0.0,
-     "balance": 1054.36,
+     "balance": 0.36,
      "disputes": 2,
      "popDisputes": 0,
-     "ts": "2026-11-06 09:32:15",
+     "ts": "2026-11-06 11:23:29",
      "hasData": true,
      "hasPop": false,
-     "hasTuo": true
+     "hasTuo": true,
+     "flow": {
+      "hourCount": 15,
+      "peakHour": "20",
+      "peakPay": 0.0,
+      "peakShare": 0,
+      "peakOrderHour": "20",
+      "peakOrderCount": 0,
+      "peakUnitHour": "20",
+      "peakUnits": 4,
+      "peakUnitShare": 18.2,
+      "peakVisHour": "20",
+      "peakVisitors": 100,
+      "bigCount": 0,
+      "bigSum": 0,
+      "bigJump": null,
+      "maxJump": null,
+      "smallHour": null,
+      "smallHourOrders": null,
+      "smallHourAov": null
+     },
+     "prevPay": 0.0,
+     "prevUnits": 13.0,
+     "prevPopVisitors": 0.0,
+     "prevFtVisitors": 498.0
     },
     {
      "name": "nexusclick",
@@ -1327,19 +1921,43 @@ window.SHOWCASE = {
      "orders": 0,
      "units": 44,
      "visitors": 0,
-     "views": 3368,
-     "ftVisitors": 1622,
+     "views": 3635,
+     "ftVisitors": 1765,
      "cvr": 0.0,
      "ad": 0.0,
      "roi": 0.0,
      "acos": 0.0,
-     "balance": 1233.59,
+     "balance": 1342.85,
      "disputes": 0,
      "popDisputes": 0,
-     "ts": "2026-11-06 09:26:00",
+     "ts": "2026-11-06 11:16:02",
      "hasData": true,
      "hasPop": false,
-     "hasTuo": true
+     "hasTuo": true,
+     "flow": {
+      "hourCount": 14,
+      "peakHour": "20",
+      "peakPay": 0.0,
+      "peakShare": 0,
+      "peakOrderHour": "20",
+      "peakOrderCount": 0,
+      "peakUnitHour": "00",
+      "peakUnits": 22,
+      "peakUnitShare": 35.5,
+      "peakVisHour": "20",
+      "peakVisitors": 365,
+      "bigCount": 0,
+      "bigSum": 0,
+      "bigJump": null,
+      "maxJump": null,
+      "smallHour": null,
+      "smallHourOrders": null,
+      "smallHourAov": null
+     },
+     "prevPay": 0.0,
+     "prevUnits": 57.0,
+     "prevPopVisitors": 0.0,
+     "prevFtVisitors": 1849.0
     },
     {
      "name": "sam",
@@ -1347,28 +1965,52 @@ window.SHOWCASE = {
      "orders": 0,
      "units": 3,
      "visitors": 0,
-     "views": 76,
-     "ftVisitors": 50,
+     "views": 81,
+     "ftVisitors": 52,
      "cvr": 0.0,
      "ad": 0.0,
      "roi": 0.0,
      "acos": 0.0,
-     "balance": 1677.22,
+     "balance": 0.22,
      "disputes": 0,
      "popDisputes": 0,
-     "ts": "2026-11-06 09:45:11",
+     "ts": "2026-11-06 11:38:02",
      "hasData": true,
      "hasPop": false,
-     "hasTuo": true
+     "hasTuo": true,
+     "flow": {
+      "hourCount": 15,
+      "peakHour": "20",
+      "peakPay": 0.0,
+      "peakShare": 0,
+      "peakOrderHour": "20",
+      "peakOrderCount": 0,
+      "peakUnitHour": "20",
+      "peakUnits": 1,
+      "peakUnitShare": 33.3,
+      "peakVisHour": "20",
+      "peakVisitors": 14,
+      "bigCount": 0,
+      "bigSum": 0,
+      "bigJump": null,
+      "maxJump": null,
+      "smallHour": null,
+      "smallHourOrders": null,
+      "smallHourAov": null
+     },
+     "prevPay": 0.0,
+     "prevUnits": 2.0,
+     "prevPopVisitors": 0.0,
+     "prevFtVisitors": 67.0
     },
     {
      "name": "yoyo",
      "pay": 0.0,
      "orders": 0,
-     "units": 20,
+     "units": 21,
      "visitors": 0,
-     "views": 682,
-     "ftVisitors": 321,
+     "views": 732,
+     "ftVisitors": 338,
      "cvr": 0.0,
      "ad": 0.0,
      "roi": 0.0,
@@ -1376,10 +2018,34 @@ window.SHOWCASE = {
      "balance": 1441.46,
      "disputes": 0,
      "popDisputes": 0,
-     "ts": "2026-11-06 09:53:59",
+     "ts": "2026-11-06 10:51:19",
      "hasData": true,
      "hasPop": false,
-     "hasTuo": true
+     "hasTuo": true,
+     "flow": {
+      "hourCount": 11,
+      "peakHour": "20",
+      "peakPay": 0.0,
+      "peakShare": 0,
+      "peakOrderHour": "20",
+      "peakOrderCount": 0,
+      "peakUnitHour": "09",
+      "peakUnits": 6,
+      "peakUnitShare": 28.6,
+      "peakVisHour": "09",
+      "peakVisitors": 65,
+      "bigCount": 0,
+      "bigSum": 0,
+      "bigJump": null,
+      "maxJump": null,
+      "smallHour": null,
+      "smallHourOrders": null,
+      "smallHourAov": null
+     },
+     "prevPay": 0.0,
+     "prevUnits": 23.0,
+     "prevPopVisitors": 0.0,
+     "prevFtVisitors": 396.0
     }
    ],
    "tzReset": "归零 · 美西 0 点"
@@ -1390,20 +2056,20 @@ window.SHOWCASE = {
    "sub": "美国站 · 3 个开发员",
    "currency": "USD",
    "kpi": {
-    "sales": 326.27,
-    "units": 11,
-    "orders": 8,
+    "sales": 408.24,
+    "units": 13,
+    "orders": 10,
     "ad": 5.11,
-    "gmRate": 45.0,
-    "gp": 146.81,
-    "adRate": 1.6,
+    "gmRate": 44.7,
+    "gp": 182.52,
+    "adRate": 1.3,
     "devCount": 3,
     "salesPrev": 411.84,
-    "salesPct": -20.8,
-    "salesSamePrev": 257.39,
-    "salesSamePct": 26.8
+    "salesPct": -0.9,
+    "salesSamePrev": 272.01,
+    "salesSamePct": 50.1
    },
-   "snapshot": "2026-11-06 09:13:32",
+   "snapshot": "2026-11-06 11:01:51",
    "series": [
     {
      "d": "2026-11-04",
@@ -1414,36 +2080,36 @@ window.SHOWCASE = {
    ],
    "intraday": [
     {
-     "t": "11-06 08:00",
-     "sales": 240.65,
-     "units": 7
+     "t": "11-06 10:00",
+     "sales": 348.99,
+     "units": 11
     },
     {
-     "t": "11-06 09:00",
-     "sales": 326.27,
+     "t": "11-06 11:00",
+     "sales": 348.99,
      "units": 11
     }
    ],
    "developers": [
     {
      "name": "peng",
-     "units": 6,
-     "orders": 3,
-     "sales": 169.0,
+     "units": 7,
+     "orders": 4,
+     "sales": 195.75,
      "ad": 0.0,
-     "gm": 53.27,
-     "gp": 90.03,
-     "ts": "2026-11-06 09:13:28"
+     "gm": 54.14,
+     "gp": 105.98,
+     "ts": "2026-11-06 11:01:47"
     },
     {
      "name": "jasim",
-     "units": 3,
-     "orders": 3,
-     "sales": 98.02,
+     "units": 4,
+     "orders": 4,
+     "sales": 153.24,
      "ad": 0.0,
-     "gm": 41.98,
-     "gp": 41.15,
-     "ts": "2026-11-06 09:13:32"
+     "gm": 39.75,
+     "gp": 60.91,
+     "ts": "2026-11-06 11:01:51"
     },
     {
      "name": "无开发员",
@@ -1465,7 +2131,7 @@ window.SHOWCASE = {
    "currency": null,
    "kpi": {
     "units": 0,
-    "expo": 225,
+    "expo": 347,
     "badRate": 0.0,
     "sku": 0,
     "storesActive": 1,
@@ -1473,7 +2139,7 @@ window.SHOWCASE = {
     "unitsSamePrev": null,
     "unitsSamePct": null
    },
-   "snapshot": "2026-11-06 09:59:06",
+   "snapshot": "2026-11-06 11:01:25",
    "series": [
     {
      "d": "2026-11-04",
@@ -1556,6 +2222,16 @@ window.SHOWCASE = {
      "t": "11-06 09:00",
      "units": 0,
      "expo": 225
+    },
+    {
+     "t": "11-06 10:00",
+     "units": 0,
+     "expo": 328
+    },
+    {
+     "t": "11-06 11:00",
+     "units": 0,
+     "expo": 347
     }
    ],
    "stores": [
@@ -1565,10 +2241,10 @@ window.SHOWCASE = {
      "short": 0,
      "live": 0,
      "sku": 0,
-     "expo": 225,
+     "expo": 347,
      "bad": 0.0,
      "ret": 0.0,
-     "ts": "2026-11-06 09:59:06",
+     "ts": "2026-11-06 11:01:25",
      "hasData": true
     },
     {
@@ -1616,7 +2292,7 @@ window.SHOWCASE = {
    "sub": "拉美 · 5 个站点",
    "currency": null,
    "kpi": {
-    "visits": 22,
+    "visits": 23,
     "buyers": 0,
     "orders": 0,
     "cvr": 0.0,
@@ -1625,7 +2301,7 @@ window.SHOWCASE = {
     "visitsSamePrev": null,
     "visitsSamePct": null
    },
-   "snapshot": "2026-11-06 09:15:30",
+   "snapshot": "2026-11-06 11:04:08",
    "series": [
     {
      "d": "2026-11-04",
@@ -1635,52 +2311,23 @@ window.SHOWCASE = {
    ],
    "intraday": [
     {
-     "t": "11-05 16:00",
-     "visits": 1,
-     "orders": 0
-    },
-    {
-     "t": "11-05 17:00",
-     "visits": 1,
-     "orders": 0
-    },
-    {
-     "t": "11-05 18:00",
-     "visits": 3,
-     "orders": 0
-    },
-    {
-     "t": "11-05 19:00",
-     "visits": 4,
-     "orders": 0
-    },
-    {
-     "t": "11-05 20:00",
-     "visits": 5,
-     "orders": 0
-    },
-    {
-     "t": "11-05 21:00",
-     "visits": 6,
-     "orders": 0
-    },
-    {
-     "t": "11-05 23:00",
-     "visits": 6,
-     "orders": 0
-    },
-    {
-     "t": "11-06 08:00",
-     "visits": 15,
-     "orders": 0
-    },
-    {
-     "t": "11-06 09:00",
-     "visits": 15,
+     "t": "11-06 11:00",
+     "visits": 8,
      "orders": 0
     }
    ],
    "sites": [
+    {
+     "name": "nexusclick-MLi-巴西",
+     "visits": 8,
+     "buyers": 0,
+     "orders": 0,
+     "cvr": 0.0,
+     "sold": 0,
+     "price": 0.0,
+     "ts": "2026-11-06 10:05:53",
+     "hasData": true
+    },
     {
      "name": "nexusclick-MLi-墨西哥",
      "visits": 7,
@@ -1689,18 +2336,7 @@ window.SHOWCASE = {
      "cvr": 0.0,
      "sold": 0,
      "price": 0.0,
-     "ts": "2026-11-06 09:14:57",
-     "hasData": true
-    },
-    {
-     "name": "nexusclick-MLi-巴西",
-     "visits": 7,
-     "buyers": 0,
-     "orders": 0,
-     "cvr": 0.0,
-     "sold": 0,
-     "price": 0.0,
-     "ts": "2026-11-06 09:15:05",
+     "ts": "2026-11-06 11:03:32",
      "hasData": true
     },
     {
@@ -1722,7 +2358,7 @@ window.SHOWCASE = {
      "cvr": 0.0,
      "sold": 0,
      "price": 0.0,
-     "ts": "2026-11-06 09:15:30",
+     "ts": "2026-11-06 11:04:08",
      "hasData": true
     },
     {
@@ -1733,7 +2369,7 @@ window.SHOWCASE = {
      "cvr": 0.0,
      "sold": 0,
      "price": 0.0,
-     "ts": "2026-11-06 09:15:22",
+     "ts": "2026-11-06 11:04:00",
      "hasData": false
     }
    ],
@@ -1870,12 +2506,6 @@ window.SHOWCASE = {
     snapCell('数据快照 · 北京', meta.snapshot || '—')
     + snapCell('美西口径', west ? west.day + ' ' + west.time : '—')
     + snapCell('距今', _ago.text, 'snap-c--ago' + (_ago.old ? ' is-old' : ''));
-  var _mt = $('#maintTime');
-  if (_mt) {
-    _mt.textContent = '数据快照 ' + (meta.snapshot || '—')
-      + (west ? ' · 美西 ' + west.text : '') + ' · ' + _ago.text;
-  }
-
   /* 每张卡的快照时间徽章：比整体慢 45 分钟以上就标"慢 N 分" */
   function snapClock(plat) {
     var t = String((plat && plat.snapshot) || '').slice(11, 16);
@@ -1985,7 +2615,7 @@ window.SHOWCASE = {
         + metric(pct(k.cvr, 2), '转化率')
       + '</div>'
       + '<div class="card-foot">'
-        + '<span>广告 ' + usd(k.adSpend) + ' · ROI ' + n(k.roi, 2) + '</span>'
+        + '<span>全托 ' + n((ali.channels || {}).tuo) + ' 家 · 半托 ' + n((ali.channels || {}).pop) + ' 家</span>'
         + snapClock(ali)
       + '</div>';
   })();
@@ -2133,45 +2763,148 @@ window.SHOWCASE = {
       aliexpress: {
         logo: '11',
         title: ali.name + ' · 全托 ' + n((ali.channels || {}).tuo) + ' 家 / 半托 ' + n((ali.channels || {}).pop) + ' 家',
-        note: '按渠道分成两组：全托组看销量/访客/浏览，半托（POP）组看支付/单量（USD）。两条渠道都做的店会在两组各出现一次，组内合计会重复计入，整体合计不重复。',
-        dt: '38px minmax(0,1.6fr) minmax(0,1.05fr) 62px 62px 74px 74px 78px minmax(0,.95fr)',
-        head: ['#', '店铺 / 余额', '支付 / USD', '单量', '件数', '访客', '转化', '广告', 'ROI / ACOS'],
-        numFrom: 2,
-        quiet: function (r) { return r.pay === 0 && r.orders === 0; },
+        note: '每个店铺两条线：左线＝销量或支付（组内相对最大值），右线＝访客（同组相对最大值）。最后一列是自动挑的点评：先说时段（哪个小时出量/出单最多、有没有一笔大单或小单跑量），再看同比、排名和异常。点评里的小时都是北京时间。',
         rows: ali.stores || [],
         groups: function () {
           var s = ali.stores || [];
           var tuo = s.filter(function (r) { return r.hasTuo; }).sort(function (a, b) {
-            return (b.units - a.units) || (b.visitors - a.visitors) || (b.pay - a.pay);
+            return (b.units - a.units) || (b.ftVisitors - a.ftVisitors) || (b.views - a.views);
           });
           var pop = s.filter(function (r) { return r.hasPop; }).sort(function (a, b) {
             return (b.pay - a.pay) || (b.orders - a.orders);
           });
+          var totUnits = sum(tuo, 'units'), totPay = sum(pop, 'pay'), totOrders = sum(pop, 'orders');
+          var maxTU = Math.max.apply(null, tuo.map(function (r) { return r.units; }).concat([0]));
+          var maxTV = Math.max.apply(null, tuo.map(function (r) { return r.ftVisitors; }).concat([0]));
+          var maxPP = Math.max.apply(null, pop.map(function (r) { return r.pay; }).concat([0]));
+          var maxPV = Math.max.apply(null, pop.map(function (r) { return r.visitors; }).concat([0]));
+          var maxPO = Math.max.apply(null, pop.map(function (r) { return r.orders; }).concat([0]));
+          var avgAov = totOrders ? totPay / totOrders : 0;
+          var cvrs = pop.filter(function (r) { return r.visitors >= 200; }).map(function (r) { return r.cvr; });
+          var minCvr = cvrs.length ? Math.min.apply(null, cvrs) : -1;
+
+          function d(cur, prev) {
+            if (!has(prev) || prev <= 0 || !has(cur)) return null;
+            return (cur - prev) / prev * 100;
+          }
+          function chTag(r) { return (r.hasPop && r.hasTuo) ? '<span class="dtag">全托 + 半托</span>' : ''; }
+          function barCell(v, max, label, text, cls) {
+            var w = (max > 0 && has(v)) ? Math.max(2, Math.min(100, Math.round(v / max * 100))) : 0;
+            return '<div class="dcell barcell ' + (cls || '') + '">'
+              + '<span class="dl">' + esc(label) + '</span>'
+              + '<span class="dv">' + text + '</span>'
+              + '<span class="bar" aria-hidden="true"><i style="width:' + w + '%"></i></span>'
+            + '</div>';
+          }
+          function remarkCell(text) {
+            return '<div class="dcell remark"><span class="dl">点评</span><span class="dv">' + esc(text) + '</span></div>';
+          }
+
+          function pickNotes(cands, maxN) {
+            cands.sort(function (a, b) { return a.p - b.p; });
+            var out = [], tags = {};
+            for (var i = 0; i < cands.length && out.length < maxN; i++) {
+              var c = cands[i];
+              if (!c || !c.t || tags[c.tag]) continue;
+              tags[c.tag] = 1; out.push(c.t);
+            }
+            return out.join('；');
+          }
+          function hourLabel(h) { return h ? h + ' 点' : ''; }
+
+          /* 全托点评：时段 -> 同比 -> 排名 -> 浏览/成交错位 -> 转化异常 -> 双渠道，取两小句 */
+          function tuoRemark(r) {
+            var f = r.flow || {};
+            var dv = d(r.units, r.prevUnits);
+            var viewV = r.views ? (r.units / r.views * 100) : 0;
+            var c = [];
+            if (!r.units && !r.ftVisitors) c.push({ p: 0, tag: 'risk', t: '今日全托还没采到数据' });
+            if (f.peakUnitHour && f.peakUnits >= 3 && totUnits >= 10 && f.peakUnitShare < 95 && f.peakUnitShare >= 25) {
+              c.push({ p: 1, tag: 'time', t: '北京 ' + hourLabel(f.peakUnitHour) + '卖 ' + n(f.peakUnits) + ' 件，占当日 ' + pct(f.peakUnitShare, 0) });
+            } else if (f.peakUnitHour && f.peakUnits >= 3 && totUnits >= 10 && f.peakUnitShare < 95) {
+              c.push({ p: 3, tag: 'time', t: '出量最多在 ' + hourLabel(f.peakUnitHour) + '（' + n(f.peakUnits) + ' 件）' });
+            }
+            if (dv !== null && Math.abs(dv) >= 25) c.push({ p: 4, tag: 'trend', t: '较昨日同时刻 ' + (dv > 0 ? '+' : '') + Math.round(dv) + '%' });
+            if (r.units === maxTU) c.push({ p: 5, tag: 'rank', t: '全托销量第一，占 ' + pct(totUnits ? r.units / totUnits * 100 : 0, 0) });
+            if (f.peakVisHour && f.peakUnitHour && f.peakVisHour !== f.peakUnitHour && f.peakVisitors >= 100) {
+              c.push({ p: 6, tag: 'gap', t: '访客高峰 ' + hourLabel(f.peakVisHour) + '、成交高峰 ' + hourLabel(f.peakUnitHour) + '，错开' });
+            }
+            if (r.views >= 600 && viewV < 3) c.push({ p: 7, tag: 'risk', t: '浏览 ' + n(r.views) + ' 只出 ' + n(r.units) + ' 件' });
+            if (r.hasPop && r.pay > 0) c.push({ p: 8, tag: 'ch', t: 'POP 也做了 ' + usd(r.pay) });
+            return pickNotes(c, 2) || ('访客 ' + n(r.ftVisitors) + ' · 出 ' + n(r.units) + ' 件');
+          }
+
+          /* 半托点评：时段/大单/小单 -> 同比 -> 排名 -> 转化异常 -> 客单价 -> 双渠道，取两小句 */
+          function popRemark(r) {
+            var f = r.flow || {};
+            var dv = d(r.pay, r.prevPay);
+            var aov = r.orders ? r.pay / r.orders : 0;
+            var c = [];
+            if (!r.pay) c.push({ p: 0, tag: 'risk', t: '今天还没有 POP 支付' });
+            if (f.bigJump && f.bigJump.orders <= 2 && f.bigJump.pay >= Math.max(200, aov * 3)) {
+              c.push({ p: 1, tag: 'time', t: f.bigJump.t + ' 一笔 ' + usd(f.bigJump.pay) + '（' + n(f.bigJump.orders) + ' 单），单笔拉高客单价' });
+            } else if (f.smallHour && f.smallHourOrders >= 5) {
+              c.push({ p: 1, tag: 'time', t: hourLabel(f.smallHour) + '出了 ' + n(f.smallHourOrders) + ' 单、客单 ' + usd(f.smallHourAov) + '，小单跑量' });
+            } else if (f.peakHour && f.peakShare >= 22 && f.peakShare < 95 && f.peakPay >= 80) {
+              c.push({ p: 2, tag: 'time', t: hourLabel(f.peakHour) + '冲了 ' + usd(f.peakPay) + '，占当日 ' + pct(f.peakShare, 0) });
+            } else if (f.peakOrderHour && f.peakOrderCount >= 5) {
+              c.push({ p: 2, tag: 'time', t: '订单高峰在 ' + hourLabel(f.peakOrderHour) + '（' + n(f.peakOrderCount) + ' 单）' });
+            }
+            if (f.bigCount >= 2) c.push({ p: 3, tag: 'big', t: '全天 ' + n(f.bigCount) + ' 笔大单共 ' + usd(f.bigSum) });
+            if (dv !== null && Math.abs(dv) >= 25) c.push({ p: 4, tag: 'trend', t: '较昨日同时刻 ' + (dv > 0 ? '+' : '') + Math.round(dv) + '%' });
+            if (r.pay === maxPP) c.push({ p: 5, tag: 'rank', t: '支付第一，占 POP ' + pct(totPay ? r.pay / totPay * 100 : 0, 0) });
+            else if (r.orders === maxPO) c.push({ p: 5, tag: 'rank', t: '订单最多（' + n(r.orders) + ' 单）' });
+            if (minCvr >= 0 && r.cvr === minCvr && r.visitors >= 500) c.push({ p: 6, tag: 'risk', t: '转化 ' + pct(r.cvr, 2) + ' 全组最低' });
+            if (avgAov > 0 && aov >= avgAov * 1.5) c.push({ p: 7, tag: 'ch', t: '客单价 ' + usd(aov) + '，高于平均' });
+            if (r.hasTuo && r.units > 0) c.push({ p: 8, tag: 'ch2', t: '全托也出货 ' + n(r.units) + ' 件' });
+            return pickNotes(c, 2) || ('访客 ' + n(r.visitors) + ' · 转化 ' + pct(r.cvr, 2));
+          }
+
           return [
-            { label: '全托', rows: tuo, sumText: '销量 ' + n(sum(tuo, 'units')) + ' 件',
-              hint: '全托管店铺：销量 / 访客 / 浏览量口径，支付与单量为 0 属正常' },
-            { label: '半托（POP）', rows: pop, sumText: '支付 ' + usd(sum(pop, 'pay')),
-              hint: 'POP 店铺：支付金额 / 单量为美元口径，销量与全托不同源' }
+            {
+              label: '全托',
+              rows: tuo,
+              sumText: '销量 ' + n(totUnits) + ' 件 · 访客 ' + n(sum(tuo, 'ftVisitors')),
+              hint: '左线=今日销量，右线=今日访客，长度都是组内相对最大值',
+              numFrom: 2,
+              dt: '40px minmax(0,1.45fr) minmax(0,1.05fr) minmax(0,1.05fr) minmax(0,.85fr) minmax(0,2.2fr)',
+              head: ['#', '店铺', '今日销量', '今日访客', '浏览→销量', '一句点评'],
+              cells: function (r, i) {
+                return cell('idx', String(i + 1).padStart(2, '0'))
+                  + cell('dname', esc(r.name), '店铺', chTag(r))
+                  + barCell(r.units, maxTU, '销量', n(r.units) + ' 件', '')
+                  + barCell(r.ftVisitors, maxTV, '访客', n(r.ftVisitors), '')
+                  + cell('num', r.views ? pct(r.units / r.views * 100, 1) : '—', '浏览→销量')
+                  + remarkCell(tuoRemark(r));
+              }
+            },
+            {
+              label: '半托（POP）',
+              rows: pop,
+              sumText: '支付 ' + usd(totPay) + ' · 订单 ' + n(totOrders),
+              hint: '左线=今日支付，右线=POP 访客，长度都是组内相对最大值',
+              numFrom: 2,
+              dt: '40px minmax(0,1.45fr) minmax(0,1.1fr) minmax(0,1.05fr) minmax(0,.62fr) minmax(0,.72fr) minmax(0,2fr)',
+              head: ['#', '店铺', '今日支付 / USD', '访客', '订单', '转化率', '一句点评'],
+              cells: function (r, i) {
+                return cell('idx', String(i + 1).padStart(2, '0'))
+                  + cell('dname', esc(r.name), '店铺', chTag(r))
+                  + barCell(r.pay, maxPP, '支付', usd(r.pay), 'barcell--ali')
+                  + barCell(r.visitors, maxPV, '访客', n(r.visitors), '')
+                  + cell('num', n(r.orders), '订单')
+                  + cell('num', pct(r.cvr, 2), '转化率')
+                  + remarkCell(popRemark(r));
+              }
+            }
           ];
-        },
-        cells: function (r, i) {
-          return cell('idx', String(i + 1).padStart(2, '0'))
-            + cell('dname', esc(r.name), '店铺', (r.hasPop && r.hasTuo ? '全托+半托 · ' : '') + '余额 ' + usd(r.balance) + ' · 纠纷 ' + n(r.disputes))
-            + cell('num', usd(r.pay), '支付')
-            + cell('num', n(r.orders), '单量')
-            + cell('num', n(r.units), '件数')
-            + cell('num', n(r.visitors), '访客')
-            + cell('num', pct(r.cvr, 2), '转化')
-            + cell('num', usd(r.ad), '广告')
-            + cell('num', n(r.roi, 2) + ' / ' + pct(r.acos, 2), 'ROI / ACOS');
         },
         foot: function () {
           var s = ali.stores || [];
           return '<span>合计 <b>' + usd(sum(s, 'pay')) + '</b></span>'
-            + '<span>单量 <b>' + n(sum(s, 'orders')) + '</b></span>'
-            + '<span>件数 <b>' + n(sum(s, 'units')) + '</b></span>'
-            + '<span>访客 <b>' + n(sum(s, 'visitors')) + '</b></span>'
-            + '<span>广告 <b>' + usd(sum(s, 'ad')) + '</b></span>';
+            + '<span>POP 订单 <b>' + n(sum(s, 'orders')) + '</b></span>'
+            + '<span>全托销量 <b>' + n(sum(s, 'units')) + '</b> 件</span>'
+            + '<span>POP 访客 <b>' + n(sum(s, 'visitors')) + '</b></span>'
+            + '<span>全托访客 <b>' + n(sum(s, 'ftVisitors')) + '</b></span>';
         }
       },
       amazon: {
@@ -2263,7 +2996,8 @@ window.SHOWCASE = {
     }
     function rowsHtml(P, rows) {
       return rows.map(function (r, i) {
-        var cls = r.hasData === false ? ' is-empty' : (P.quiet && P.quiet(r) ? ' is-quiet' : '');
+        var cls = (i % 2 ? ' is-alt' : '')
+          + (r.hasData === false ? ' is-empty' : (P.quiet && P.quiet(r) ? ' is-quiet' : ''));
         return '<div class="drow' + cls + '" style="--dt:' + P.dt + '">'
           + P.cells(r, i) + '</div>';
       }).join('');
@@ -2274,14 +3008,16 @@ window.SHOWCASE = {
       drTitle.textContent = P.title;
       drNote.textContent = P.note;
       if (P.groups) {
-        drTable.innerHTML = headHtml(P) + P.groups().map(function (g) {
+        drTable.innerHTML = P.groups().map(function (g) {
+          var GP = { dt: g.dt, head: g.head, numFrom: g.numFrom, cells: g.cells, quiet: g.quiet };
           return '<div class="dgroup">'
             + '<span class="dg-name">' + esc(g.label) + '</span>'
             + '<span class="dg-n">' + g.rows.length + ' 家</span>'
             + (g.sumText ? '<span class="dg-sum">' + esc(g.sumText) + '</span>' : '')
             + (g.hint ? '<span class="dg-hint">' + esc(g.hint) + '</span>' : '')
             + '</div>'
-            + (g.rows.length ? rowsHtml(P, g.rows) : '<p class="drawer-empty">该渠道今天没有店铺数据。</p>');
+            + headHtml(GP)
+            + (g.rows.length ? rowsHtml(GP, g.rows) : '<p class="drawer-empty">该渠道今天没有店铺数据。</p>');
         }).join('');
       } else {
         drTable.innerHTML = headHtml(P) + (P.rows.length
