@@ -654,7 +654,7 @@ window.SHOWCASE = {
   "westDay": "2026-11-10",
   "westNow": "11-10 23:59",
   "dayState": "进行中",
-  "generated": "2026-11-11 17:12:12",
+  "generated": "2026-11-11 17:30:01",
   "dbMtime": "2026-11-11 16:15:14",
   "tzNote": "速卖通按美西 0 点归零；亚马逊、美客多按北京 0 点归零；TikTok 按 UTC 0 点归零（= 北京 08:00）",
   "caveat": "速卖通、亚马逊为美元金额；TikTok 小店与美客多当前只有件数/访问口径，不计入金额合计。",
@@ -3124,7 +3124,7 @@ window.SHOWCASE = {
       aliexpress: {
         logo: 'Ali',
         title: ali.name + ' · 全托 ' + n((ali.channels || {}).tuo) + ' 家 / 半托 ' + n((ali.channels || {}).pop) + ' 家',
-        note: '每个店铺两条线：左线＝销量或支付（组内相对最大值），右线＝访客（同组相对最大值）。「全托链接数 / POP链接数」是每家店在架的商品链接条数，由采集端新增字段提供，没采到就显示「—」。最后一列是自动挑的点评：先说时段（哪个小时出量/出单最多、有没有一笔大单或小单跑量），再看同比、排名和异常。点评里的小时都是北京时间。',
+        note: '每个店铺两条线：左线＝销量或支付（组内相对最大值），右线＝访客（同组相对最大值）。最后一列是自动挑的点评：先说时段（哪个小时出量/出单最多、有没有一笔大单或小单跑量），再看同比、排名和异常。点评里的小时都是北京时间。',
         rows: ali.stores || [],
         groups: function () {
           var s = ali.stores || [];
@@ -3228,12 +3228,11 @@ window.SHOWCASE = {
               sumText: '销量 ' + n(totUnits) + ' 件 · 访客 ' + n(sum(tuo, 'ftVisitors')),
               hint: '左线=今日销量，右线=今日访客，长度都是组内相对最大值',
               numFrom: 2,
-              dt: '40px minmax(0,1.32fr) minmax(0,.66fr) minmax(0,1.02fr) minmax(0,1.02fr) minmax(0,.82fr) minmax(0,2.1fr)',
-              head: ['#', '店铺', '全托链接数', '今日销量', '今日访客', '浏览→销量', '一句点评'],
+              dt: '40px minmax(0,1.45fr) minmax(0,1.05fr) minmax(0,1.05fr) minmax(0,.85fr) minmax(0,2.2fr)',
+              head: ['#', '店铺', '今日销量', '今日访客', '浏览→销量', '一句点评'],
               cells: function (r, i) {
                 return cell('idx', String(i + 1).padStart(2, '0'))
                   + cell('dname', esc(r.name), '店铺', chTag(r))
-                  + cell('num', has(r.tuoLinks) ? n(r.tuoLinks) : '—', '全托链接数')
                   + barCell(r.units, maxTU, '销量', n(r.units) + ' 件', '')
                   + barCell(r.ftVisitors, maxTV, '访客', n(r.ftVisitors), '')
                   + cell('num', r.views ? pct(r.units / r.views * 100, 1) : '—', '浏览→销量')
@@ -3246,12 +3245,11 @@ window.SHOWCASE = {
               sumText: '支付 ' + usd(totPay) + ' · 订单 ' + n(totOrders),
               hint: '左线=今日支付，右线=POP 访客，长度都是组内相对最大值',
               numFrom: 2,
-              dt: '40px minmax(0,1.3fr) minmax(0,.6fr) minmax(0,1.06fr) minmax(0,1fr) minmax(0,.58fr) minmax(0,.68fr) minmax(0,1.95fr)',
-              head: ['#', '店铺', 'POP链接数', '今日支付 / USD', '访客', '订单', '转化率', '一句点评'],
+              dt: '40px minmax(0,1.45fr) minmax(0,1.1fr) minmax(0,1.05fr) minmax(0,.62fr) minmax(0,.72fr) minmax(0,2fr)',
+              head: ['#', '店铺', '今日支付 / USD', '访客', '订单', '转化率', '一句点评'],
               cells: function (r, i) {
                 return cell('idx', String(i + 1).padStart(2, '0'))
                   + cell('dname', esc(r.name), '店铺', chTag(r))
-                  + cell('num', has(r.popLinks) ? n(r.popLinks) : '—', 'POP链接数')
                   + barCell(r.pay, maxPP, '支付', usd(r.pay), 'barcell--ali')
                   + barCell(r.visitors, maxPV, '访客', n(r.visitors), '')
                   + cell('num', n(r.orders), '订单')
@@ -3263,22 +3261,11 @@ window.SHOWCASE = {
         },
         foot: function () {
           var s = ali.stores || [];
-          var tl = s.filter(function (r) { return has(r.tuoLinks); });
-          var pl = s.filter(function (r) { return has(r.popLinks); });
-          var tuoAll = s.filter(function (r) { return r.hasTuo; }).length;
-          var popAll = s.filter(function (r) { return r.hasPop; }).length;
-          function linkSeg(arr, all, cls) {
-            if (!arr.length) return '';
-            return '<span>' + cls + ' <b>' + n(sum(arr, cls === '全托链接' ? 'tuoLinks' : 'popLinks')) + '</b> 条'
-              + (arr.length < all ? '（' + arr.length + '/' + all + ' 家已采集）' : '') + '</span>';
-          }
           return '<span>合计 <b>' + usd(sum(s, 'pay')) + '</b></span>'
             + '<span>POP 订单 <b>' + n(sum(s, 'orders')) + '</b></span>'
             + '<span>全托销量 <b>' + n(sum(s, 'units')) + '</b> 件</span>'
             + '<span>POP 访客 <b>' + n(sum(s, 'visitors')) + '</b></span>'
-            + '<span>全托访客 <b>' + n(sum(s, 'ftVisitors')) + '</b></span>'
-            + linkSeg(tl, tuoAll, '全托链接')
-            + linkSeg(pl, popAll, 'POP 链接');
+            + '<span>全托访客 <b>' + n(sum(s, 'ftVisitors')) + '</b></span>';
         }
       },
       amazon: {
