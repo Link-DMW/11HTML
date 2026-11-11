@@ -531,11 +531,32 @@
   .clock .cz{font-size:11px;font-weight:800;letter-spacing:.06em;opacity:.72}
   .clock.is-stale{border-style:dashed;background:rgba(0,0,0,.10)}
 
+  /* ============ 顶部「维护中」条 ============ */
+  .maint{
+    position:sticky;top:0;z-index:80;
+    background:repeating-linear-gradient(135deg,#FFE300 0 14px,#EFD400 14px 28px);
+    border-bottom:2px solid var(--ink);
+  }
+  .maint-in{
+    width:calc(100% - var(--gutter));max-width:var(--maxw);margin:0 auto;
+    display:flex;align-items:center;gap:9px 14px;flex-wrap:wrap;
+    padding:9px 0;
+  }
+  .maint-tag{
+    flex:0 0 auto;background:var(--ink);color:#FFE300;
+    font-size:12.5px;font-weight:900;letter-spacing:.16em;
+    padding:3px 9px 2px;
+  }
+  .maint-txt{font-size:12.5px;font-weight:700;color:var(--ink);line-height:1.55}
+  .maint-txt b{font-weight:900}
+
   @media (max-width:780px){
     .snap{display:flex;width:100%;margin-top:22px}
     .snap-c{flex:1 1 auto;padding:9px 12px}
   }
   @media (max-width:640px){
+    .maint-in{padding:7px 0}
+    .maint-txt{font-size:11.5px;letter-spacing:.01em}
     .records{grid-template-columns:minmax(0,1fr)}
     .snap-v{font-size:16px}
     .snap-k{font-size:8.5px;letter-spacing:.14em}
@@ -543,6 +564,13 @@
 </style>
 </head>
 <body>
+
+<div class="maint" role="status" aria-label="页面维护中提示">
+  <div class="maint-in">
+    <span class="maint-tag">维护中</span>
+    <span class="maint-txt"><b>页面维护中</b>：双十一已收官，本页定格在美西 11-10 23:59（北京 11-11 15:59）的最后一次采集，暂不随采集自动更新；数据以店铺后台为准。</span>
+  </div>
+</div>
 
 <header class="hero" aria-label="数据抬头与今日大盘">
   <div class="wrap">
@@ -626,7 +654,7 @@ window.SHOWCASE = {
   "westDay": "2026-11-10",
   "westNow": "11-10 23:59",
   "dayState": "已收官",
-  "generated": "2026-11-11 16:15:23",
+  "generated": "2026-11-11 16:20:26",
   "dbMtime": "2026-11-11 16:15:14",
   "tzNote": "速卖通按美西 0 点归零；亚马逊、美客多按北京 0 点归零；TikTok 按 UTC 0 点归零（= 北京 08:00）",
   "caveat": "速卖通、亚马逊为美元金额；TikTok 小店与美客多当前只有件数/访问口径，不计入金额合计。",
