@@ -626,8 +626,8 @@ window.SHOWCASE = {
   "westDay": "2026-11-11",
   "westNow": "11-11 17:06",
   "dayState": "进行中",
-  "generated": "2026-11-12 09:07:05",
-  "dbMtime": "2026-11-12 09:06:18",
+  "generated": "2026-11-12 09:08:28",
+  "dbMtime": "2026-11-12 09:08:15",
   "tzNote": "速卖通按美西 0 点归零；亚马逊、美客多按北京 0 点归零；TikTok 按 UTC 0 点归零（= 北京 08:00）",
   "caveat": "速卖通、亚马逊为美元金额；TikTok 小店与美客多当前只有件数/访问口径，不计入金额合计。",
   "source": "shop_data_readonly.db → shop_data.js",
@@ -2807,6 +2807,8 @@ window.SHOWCASE = {
   (function () {
     var k = ali.kpi || {};
     var series = ali.series || [];
+    // 折线最后那个点就是"今天"这条：它到哪一刻，用速卖通自己的快照时间（美西口径，和 13 天的日轴一致）
+    var aliSnapWest = westOf(ali.snapshot);
     var peak = series.reduce(function (a, b) { return (has(b.pay) && (!a || b.pay > a.pay)) ? b : a; }, null);
     var samePct = has(k.paySamePct) ? k.paySamePct : null;
     var dir = samePct !== null && samePct < 0 ? '↓ ' : '↑ ';
@@ -2840,8 +2842,8 @@ window.SHOWCASE = {
               label: '速卖通近 ' + series.length + ' 天支付＋今天进行中'
             })
           + '<div class="chart-meta"><span>' + esc(dateShort(series.length ? series[0].d : '')) + '</span>'
-            + '<span title="北京 ' + esc(String(meta.snapshot || '').slice(11, 16)) + '">今天 '
-            + esc(west ? west.time : String(meta.snapshot || '').slice(11, 16)) + ' 美西</span></div>'
+            + '<span title="北京 ' + esc(String(ali.snapshot || '').slice(11, 16)) + '">今天 '
+            + esc(aliSnapWest ? aliSnapWest.time : String(ali.snapshot || '').slice(11, 16)) + ' 美西</span></div>'
           + '<div class="chart-meta"><span>峰值 ' + usd(peak && peak.pay) + '</span><span>' + esc(peak ? dateShort(peak.d) : '') + '</span></div>'
         + '</div>'
       + '</div>'
