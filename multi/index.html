@@ -114,6 +114,16 @@
     display:block;margin-top:4px;font-size:10.5px;font-weight:700;letter-spacing:.12em;
     color:rgba(255,255,255,.55);text-transform:uppercase;
   }
+  /* 件数合计的算式：一行摊开每个平台出了多少件 */
+  .hero-units{
+    margin-top:11px;max-width:1000px;
+    font-size:12px;font-weight:700;line-height:1.9;letter-spacing:.01em;
+    color:rgba(255,255,255,.62);
+  }
+  .hero-units b{color:#fff;font-weight:900;font-size:13.5px}
+  .hero-units .u-eq{
+    display:inline-block;margin:0 8px;color:#FFE300;font-weight:900;
+  }
   .hero-caveat{
     margin-top:10px;max-width:640px;font-size:12.5px;line-height:1.65;
     color:rgba(255,255,255,.55);font-weight:500;
@@ -588,6 +598,7 @@
       <div class="snap" id="snapBar"></div>
       <p class="hero-sub" id="heroSub"><b>4</b> 个平台 · <b>2</b> 个有金额口径</p>
       <div class="hero-facts" id="heroFacts"></div>
+      <p class="hero-units" id="heroUnits"></p>
       <p class="hero-caveat" id="heroCaveat"></p>
       <p class="hero-warn" id="heroWarn" hidden></p>
 
@@ -648,25 +659,25 @@ window.SHOWCASE = {
   "brand": "跨境多平台",
   "title": "多平台经营数据",
   "campaign": "2026十一大促月",
-  "snapshot": "2026-11-13 09:17:24",
+  "snapshot": "2026-11-13 09:24:47",
   "snapshotDay": "2026-11-13",
-  "snapshotTime": "09:17",
+  "snapshotTime": "09:24",
   "westDay": "2026-11-12",
-  "westNow": "11-12 17:17",
+  "westNow": "11-12 17:24",
   "dayState": "速卖通今日进行中",
-  "generated": "2026-11-13 09:19:27",
-  "dbMtime": "2026-11-13 09:19:15",
+  "generated": "2026-11-13 09:27:40",
+  "dbMtime": "2026-11-13 09:27:15",
   "tzNote": "速卖通按美西 0 点归零；亚马逊按北京 0 点归零、卡片取昨日（北京日 0–24 点）全天峰值；美客多按北京 0 点归零；TikTok 按 UTC 0 点归零（= 北京 08:00）",
   "caveat": "速卖通、亚马逊为美元金额：速卖通是今日（美西日）累计，亚马逊是昨日（11.12，北京日 0–24 点）全天峰值，两者不是同一时段，合计只作量级参考；TikTok 小店与美客多当前只有件数/访问口径，不计入金额合计。",
   "source": "shop_data_readonly.db → shop_data.js",
   "staleNote": "",
   "lags": {
    "aliexpress": 0.0,
-   "tiktok": 0.4,
-   "ml": 0.3
+   "tiktok": 0.5,
+   "ml": 0.5
   },
   "staleList": [],
-  "freshness": "各平台快照时间不同：速卖通 09:17 / 亚马逊 昨日 23:49 / TikTok 08:54 / 美客多 08:57（北京时间）"
+  "freshness": "各平台快照时间不同：速卖通 09:24 / 亚马逊 昨日 23:49 / TikTok 08:54 / 美客多 08:57（北京时间）"
  },
  "totals": {
   "usd": 14216.05,
@@ -731,11 +742,11 @@ window.SHOWCASE = {
     "aov": 41.85,
     "popVisitors": 10015,
     "cvr": 3.01,
-    "visitors": 7058,
-    "views": 13855,
+    "visitors": 7093,
+    "views": 13932,
     "disputes": 5,
     "popDisputes": 8,
-    "balance": 29890.0,
+    "balance": 29978.0,
     "adSpend": 533.41,
     "roi": 23.62,
     "popActive": 11,
@@ -745,7 +756,7 @@ window.SHOWCASE = {
     "paySamePrev": 25335.32,
     "paySamePct": -50.3
    },
-   "snapshot": "2026-11-13 09:17:24",
+   "snapshot": "2026-11-13 09:24:47",
    "series": [
     {
      "d": "2026-10-30",
@@ -1843,7 +1854,7 @@ window.SHOWCASE = {
      "prevPay": 0.0,
      "prevUnits": 17.0,
      "prevPopVisitors": 1.0,
-     "prevFtVisitors": 415.0
+     "prevFtVisitors": 441.0
     },
     {
      "name": "Linda",
@@ -1851,8 +1862,8 @@ window.SHOWCASE = {
      "orders": 0,
      "units": 11,
      "visitors": 0,
-     "views": 689,
-     "ftVisitors": 311,
+     "views": 706,
+     "ftVisitors": 320,
      "cvr": 0.0,
      "ad": 0.0,
      "roi": 0.0,
@@ -1860,12 +1871,12 @@ window.SHOWCASE = {
      "balance": 882.62,
      "disputes": 0,
      "popDisputes": 0,
-     "ts": "2026-11-13 08:20:36",
+     "ts": "2026-11-13 09:22:39",
      "hasData": true,
      "hasPop": false,
      "hasTuo": true,
      "flow": {
-      "hourCount": 16,
+      "hourCount": 17,
       "peakHour": "17",
       "peakPay": 0.0,
       "peakShare": 0,
@@ -1974,7 +1985,7 @@ window.SHOWCASE = {
      },
      "prevPay": 0.0,
      "prevUnits": 0.0,
-     "prevPopVisitors": 31.0,
+     "prevPopVisitors": 33.0,
      "prevFtVisitors": 0.0
     },
     {
@@ -1983,8 +1994,8 @@ window.SHOWCASE = {
      "orders": 0,
      "units": 9,
      "visitors": 0,
-     "views": 280,
-     "ftVisitors": 140,
+     "views": 317,
+     "ftVisitors": 154,
      "cvr": 0.0,
      "ad": 0.0,
      "roi": 0.0,
@@ -1992,12 +2003,12 @@ window.SHOWCASE = {
      "balance": 385.65,
      "disputes": 0,
      "popDisputes": 0,
-     "ts": "2026-11-13 08:22:58",
+     "ts": "2026-11-13 09:24:47",
      "hasData": true,
      "hasPop": false,
      "hasTuo": true,
      "flow": {
-      "hourCount": 16,
+      "hourCount": 17,
       "peakHour": "17",
       "peakPay": 0.0,
       "peakShare": 0,
@@ -2027,21 +2038,21 @@ window.SHOWCASE = {
      "orders": 0,
      "units": 18,
      "visitors": 0,
-     "views": 853,
-     "ftVisitors": 389,
+     "views": 876,
+     "ftVisitors": 401,
      "cvr": 0.0,
      "ad": 0.0,
      "roi": 0.0,
      "acos": 0.0,
-     "balance": 2005.94,
+     "balance": 2093.94,
      "disputes": 0,
      "popDisputes": 0,
-     "ts": "2026-11-13 08:18:32",
+     "ts": "2026-11-13 09:20:12",
      "hasData": true,
      "hasPop": false,
      "hasTuo": true,
      "flow": {
-      "hourCount": 16,
+      "hourCount": 17,
       "peakHour": "17",
       "peakPay": 0.0,
       "peakShare": 0,
@@ -2105,9 +2116,9 @@ window.SHOWCASE = {
       "smallHourAov": null
      },
      "prevPay": 0.0,
-     "prevUnits": 98.0,
+     "prevUnits": 103.0,
      "prevPopVisitors": 0.0,
-     "prevFtVisitors": 2802.0
+     "prevFtVisitors": 2914.0
     },
     {
      "name": "sam",
@@ -2776,7 +2787,7 @@ window.SHOWCASE = {
      "ret": 0.0,
      "ts": "2026-11-13 08:53:09",
      "lastTs": "2026-11-13 08:53:09",
-     "ageH": 0.4,
+     "ageH": 0.5,
      "status": "live",
      "hasData": true
     },
@@ -2793,7 +2804,7 @@ window.SHOWCASE = {
      "ret": 0.0,
      "ts": "2026-11-13 08:53:25",
      "lastTs": "2026-11-13 08:53:25",
-     "ageH": 0.4,
+     "ageH": 0.5,
      "status": "live",
      "hasData": true
     },
@@ -2810,7 +2821,7 @@ window.SHOWCASE = {
      "ret": 0.0,
      "ts": "2026-11-13 08:54:23",
      "lastTs": "2026-11-13 08:54:23",
-     "ageH": 0.4,
+     "ageH": 0.5,
      "status": "live",
      "hasData": true
     }
@@ -2828,6 +2839,7 @@ window.SHOWCASE = {
     "visits": 15,
     "buyers": 0,
     "orders": 0,
+    "sold": 0,
     "cvr": 0.0,
     "sitesActive": 4,
     "sitesTotal": 5,
@@ -3228,8 +3240,13 @@ window.SHOWCASE = {
   (function () {
     var k1 = ali.kpi || {}, k2 = amz.kpi || {}, k3 = tk.kpi || {}, k4 = ml.kpi || {};
     var raw = function (v) { return has(v) ? v : 0; };
+    // 单量合计：只有这三个平台有「单量」口径（TikTok 库里没有单量列）
     var totOrders = raw(k1.orders) + raw(k2.orders) + raw(k4.orders);
-    var totUnits = raw(k1.units) + raw(k2.units) + raw(k3.units);
+    // 件数合计：速卖通 POP（库里只有「POP实时订单数」，POP 一单一件，按件记）
+    //          + 速卖通全托（全托今天销量）+ 亚马逊 + 美客多（已经售件数）+ TikTok
+    var uPop = raw(k1.orders), uTuo = raw(k1.units);
+    var uAmz = raw(k2.units), uMl = raw(k4.sold), uTk = raw(k3.units);
+    var totUnits = uPop + uTuo + uAmz + uMl + uTk;
     // 进行中：对比"昨日同一时刻"，不能拿半天比整天
     var payPct = k1.paySamePct;
     var deltaHtml = has(payPct)
@@ -3242,6 +3259,10 @@ window.SHOWCASE = {
       '<div class="fact"><b>' + n(totOrders) + '</b><span>单量合计</span></div>'
       + '<div class="fact"><b>' + n(totUnits) + '</b><span>件数合计</span></div>'
       + '<div class="fact">' + deltaHtml + '<span>' + esc(deltaNote) + '</span></div>';
+    $('#heroUnits').innerHTML =
+      '速卖通POP（' + n(uPop) + '件） ＋ 速卖通全托（' + n(uTuo) + '件） ＋ 亚马逊（' + n(uAmz)
+      + '件） ＋ 美客多（' + n(uMl) + '件） ＋ TikTok（' + n(uTk) + '件）'
+      + '<span class="u-eq">＝</span>总计 <b>' + n(totUnits) + '</b> 件';
   })();
 
   function bdCell(name, color, amt, note) {
