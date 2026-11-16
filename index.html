@@ -586,7 +586,7 @@
     </div>
 
     <div class="hero-body">
-      <p class="label kicker">速卖通今日 + 亚马逊近24h · 金额口径 USD</p>
+      <p class="label kicker">速卖通今日支付 · 金额口径 USD</p>
       <h1 class="total" id="heroTotal">$13,492.84</h1>
       <div class="snap" id="snapBar"></div>
       <p class="hero-sub" id="heroSub"><b>4</b> 个平台 · <b>2</b> 个有金额口径</p>
@@ -661,7 +661,7 @@ window.SHOWCASE = {
   "generated": "2026-11-16 10:37:51",
   "dbMtime": "2026-11-16 10:37:22",
   "tzNote": "速卖通按美西 0 点归零；亚马逊取后台「近 24 小时」滚动口径（每 1~2 小时一条快照）；美客多按北京 0 点归零；TikTok 按 UTC 0 点归零（= 北京 08:00）",
-  "caveat": "速卖通、亚马逊为美元金额：速卖通是今日（美西日）累计，亚马逊是「近 24 小时」滚动值（最后采集 11-15 12:53 北京），两者不是同一时段，合计只作量级参考；TikTok 小店与美客多当前只有件数/访问口径，不计入金额合计。",
+  "caveat": "速卖通、亚马逊都有美元金额，但口径不同：速卖通是今日（美西日）累计，亚马逊是「近 24 小时」滚动值（最后采集 11-15 12:53 北京）。大金额合计只算速卖通，亚马逊金额单列、不并入合计；TikTok 小店与美客多当前只有件数/访问口径，不计入金额合计。",
   "source": "shop_data_readonly.db → shop_data.js",
   "staleNote": "",
   "lags": {
@@ -686,9 +686,8 @@ window.SHOWCASE = {
   "freshness": "各平台快照时间不同：速卖通 10:34 / 亚马逊 近24h（最后 11-15 12:53） / TikTok 12:53 / 美客多 09:50（北京时间）"
  },
  "totals": {
-  "usd": 16198.65,
-  "aliexpressShare": 75.2,
-  "amazonShare": 24.8,
+  "usd": 12176.79,
+  "amazonAmount": 4021.86,
   "platformsWithAmount": 2,
   "platformsTotal": 4
  },
@@ -711,7 +710,7 @@ window.SHOWCASE = {
    "amountText": "$4,021.86",
    "orders": 116,
    "units": 28,
-   "note": "滚动 24 小时 · 18 条采集点 · 最后 11-15 12:53"
+   "note": "滚动 24 小时 · 18 条采集点 · 最后 11-15 12:53 · 不计入金额合计"
   },
   {
    "platform": "TikTok 小店",
@@ -3056,8 +3055,8 @@ window.SHOWCASE = {
       + '</div>';
   }
   $('#breakdown').innerHTML =
-    bdCell(ali.name || '速卖通', COLOR.aliexpress, usd(ali.kpi && ali.kpi.pay), '今日 · ' + pct(totals.aliexpressShare, 1) + ' 金额占比')
-    + bdCell(amz.name || '亚马逊', COLOR.amazon, usd(amz.kpi && amz.kpi.sales), '近24h · ' + pct(totals.amazonShare, 1) + ' 金额占比');
+    bdCell(ali.name || '速卖通', COLOR.aliexpress, usd(ali.kpi && ali.kpi.pay), '今日支付 · 计入合计')
+    + bdCell(amz.name || '亚马逊', COLOR.amazon, usd(amz.kpi && amz.kpi.sales), '近24h · 口径不同，单列');
 
   /* ---------- 平台卡 ---------- */
   function metric(v, label) {
@@ -3280,7 +3279,7 @@ window.SHOWCASE = {
       + '</div>';
   })();
 
-  $('#cardsNote').textContent = '金额合计 ' + usd(totals.usd) + ' 只来自速卖通 + 亚马逊（亚马逊取近24h）；每块一个平台，颜色即身份';
+  $('#cardsNote').textContent = '大金额合计 ' + usd(totals.usd) + ' 只算速卖通（亚马逊近24h口径不同，单列不并入）；每块一个平台，颜色即身份';
 
   /* ---------- 平台明细抽屉（点卡片展开） ---------- */
   (function () {
