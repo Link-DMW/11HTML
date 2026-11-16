@@ -500,18 +500,6 @@
   @keyframes agoPulse{0%,100%{opacity:1}50%{opacity:.2}}
   .snap-c--ago.is-old .snap-v,.snap-c--ago.is-old .snap-k{color:#FFCBBD}
 
-  /* ============ 卡片内的“维护中”条（平台停更时用） ============ */
-  .card-maint{
-    display:flex;align-items:center;gap:8px 10px;flex-wrap:wrap;
-    padding:6px 9px;background:#FFD400;color:#111111;border:1.5px solid #111111;
-    font-size:11px;font-weight:800;letter-spacing:.02em;line-height:1.35;
-  }
-  .card-maint .cm-tag{
-    flex:0 0 auto;background:#111111;color:#FFD400;padding:2px 8px;
-    font-size:11px;font-weight:800;letter-spacing:.12em;line-height:1.5;
-  }
-  .card-maint .cm-txt{color:#111111;font-weight:700}
-
   /* ============ 店铺行里的两条线 + 点评 ============ */
   .barcell .dv{line-height:1.15}
   .barcell .bar{display:block;margin-top:5px;height:4px;background:rgba(17,17,17,.12)}
@@ -652,42 +640,36 @@ window.SHOWCASE = {
   "brand": "跨境多平台",
   "title": "多平台经营数据",
   "campaign": "2026十一大促月",
-  "snapshot": "2026-11-16 18:27:15",
+  "snapshot": "2026-11-16 18:48:35",
   "snapshotDay": "2026-11-16",
-  "snapshotTime": "18:27",
+  "snapshotTime": "18:48",
   "westDay": "2026-11-16",
-  "westNow": "11-16 02:27",
+  "westNow": "11-16 02:48",
   "dayState": "速卖通今日进行中",
-  "generated": "2026-11-16 18:31:06",
-  "dbMtime": "2026-11-16 18:30:23",
+  "generated": "2026-11-16 18:58:28",
+  "dbMtime": "2026-11-16 18:58:16",
   "tzNote": "速卖通按美西 0 点归零；亚马逊取后台「近 24 小时」滚动口径（每 1~2 小时一条快照）；美客多按北京 0 点归零；TikTok 按 UTC 0 点归零（= 北京 08:00）",
-  "caveat": "速卖通、亚马逊都有美元金额，但口径不同：速卖通是今日（美西日）累计，亚马逊是「近 24 小时」滚动值（最后采集 11-16 11:48 北京）。大金额合计只算速卖通，亚马逊金额单列、不并入合计；TikTok 小店与美客多当前只有件数/访问口径，不计入金额合计。",
+  "caveat": "速卖通、亚马逊都有美元金额，但口径不同：速卖通是今日（美西日）累计，亚马逊是「近 24 小时」滚动值（最后采集 11-16 18:41 北京）。大金额合计只算速卖通，亚马逊金额单列、不并入合计；TikTok 小店与美客多当前只有件数/访问口径，不计入金额合计。",
   "source": "shop_data_readonly.db → shop_data.js",
   "staleNote": "",
   "lags": {
-   "aliexpress": 0.0,
-   "tiktok": 6.6,
-   "ml": 56.6
+   "aliexpress": 0.4,
+   "tiktok": 0.0,
+   "ml": 57.0
   },
   "staleList": [
-   {
-    "key": "tiktok",
-    "name": "TikTok 小店",
-    "ts": "2026-11-16 11:48:26",
-    "lagH": 6.6
-   },
    {
     "key": "ml",
     "name": "美客多",
     "ts": "2026-11-14 09:50:11",
-    "lagH": 56.6
+    "lagH": 57.0
    }
   ],
-  "freshness": "各平台快照时间不同：速卖通 18:27 / 亚马逊 近24h（最后 11-16 11:48） / TikTok 11:48 / 美客多 09:50（北京时间）"
+  "freshness": "各平台快照时间不同：速卖通 18:27 / 亚马逊 近24h（最后 11-16 18:41） / TikTok 18:48 / 美客多 09:50（北京时间）"
  },
  "totals": {
   "usd": 2028.35,
-  "amazonAmount": 404.82,
+  "amazonAmount": 4105.59,
   "platformsWithAmount": 2,
   "platformsTotal": 4
  },
@@ -706,11 +688,11 @@ window.SHOWCASE = {
    "platform": "亚马逊",
    "key": "amazon",
    "metric": "近24h销售额",
-   "amount": 404.82,
-   "amountText": "$404.82",
-   "orders": 11,
-   "units": 16,
-   "note": "滚动 24 小时 · 19 条采集点 · 最后 11-16 11:48 · 不计入金额合计"
+   "amount": 4105.59,
+   "amountText": "$4,105.59",
+   "orders": 137,
+   "units": 154,
+   "note": "滚动 24 小时 · 20 条采集点 · 最后 11-16 18:41 · 不计入金额合计"
   },
   {
    "platform": "TikTok 小店",
@@ -720,7 +702,7 @@ window.SHOWCASE = {
    "amountText": "—",
    "orders": null,
    "units": 0,
-   "note": "0/3 店在采 · 曝光 0"
+   "note": "3/3 店在采 · 曝光 7,037"
   },
   {
    "platform": "美客多",
@@ -2015,22 +1997,22 @@ window.SHOWCASE = {
   "amazon": {
    "key": "amazon",
    "name": "亚马逊",
-   "sub": "美国站 · 近24h滚动 · 19 条采集点",
+   "sub": "美国站 · 近24h滚动 · 20 条采集点",
    "currency": "USD",
    "basis": "24h",
    "kpi": {
-    "sales": 404.82,
-    "units": 16,
-    "orders": 11,
-    "avgPrice": 25.3,
-    "cancelled": 2,
-    "points": 19,
-    "lastTs": "2026-11-16 11:48:52",
-    "salesPrev": 4021.86,
-    "salesPct": -89.9,
-    "prevTs": "2026-11-15 12:53:35"
+    "sales": 4105.59,
+    "units": 154,
+    "orders": 137,
+    "avgPrice": 26.66,
+    "cancelled": 5,
+    "points": 20,
+    "lastTs": "2026-11-16 18:41:57",
+    "salesPrev": 404.82,
+    "salesPct": 914.2,
+    "prevTs": "2026-11-16 11:48:52"
    },
-   "snapshot": "2026-11-16 11:48:52",
+   "snapshot": "2026-11-16 18:41:57",
    "series": [
     {
      "t": "11-14 14:30",
@@ -2145,6 +2127,12 @@ window.SHOWCASE = {
      "sales": 404.82,
      "units": 16,
      "orders": 11
+    },
+    {
+     "t": "11-16 18:41",
+     "sales": 4105.59,
+     "units": 154,
+     "orders": 137
     }
    ],
    "rows": [
@@ -2299,6 +2287,14 @@ window.SHOWCASE = {
      "orders": 11,
      "avgPrice": 25.3,
      "cancelled": 2
+    },
+    {
+     "ts": "2026-11-16 18:41:57",
+     "sales": 4105.59,
+     "units": 154,
+     "orders": 137,
+     "avgPrice": 26.66,
+     "cancelled": 5
     }
    ],
    "tzReset": "滚动 · 近 24 小时"
@@ -2306,23 +2302,90 @@ window.SHOWCASE = {
   "tiktok": {
    "key": "tiktok",
    "name": "TikTok 小店",
-   "sub": "美国站 · 3 个店 · 0 店在采",
+   "sub": "美国站 · 3 个店 · 3 店在采",
    "currency": null,
    "kpi": {
     "units": 0,
-    "expo": 0,
-    "visitors": 0,
-    "badRate": 0.0,
+    "expo": 7037,
+    "visitors": 320,
+    "badRate": 0.35,
     "sku": 2,
-    "storesActive": 0,
-    "storesLive": 0,
-    "storesStale": 3,
+    "storesActive": 3,
+    "storesLive": 3,
+    "storesStale": 0,
     "storesTotal": 3,
-    "unitsSamePrev": null,
+    "unitsSamePrev": 0.0,
     "unitsSamePct": null
    },
-   "snapshot": "2026-11-16 11:48:26",
-   "series": [],
+   "snapshot": "2026-11-16 18:48:35",
+   "series": [
+    {
+     "d": "2026-11-05",
+     "units": 0,
+     "expo": 13600,
+     "visitors": 460
+    },
+    {
+     "d": "2026-11-06",
+     "units": 0,
+     "expo": 16978,
+     "visitors": 615
+    },
+    {
+     "d": "2026-11-07",
+     "units": 10,
+     "expo": 20336,
+     "visitors": 840
+    },
+    {
+     "d": "2026-11-08",
+     "units": 0,
+     "expo": 24247,
+     "visitors": 1160
+    },
+    {
+     "d": "2026-11-09",
+     "units": 0,
+     "expo": 20412,
+     "visitors": 833
+    },
+    {
+     "d": "2026-11-10",
+     "units": 4,
+     "expo": 19464,
+     "visitors": 740
+    },
+    {
+     "d": "2026-11-11",
+     "units": 2,
+     "expo": 20437,
+     "visitors": 767
+    },
+    {
+     "d": "2026-11-12",
+     "units": 4,
+     "expo": 20825,
+     "visitors": 867
+    },
+    {
+     "d": "2026-11-13",
+     "units": 5,
+     "expo": 41676,
+     "visitors": 904
+    },
+    {
+     "d": "2026-11-14",
+     "units": 8,
+     "expo": 21303,
+     "visitors": 680
+    },
+    {
+     "d": "2026-11-15",
+     "units": 0,
+     "expo": 4399,
+     "visitors": 174
+    }
+   ],
    "stores": [
     {
      "name": "Sinbeda Store",
@@ -2331,32 +2394,32 @@ window.SHOWCASE = {
      "short": 0,
      "live": 0,
      "sku": 0,
-     "expo": 2049,
-     "visitors": 109,
+     "expo": 4771,
+     "visitors": 243,
      "bad": 1.04,
      "ret": 0.0,
-     "ts": "2026-11-16 11:47:42",
-     "lastTs": "2026-11-16 11:47:42",
-     "ageH": 6.7,
-     "status": "stale",
-     "hasData": false
+     "ts": "2026-11-16 18:47:38",
+     "lastTs": "2026-11-16 18:47:38",
+     "ageH": 0.0,
+     "status": "live",
+     "hasData": true
     },
     {
      "name": "nexusclick",
      "table": "tk_nexusclick",
-     "units": 2,
+     "units": 0,
      "short": 0,
      "live": 0,
      "sku": 2,
-     "expo": 633,
-     "visitors": 21,
+     "expo": 1529,
+     "visitors": 53,
      "bad": 0.0,
      "ret": 0.0,
-     "ts": "2026-11-16 11:47:58",
-     "lastTs": "2026-11-16 11:47:58",
-     "ageH": 6.7,
-     "status": "stale",
-     "hasData": false
+     "ts": "2026-11-16 18:47:57",
+     "lastTs": "2026-11-16 18:47:57",
+     "ageH": 0.0,
+     "status": "live",
+     "hasData": true
     },
     {
      "name": "Rhode direct",
@@ -2365,15 +2428,15 @@ window.SHOWCASE = {
      "short": 0,
      "live": 0,
      "sku": 0,
-     "expo": 319,
-     "visitors": 12,
+     "expo": 737,
+     "visitors": 24,
      "bad": 0.0,
      "ret": 0.0,
-     "ts": "2026-11-16 11:48:26",
-     "lastTs": "2026-11-16 11:48:26",
-     "ageH": 6.6,
-     "status": "stale",
-     "hasData": false
+     "ts": "2026-11-16 18:48:35",
+     "lastTs": "2026-11-16 18:48:35",
+     "ageH": 0.0,
+     "status": "live",
+     "hasData": true
     }
    ],
    "tzReset": "归零 · UTC 0 点"
@@ -2776,24 +2839,6 @@ window.SHOWCASE = {
       + '<span class="snap-k">' + esc(k) + '</span>'
       + '<span class="snap-v">' + esc(v) + '</span></div>';
   }
-  /* 平台最后采集距整体快照慢了几小时（卡片级「维护中」条用） */
-  function lagHours(ts) {
-    var a = beijingMs(meta.snapshot), b = beijingMs(ts);
-    if (a == null || b == null) return null;
-    return Math.max(0, (a - b) / 3600000);
-  }
-  function cardMaint(name, ts) {
-    var lag = lagHours(ts);
-    var extra = '';
-    if (ts) {
-      extra = ' · 数据停在 ' + String(ts).slice(5, 16)
-        + (lag != null ? '（慢 ' + n(lag, 0) + ' 小时）' : '');
-    }
-    return '<div class="card-maint">'
-      + '<span class="cm-tag">维护中</span>'
-      + '<span class="cm-txt">' + esc(name) + '采集维护中' + esc(extra) + '</span>'
-    + '</div>';
-  }
   var _snapMs = beijingMs(meta.snapshot);
   $('#snapBar').innerHTML =
     snapCell('数据快照 · 北京', meta.snapshot || '—')
@@ -2940,7 +2985,6 @@ window.SHOWCASE = {
   (function () {
     var k = amz.kpi || {};
     var series = amz.series || [];
-    var maintHtml = cardMaint('亚马逊', k.lastTs);
     var deltaHtml;
     if (has(k.salesPct) && has(k.salesPrev)) {
       var _flat = Math.abs(k.salesPct) < 0.05;
@@ -2954,8 +2998,7 @@ window.SHOWCASE = {
         + esc(String(k.lastTs || '').slice(5, 16) || '—') + '</span>';
     }
     $('#cardAmz').innerHTML =
-      maintHtml
-      + '<div class="card-top">'
+      '<div class="card-top">'
         + '<span class="plogo">amz</span>'
         + '<div class="card-id"><h3 class="card-title">' + esc(amz.name) + '</h3><p class="card-sub">' + esc(amz.sub) + '</p></div>'
         + flag('金额口径 · ' + (amz.currency || '—'))
@@ -2994,16 +3037,8 @@ window.SHOWCASE = {
   (function () {
     var k = tk.kpi || {};
     var shops = (tk.stores || []).filter(function (r) { return r.hasData !== false; });
-    var staleN = has(k.storesStale) ? k.storesStale : 0;
-    var stNote = 'TikTok 小店采集维护中 · ' + n(k.storesLive) + '/' + n(k.storesTotal) + ' 个店在采';
-    if (staleN > 0) stNote += ' · ' + staleN + ' 个停更';
-    var maintHtml = '<div class="card-maint">'
-      + '<span class="cm-tag">维护中</span>'
-      + '<span class="cm-txt">' + esc(stNote) + '</span>'
-    + '</div>';
     $('#cardTk').innerHTML =
-      maintHtml
-      + '<div class="card-top">'
+      '<div class="card-top">'
         + '<span class="plogo">tk</span>'
         + '<div class="card-id"><h3 class="card-title">' + esc(tk.name) + '</h3><p class="card-sub">' + esc(tk.sub) + '</p></div>'
         + flag('曝光口径')
@@ -3038,7 +3073,6 @@ window.SHOWCASE = {
     var k = ml.kpi || {};
     var recs = ml.intraday || [];
     var sites = ml.sites || [];
-    var maintHtml = cardMaint('美客多', ml.snapshot);
     var lastRec = recs.length ? recs[recs.length - 1] : null;
     var siteRows = sites.map(function (s) {
       var country = String(s.name || '').split('-').pop();
@@ -3060,8 +3094,7 @@ window.SHOWCASE = {
       + '</div>';
     }).join('');
     $('#cardMl').innerHTML =
-      maintHtml
-      + '<div class="card-top">'
+      '<div class="card-top">'
         + '<span class="plogo">ML</span>'
         + '<div class="card-id"><h3 class="card-title">' + esc(ml.name) + '</h3><p class="card-sub">' + esc(ml.sub) + '</p></div>'
         + flag('访问口径')
