@@ -500,7 +500,7 @@
   @keyframes agoPulse{0%,100%{opacity:1}50%{opacity:.2}}
   .snap-c--ago.is-old .snap-v,.snap-c--ago.is-old .snap-k{color:#FFCBBD}
 
-  /* ============ 卡片内的“维护中”条（目前只有 TikTok 用） ============ */
+  /* ============ 卡片内的“维护中”条（平台停更时用） ============ */
   .card-maint{
     display:flex;align-items:center;gap:8px 10px;flex-wrap:wrap;
     padding:6px 9px;background:#FFD400;color:#111111;border:1.5px solid #111111;
@@ -3007,6 +3007,24 @@ window.SHOWCASE = {
       + '<span class="snap-k">' + esc(k) + '</span>'
       + '<span class="snap-v">' + esc(v) + '</span></div>';
   }
+  /* 平台最后采集距整体快照慢了几小时（卡片级「维护中」条用） */
+  function lagHours(ts) {
+    var a = beijingMs(meta.snapshot), b = beijingMs(ts);
+    if (a == null || b == null) return null;
+    return Math.max(0, (a - b) / 3600000);
+  }
+  function cardMaint(name, ts) {
+    var lag = lagHours(ts);
+    var extra = '';
+    if (ts) {
+      extra = ' · 数据停在 ' + String(ts).slice(5, 16)
+        + (lag != null ? '（慢 ' + n(lag, 0) + ' 小时）' : '');
+    }
+    return '<div class="card-maint">'
+      + '<span class="cm-tag">维护中</span>'
+      + '<span class="cm-txt">' + esc(name) + '采集维护中' + esc(extra) + '</span>'
+    + '</div>';
+  }
   var _snapMs = beijingMs(meta.snapshot);
   $('#snapBar').innerHTML =
     snapCell('数据快照 · 北京', meta.snapshot || '—')
@@ -3153,6 +3171,7 @@ window.SHOWCASE = {
   (function () {
     var k = amz.kpi || {};
     var series = amz.series || [];
+    var maintHtml = cardMaint('亚马逊', k.lastTs);
     var deltaHtml;
     if (has(k.salesPct) && has(k.salesPrev)) {
       var _flat = Math.abs(k.salesPct) < 0.05;
@@ -3166,7 +3185,8 @@ window.SHOWCASE = {
         + esc(String(k.lastTs || '').slice(5, 16) || '—') + '</span>';
     }
     $('#cardAmz').innerHTML =
-      '<div class="card-top">'
+      maintHtml
+      + '<div class="card-top">'
         + '<span class="plogo">amz</span>'
         + '<div class="card-id"><h3 class="card-title">' + esc(amz.name) + '</h3><p class="card-sub">' + esc(amz.sub) + '</p></div>'
         + flag('金额口径 · ' + (amz.currency || '—'))
@@ -3206,15 +3226,12 @@ window.SHOWCASE = {
     var k = tk.kpi || {};
     var shops = (tk.stores || []).filter(function (r) { return r.hasData !== false; });
     var staleN = has(k.storesStale) ? k.storesStale : 0;
-    var maintHtml = '';
-    if (staleN > 0) {
-      var stNote = 'TikTok 小店采集维护中 · ' + n(k.storesLive) + '/' + n(k.storesTotal) + ' 个店在采';
-      if (staleN > 0) stNote += ' · ' + staleN + ' 个停更';
-      maintHtml = '<div class="card-maint">'
-        + '<span class="cm-tag">维护中</span>'
-        + '<span class="cm-txt">' + esc(stNote) + '</span>'
-      + '</div>';
-    }
+    var stNote = 'TikTok 小店采集维护中 · ' + n(k.storesLive) + '/' + n(k.storesTotal) + ' 个店在采';
+    if (staleN > 0) stNote += ' · ' + staleN + ' 个停更';
+    var maintHtml = '<div class="card-maint">'
+      + '<span class="cm-tag">维护中</span>'
+      + '<span class="cm-txt">' + esc(stNote) + '</span>'
+    + '</div>';
     $('#cardTk').innerHTML =
       maintHtml
       + '<div class="card-top">'
@@ -3252,6 +3269,7 @@ window.SHOWCASE = {
     var k = ml.kpi || {};
     var recs = ml.intraday || [];
     var sites = ml.sites || [];
+    var maintHtml = cardMaint('美客多', ml.snapshot);
     var lastRec = recs.length ? recs[recs.length - 1] : null;
     var siteRows = sites.map(function (s) {
       var country = String(s.name || '').split('-').pop();
@@ -3273,7 +3291,8 @@ window.SHOWCASE = {
       + '</div>';
     }).join('');
     $('#cardMl').innerHTML =
-      '<div class="card-top">'
+      maintHtml
+      + '<div class="card-top">'
         + '<span class="plogo">ML</span>'
         + '<div class="card-id"><h3 class="card-title">' + esc(ml.name) + '</h3><p class="card-sub">' + esc(ml.sub) + '</p></div>'
         + flag('访问口径')
