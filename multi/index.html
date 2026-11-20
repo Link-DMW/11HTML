@@ -519,6 +519,20 @@
   .dg-sum{margin-left:auto;font-size:12px;font-weight:800;color:var(--ink)}
   .dg-hint{flex:1 1 100%;font-size:10.5px;font-weight:600;color:var(--ink-2);letter-spacing:.02em}
 
+  /* ============ 亚马逊卡 · 停更状态（大 logo 占位） ============ */
+  .card--paused{cursor:default}
+  .card--paused:hover{transform:none}
+  .amz-plate{flex:1 1 auto;display:grid;place-items:center;padding:26px 0 8px;min-height:206px}
+  .amz-plate svg{display:block;width:100%;max-width:428px;height:auto}
+  .amz-word{
+    font-family:"Segoe UI",Arial,"Helvetica Neue",sans-serif;
+    font-weight:800;font-size:96px;letter-spacing:-3px;
+  }
+  .amz-state{
+    display:block;font-size:12px;font-weight:700;line-height:1.65;letter-spacing:.02em;
+  }
+  .amz-state b{font-weight:800}
+
   /* ============ 卡片快照时间徽章 ============ */
   .clock{
     display:inline-flex;align-items:baseline;gap:8px;padding:7px 14px;
@@ -600,7 +614,7 @@
       </div>
       <div class="cards">
         <article class="card card--ali" id="cardAli" aria-label="速卖通今日数据"></article>
-        <article class="card card--amz" id="cardAmz" aria-label="亚马逊近24h"></article>
+        <article class="card card--amz card--paused" id="cardAmz" aria-label="亚马逊 · 数据暂停更新"></article>
         <article class="card card--tk" id="cardTk" aria-label="TikTok 小店今日数据"></article>
         <article class="card card--ml" id="cardMl" aria-label="美客多今日数据"></article>
       </div>
@@ -640,25 +654,25 @@ window.SHOWCASE = {
   "brand": "跨境多平台",
   "title": "多平台经营数据",
   "campaign": "2026十一大促月",
-  "snapshot": "2026-11-20 09:36:18",
+  "snapshot": "2026-11-20 09:40:57",
   "snapshotDay": "2026-11-20",
-  "snapshotTime": "09:36",
+  "snapshotTime": "09:40",
   "westDay": "2026-11-19",
-  "westNow": "11-19 17:36",
+  "westNow": "11-19 17:40",
   "dayState": "速卖通今日进行中",
-  "generated": "2026-11-20 09:39:10",
-  "dbMtime": "2026-11-20 09:38:15",
+  "generated": "2026-11-20 09:53:44",
+  "dbMtime": "2026-11-20 09:53:15",
   "tzNote": "速卖通按美西 0 点归零；亚马逊取后台「近 24 小时」滚动口径（每 1~2 小时一条快照）；美客多按北京 0 点归零；TikTok 按 UTC 0 点归零（= 北京 08:00）",
   "caveat": "速卖通、亚马逊都有美元金额，但口径不同：速卖通是今日（美西日）累计，亚马逊是「近 24 小时」滚动值（最后采集 11-19 23:04 北京）。大金额合计只算速卖通，亚马逊金额单列、不并入合计；TikTok 小店与美客多当前只有件数/访问口径，不计入金额合计。",
   "source": "shop_data_readonly.db → shop_data.js",
   "staleNote": "",
   "lags": {
-   "aliexpress": 0.0,
-   "tiktok": 0.8,
-   "ml": 0.7
+   "aliexpress": 0.1,
+   "tiktok": 0.0,
+   "ml": 0.0
   },
   "staleList": [],
-  "freshness": "各平台快照时间不同：速卖通 09:36 / 亚马逊 近24h（最后 11-19 23:04） / TikTok 08:49 / 美客多 08:51（北京时间）"
+  "freshness": "各平台快照时间不同：速卖通 09:36 / 亚马逊 近24h（最后 11-19 23:04） / TikTok 09:39 / 美客多 09:40（北京时间）"
  },
  "totals": {
   "usd": 10289.87,
@@ -695,7 +709,7 @@ window.SHOWCASE = {
    "amountText": "—",
    "orders": null,
    "units": 0,
-   "note": "3/3 店在采 · 曝光 511"
+   "note": "3/3 店在采 · 曝光 1,265"
   },
   {
    "platform": "美客多",
@@ -3598,8 +3612,8 @@ window.SHOWCASE = {
    "currency": null,
    "kpi": {
     "units": 0,
-    "expo": 511,
-    "visitors": 29,
+    "expo": 1265,
+    "visitors": 69,
     "badRate": 0.31,
     "sku": 0,
     "storesActive": 3,
@@ -3609,7 +3623,7 @@ window.SHOWCASE = {
     "unitsSamePrev": 0.0,
     "unitsSamePct": null
    },
-   "snapshot": "2026-11-20 08:49:31",
+   "snapshot": "2026-11-20 09:39:12",
    "series": [
     {
      "d": "2026-11-07",
@@ -3698,13 +3712,13 @@ window.SHOWCASE = {
      "short": 0,
      "live": 0,
      "sku": 0,
-     "expo": 342,
-     "visitors": 21,
+     "expo": 822,
+     "visitors": 49,
      "bad": 0.93,
      "ret": 0.93,
-     "ts": "2026-11-20 08:48:52",
-     "lastTs": "2026-11-20 08:48:52",
-     "ageH": 0.8,
+     "ts": "2026-11-20 09:38:30",
+     "lastTs": "2026-11-20 09:38:30",
+     "ageH": 0.0,
      "status": "live",
      "hasData": true
     },
@@ -3715,13 +3729,13 @@ window.SHOWCASE = {
      "short": 0,
      "live": 0,
      "sku": 0,
-     "expo": 134,
-     "visitors": 7,
+     "expo": 337,
+     "visitors": 15,
      "bad": 0.0,
      "ret": 0.0,
-     "ts": "2026-11-20 08:49:05",
-     "lastTs": "2026-11-20 08:49:05",
-     "ageH": 0.8,
+     "ts": "2026-11-20 09:38:45",
+     "lastTs": "2026-11-20 09:38:45",
+     "ageH": 0.0,
      "status": "live",
      "hasData": true
     },
@@ -3732,13 +3746,13 @@ window.SHOWCASE = {
      "short": 0,
      "live": 0,
      "sku": 0,
-     "expo": 35,
-     "visitors": 1,
+     "expo": 106,
+     "visitors": 5,
      "bad": 0.0,
      "ret": 0.0,
-     "ts": "2026-11-20 08:49:31",
-     "lastTs": "2026-11-20 08:49:31",
-     "ageH": 0.8,
+     "ts": "2026-11-20 09:39:12",
+     "lastTs": "2026-11-20 09:39:12",
+     "ageH": 0.0,
      "status": "live",
      "hasData": true
     }
@@ -3753,17 +3767,17 @@ window.SHOWCASE = {
    "tzReset": "归零 · 北京 0 点",
    "resetNote": "每个数字都是该站点最近一次采集的原始值（和库里那一行一致）。各站点后台按当地 0 点归零：墨西哥≈北京 14:00、巴西/阿根廷/智利≈北京 11:00、哥伦比亚≈北京 13:00，所以各站不是同一天，合计只作规模参考。",
    "kpi": {
-    "visits": 19,
+    "visits": 20,
     "buyers": 0,
     "orders": 0,
     "sold": 0,
     "cvr": 0.0,
     "sitesActive": 5,
     "sitesTotal": 5,
-    "visitsSamePrev": 20.0,
-    "visitsSamePct": -5.0
+    "visitsSamePrev": 27.0,
+    "visitsSamePct": -25.9
    },
-   "snapshot": "2026-11-20 08:51:39",
+   "snapshot": "2026-11-20 09:40:57",
    "series": [
     {
      "d": "2026-11-04",
@@ -3916,6 +3930,11 @@ window.SHOWCASE = {
      "t": "11-20 08:00",
      "visits": 19,
      "orders": 0
+    },
+    {
+     "t": "11-20 09:00",
+     "visits": 20,
+     "orders": 0
     }
    ],
    "sites": [
@@ -3928,7 +3947,7 @@ window.SHOWCASE = {
      "cvr": 0.0,
      "sold": 0,
      "price": 0.0,
-     "ts": "2026-11-20 08:51:07",
+     "ts": "2026-11-20 09:40:26",
      "localName": "墨西哥",
      "resetBj": "14:00",
      "hasData": true
@@ -3942,7 +3961,7 @@ window.SHOWCASE = {
      "cvr": 0.0,
      "sold": 0,
      "price": 0.0,
-     "ts": "2026-11-20 08:51:15",
+     "ts": "2026-11-20 09:40:34",
      "localName": "巴西",
      "resetBj": "11:00",
      "hasData": true
@@ -3956,21 +3975,21 @@ window.SHOWCASE = {
      "cvr": 0.0,
      "sold": 0,
      "price": 0.0,
-     "ts": "2026-11-20 08:51:39",
+     "ts": "2026-11-20 09:40:57",
      "localName": "哥伦比亚",
      "resetBj": "13:00",
      "hasData": true
     },
     {
      "name": "nexusclick-MLi-阿根廷",
-     "visits": 1,
-     "rawVisits": 1,
+     "visits": 2,
+     "rawVisits": 2,
      "buyers": 0,
      "orders": 0,
      "cvr": 0.0,
      "sold": 0,
      "price": 0.0,
-     "ts": "2026-11-20 08:51:23",
+     "ts": "2026-11-20 09:40:42",
      "localName": "阿根廷",
      "resetBj": "11:00",
      "hasData": true
@@ -3984,7 +4003,7 @@ window.SHOWCASE = {
      "cvr": 0.0,
      "sold": 0,
      "price": 0.0,
-     "ts": "2026-11-20 08:51:31",
+     "ts": "2026-11-20 09:40:49",
      "localName": "智利",
      "resetBj": "11:00",
      "hasData": true
@@ -4235,7 +4254,8 @@ window.SHOWCASE = {
   }
   $('#breakdown').innerHTML =
     bdCell(ali.name || '速卖通', COLOR.aliexpress, usd(ali.kpi && ali.kpi.pay), '今日支付 · 计入合计')
-    + bdCell(amz.name || '亚马逊', COLOR.amazon, usd(amz.kpi && amz.kpi.sales), '近24h · 口径不同，单列');
+    + bdCell(amz.name || '亚马逊', COLOR.amazon, usd(amz.kpi && amz.kpi.sales),
+        '近24h · 暂停更新（最后 ' + String((amz.kpi || {}).lastTs || '').slice(5, 16) + '）');
 
   /* ---------- 平台卡 ---------- */
   function metric(v, label) {
@@ -4300,56 +4320,57 @@ window.SHOWCASE = {
       + '</div>';
   })();
 
-  // 亚马逊（口径：后台「近 24 小时」滚动快照）
+  // 亚马逊 · 数据暂停更新：卡片只放一个大 logo，不再展示任何数字
+  //   （恢复采集后把这段换回原来的数据卡，并把 CARDS 里的 cardAmz 加回来即可）
+  function drawAmzLogo(svg) {
+    if (!svg) return;
+    var t = svg.querySelector('.amz-word');
+    if (!t) return;
+    var box, base = Number(t.getAttribute('y'));
+    try { box = t.getBBox(); } catch (e) { return; }
+    if (!box || !box.width) return;
+    // 笑弧的起止跟着字形宽度走：换机器、换字体都不会跑偏
+    var x0 = box.x + 8, x1 = box.x + box.width - 14;
+    var y0 = base + 14, w = x1 - x0;
+    var c1x = x0 + w * 0.30, c2x = x0 + w * 0.70, cy = y0 + 40;
+    var xEnd = x1, yEnd = y0 - 16;
+    var smile = svg.querySelector('.amz-smile');
+    if (smile) {
+      smile.setAttribute('d', 'M' + x0 + ' ' + y0 + ' C' + c1x + ' ' + cy + ',' + c2x + ' ' + cy + ',' + xEnd + ' ' + yEnd);
+    }
+    // 末端箭头顺着曲线切线方向摆
+    var dx = xEnd - c2x, dy = yEnd - cy, len = Math.sqrt(dx * dx + dy * dy) || 1;
+    var ux = dx / len, uy = dy / len, px = -uy, py = ux;
+    var L = 27, HW = 13.5;
+    var tip = svg.querySelector('.amz-tip');
+    if (tip) {
+      tip.setAttribute('d', 'M' + (xEnd + ux * L) + ' ' + (yEnd + uy * L)
+        + ' L' + (xEnd + px * HW) + ' ' + (yEnd + py * HW)
+        + ' L' + (xEnd - px * HW) + ' ' + (yEnd - py * HW) + ' Z');
+    }
+  }
   (function () {
     var k = amz.kpi || {};
-    var series = amz.series || [];
-    var deltaHtml;
-    if (has(k.salesPct) && has(k.salesPrev)) {
-      var _flat = Math.abs(k.salesPct) < 0.05;
-      deltaHtml = (_flat
-        ? '<span class="delta">持平</span>'
-        : '<span class="delta">' + (k.salesPct < 0 ? '↓ ' : '↑ ') + pct(Math.abs(k.salesPct), 1) + '</span>')
-        + '<span class="delta-note">较上次快照 ' + usd(k.salesPrev)
-        + (k.prevTs ? '（' + esc(String(k.prevTs).slice(5, 16)) + '）' : '') + '</span>';
-    } else {
-      deltaHtml = '<span class="delta-note">' + n(k.points) + ' 条采集点 · 最后 '
-        + esc(String(k.lastTs || '').slice(5, 16) || '—') + '</span>';
-    }
+    var last = String(k.lastTs || amz.snapshot || '').slice(5, 16);
     $('#cardAmz').innerHTML =
       '<div class="card-top">'
         + '<span class="plogo">amz</span>'
-        + '<div class="card-id"><h3 class="card-title">' + esc(amz.name) + '</h3><p class="card-sub">' + esc(amz.sub) + '</p></div>'
-        + flag('金额口径 · ' + (amz.currency || '—'))
-        + tzFlag(amz.tzReset)
+        + '<div class="card-id"><h3 class="card-title">' + esc(amz.name || '亚马逊') + '</h3>'
+          + '<p class="card-sub">Amazon · 近24h 滚动</p></div>'
+        + flag('暂停更新')
       + '</div>'
-      + '<div class="card-main">'
-        + '<div class="card-lead">'
-          + '<p class="label">近24h销售额 · 滚动 24 小时</p>'
-          + '<div class="big">' + usd(k.sales) + '</div>'
-          + '<div class="delta-row">' + deltaHtml + '</div>'
-        + '</div>'
-        + '<div class="chart">'
-          + '<p class="chart-head">近24h采集曲线 · ' + n(k.points) + ' 个采集点</p>'
-          + spark(series.map(function (s) { return s.sales; }), {
-              stroke: '#111111', fill: 'rgba(17,17,17,.1)', h: 78,
-              label: '亚马逊近24h销售额采集曲线'
-            })
-          + '<div class="chart-meta"><span>' + esc(series.length ? series[0].t : '') + '</span>'
-            + '<span>' + esc(series.length ? series[series.length - 1].t : '') + '</span></div>'
-        + '</div>'
-      + '</div>'
-      + '<div class="metrics">'
-        + metric(n(k.units), '销量 / 件')
-        + metric(n(k.orders), '订单量')
-        + metric(usd(k.avgPrice), '商品均价')
-        + metric(n(k.cancelled), '取消订单')
+      + '<div class="amz-plate">'
+        + '<svg class="amz-logo" viewBox="0 0 400 168" role="img" aria-label="Amazon">'
+          + '<text class="amz-word" x="200" y="98" text-anchor="middle" fill="#111111">amazon</text>'
+          + '<path class="amz-smile" fill="none" stroke="#111111" stroke-width="13" stroke-linecap="butt"/>'
+          + '<path class="amz-tip" fill="#111111"/>'
+        + '</svg>'
       + '</div>'
       + '<div class="card-foot">'
-        + '<span>近24h滚动 · ' + n(k.points) + ' 条采集点</span>'
-        + '<span class="clock">● 最后采集 <b>' + esc(String(k.lastTs || '').slice(5, 16) || '—') + '</b>'
-          + '<span class="cz">北京时间</span></span>'
+        + '<span class="amz-state"><b>亚马逊数据暂停更新</b><br>'
+          + '最后采集 ' + esc(last || '—') + '（北京时间）</span>'
       + '</div>';
+    drawAmzLogo($('#cardAmz .amz-logo'));
   })();
 
   // TikTok 小店
@@ -4447,7 +4468,7 @@ window.SHOWCASE = {
       + '</div>';
   })();
 
-  $('#cardsNote').textContent = '大金额合计 ' + usd(totals.usd) + ' 只算速卖通（亚马逊近24h口径不同，单列不并入）；每块一个平台，颜色即身份';
+  $('#cardsNote').textContent = '大金额合计 ' + usd(totals.usd) + ' 只算速卖通（亚马逊已暂停更新、口径也不同，金额只在首屏单列）；每块一个平台，颜色即身份';
 
   /* ---------- 平台明细抽屉（点卡片展开） ---------- */
   (function () {
@@ -4697,7 +4718,8 @@ window.SHOWCASE = {
       }
     };
 
-    var CARDS = { cardAli: 'aliexpress', cardAmz: 'amazon', cardTk: 'tiktok', cardMl: 'ml' };
+    // 亚马逊卡已改成停更大 logo，不再点开明细（恢复更新后把 cardAmz: 'amazon' 加回来）
+    var CARDS = { cardAli: 'aliexpress', cardTk: 'tiktok', cardMl: 'ml' };
     var current = null;
 
     function headHtml(P) {
