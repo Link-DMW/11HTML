@@ -1,19 +1,19 @@
 /* 由 build_shop_data.py 自动生成，请勿手改 */
 window.SHOP_DATA = {
-  "generated": "2026-11-26 10:43:08",
+  "generated": "2026-11-26 11:41:09",
   "db": "D:\\共享盘\\其他\\数据\\shop_data_readonly.db",
-  "dbMtime": "2026-11-26 10:42:15",
-  "latestSnapshot": "2026-11-26 10:39:40",
+  "dbMtime": "2026-11-26 11:40:17",
+  "latestSnapshot": "2026-11-26 11:37:54",
   "stores": [
     {
       "name": "yoyo",
-      "ts": "2026-11-26 10:39:40",
-      "tsWest": "2026-11-25 18:39:40",
-      "sales": 19.0,
-      "views": 729.0,
-      "visitors": 388.0,
+      "ts": "2026-11-26 11:37:54",
+      "tsWest": "2026-11-25 19:37:54",
+      "sales": 20.0,
+      "views": 775.0,
+      "visitors": 413.0,
       "disputes": 3.0,
-      "balance": 2526.21,
+      "balance": 2537.54,
       "popDisputes": 0.0,
       "popPay": 0.0,
       "popVisitors": 0.0,
@@ -23,7 +23,7 @@ window.SHOP_DATA = {
       "adSpendRaw": "未采集到",
       "roi": null,
       "acos": null,
-      "version": "2026-11-26 10:43:08",
+      "version": "2026-11-26 11:41:07",
       "history": [
         {
           "ts": "2026-10-28 12:41:17",
@@ -9256,13 +9256,29 @@ window.SHOP_DATA = {
           "cvr": 0.0,
           "adSpend": null,
           "adSpendRaw": "未采集到"
+        },
+        {
+          "ts": "2026-11-26 11:37:54",
+          "tsWest": "2026-11-25 19:37:54",
+          "sales": 20.0,
+          "views": 775.0,
+          "visitors": 413.0,
+          "disputes": 3.0,
+          "balance": 2537.54,
+          "popDisputes": 0.0,
+          "popPay": 0.0,
+          "popVisitors": 0.0,
+          "popOrders": 0.0,
+          "cvr": 0.0,
+          "adSpend": null,
+          "adSpendRaw": "未采集到"
         }
       ]
     },
     {
       "name": "profile",
-      "ts": "2026-11-26 10:38:09",
-      "tsWest": "2026-11-25 18:38:09",
+      "ts": "2026-11-26 11:36:14",
+      "tsWest": "2026-11-25 19:36:14",
       "sales": 0.0,
       "views": 0.0,
       "visitors": 0.0,
@@ -9270,14 +9286,14 @@ window.SHOP_DATA = {
       "balance": 0.0,
       "popDisputes": 4.0,
       "popPay": 3818.13,
-      "popVisitors": 2241.0,
+      "popVisitors": 2290.0,
       "popOrders": 55.0,
-      "cvr": 2.23,
-      "adSpend": null,
-      "adSpendRaw": "--",
-      "roi": null,
-      "acos": null,
-      "version": "2026-11-26 10:43:08",
+      "cvr": 2.18,
+      "adSpend": 193.13,
+      "adSpendRaw": "¥193.13",
+      "roi": 19.77,
+      "acos": 5.06,
+      "version": "2026-11-26 11:41:07",
       "history": [
         {
           "ts": "2026-11-01 02:38:15",
@@ -17422,13 +17438,29 @@ window.SHOP_DATA = {
           "cvr": 2.23,
           "adSpend": null,
           "adSpendRaw": "--"
+        },
+        {
+          "ts": "2026-11-26 11:36:14",
+          "tsWest": "2026-11-25 19:36:14",
+          "sales": 0.0,
+          "views": 0.0,
+          "visitors": 0.0,
+          "disputes": 0.0,
+          "balance": 0.0,
+          "popDisputes": 4.0,
+          "popPay": 3818.13,
+          "popVisitors": 2290.0,
+          "popOrders": 55.0,
+          "cvr": 2.18,
+          "adSpend": 193.13,
+          "adSpendRaw": "¥193.13"
         }
       ]
     },
     {
       "name": "Petery",
-      "ts": "2026-11-26 10:35:35",
-      "tsWest": "2026-11-25 18:35:35",
+      "ts": "2026-11-26 11:33:49",
+      "tsWest": "2026-11-25 19:33:49",
       "sales": 0.0,
       "views": 15.0,
       "visitors": 12.0,
@@ -17436,14 +17468,14 @@ window.SHOP_DATA = {
       "balance": 0.0,
       "popDisputes": 0.0,
       "popPay": 135.4,
-      "popVisitors": 217.0,
+      "popVisitors": 221.0,
       "popOrders": 8.0,
-      "cvr": 3.69,
-      "adSpend": 0.0,
-      "adSpendRaw": "¥0.00",
+      "cvr": 3.62,
+      "adSpend": null,
+      "adSpendRaw": "--",
       "roi": null,
       "acos": null,
-      "version": "2026-11-26 10:43:08",
+      "version": "2026-11-26 11:41:07",
       "history": [
         {
           "ts": "2026-10-28 12:36:36",
@@ -26820,28 +26852,44 @@ window.SHOP_DATA = {
           "cvr": 3.69,
           "adSpend": 0.0,
           "adSpendRaw": "¥0.00"
+        },
+        {
+          "ts": "2026-11-26 11:33:49",
+          "tsWest": "2026-11-25 19:33:49",
+          "sales": 0.0,
+          "views": 15.0,
+          "visitors": 12.0,
+          "disputes": 0.0,
+          "balance": 0.0,
+          "popDisputes": 0.0,
+          "popPay": 135.4,
+          "popVisitors": 221.0,
+          "popOrders": 8.0,
+          "cvr": 3.62,
+          "adSpend": null,
+          "adSpendRaw": "--"
         }
       ]
     },
     {
       "name": "Elong",
-      "ts": "2026-11-26 10:33:51",
-      "tsWest": "2026-11-25 18:33:51",
-      "sales": 5.0,
-      "views": 504.0,
-      "visitors": 272.0,
+      "ts": "2026-11-26 11:31:57",
+      "tsWest": "2026-11-25 19:31:57",
+      "sales": 6.0,
+      "views": 514.0,
+      "visitors": 277.0,
       "disputes": 1.0,
       "balance": 2055.41,
       "popDisputes": 0.0,
       "popPay": 103.47,
-      "popVisitors": 140.0,
+      "popVisitors": 143.0,
       "popOrders": 5.0,
-      "cvr": 3.57,
-      "adSpend": null,
-      "adSpendRaw": "--",
+      "cvr": 3.5,
+      "adSpend": 0.0,
+      "adSpendRaw": "¥0.00",
       "roi": null,
       "acos": null,
-      "version": "2026-11-26 10:43:08",
+      "version": "2026-11-26 11:41:07",
       "history": [
         {
           "ts": "2026-10-28 12:34:40",
@@ -36282,16 +36330,32 @@ window.SHOP_DATA = {
           "cvr": 3.57,
           "adSpend": null,
           "adSpendRaw": "--"
+        },
+        {
+          "ts": "2026-11-26 11:31:57",
+          "tsWest": "2026-11-25 19:31:57",
+          "sales": 6.0,
+          "views": 514.0,
+          "visitors": 277.0,
+          "disputes": 1.0,
+          "balance": 2055.41,
+          "popDisputes": 0.0,
+          "popPay": 103.47,
+          "popVisitors": 143.0,
+          "popOrders": 5.0,
+          "cvr": 3.5,
+          "adSpend": 0.0,
+          "adSpendRaw": "¥0.00"
         }
       ]
     },
     {
       "name": "sam",
-      "ts": "2026-11-26 10:31:13",
-      "tsWest": "2026-11-25 18:31:13",
+      "ts": "2026-11-26 11:29:56",
+      "tsWest": "2026-11-25 19:29:56",
       "sales": 1.0,
-      "views": 114.0,
-      "visitors": 41.0,
+      "views": 126.0,
+      "visitors": 44.0,
       "disputes": 0.0,
       "balance": 674.16,
       "popDisputes": 0.0,
@@ -36303,7 +36367,7 @@ window.SHOP_DATA = {
       "adSpendRaw": "未采集到",
       "roi": null,
       "acos": null,
-      "version": "2026-11-26 10:43:08",
+      "version": "2026-11-26 11:41:07",
       "history": [
         {
           "ts": "2026-10-28 12:32:50",
@@ -45808,16 +45872,32 @@ window.SHOP_DATA = {
           "cvr": 0.0,
           "adSpend": null,
           "adSpendRaw": "未采集到"
+        },
+        {
+          "ts": "2026-11-26 11:29:56",
+          "tsWest": "2026-11-25 19:29:56",
+          "sales": 1.0,
+          "views": 126.0,
+          "visitors": 44.0,
+          "disputes": 0.0,
+          "balance": 674.16,
+          "popDisputes": 0.0,
+          "popPay": 0.0,
+          "popVisitors": 0.0,
+          "popOrders": 0.0,
+          "cvr": 0.0,
+          "adSpend": null,
+          "adSpendRaw": "未采集到"
         }
       ]
     },
     {
       "name": "Eric",
-      "ts": "2026-11-26 10:29:21",
-      "tsWest": "2026-11-25 18:29:21",
-      "sales": 4.0,
-      "views": 156.0,
-      "visitors": 113.0,
+      "ts": "2026-11-26 11:28:02",
+      "tsWest": "2026-11-25 19:28:02",
+      "sales": 5.0,
+      "views": 159.0,
+      "visitors": 115.0,
       "disputes": 1.0,
       "balance": 927.38,
       "popDisputes": 0.0,
@@ -45825,11 +45905,11 @@ window.SHOP_DATA = {
       "popVisitors": 61.0,
       "popOrders": 1.0,
       "cvr": 1.64,
-      "adSpend": null,
-      "adSpendRaw": "--",
+      "adSpend": 0.0,
+      "adSpendRaw": "¥0.00",
       "roi": null,
       "acos": null,
-      "version": "2026-11-26 10:43:07",
+      "version": "2026-11-26 11:41:07",
       "history": [
         {
           "ts": "2026-10-28 12:30:46",
@@ -55382,28 +55462,44 @@ window.SHOP_DATA = {
           "cvr": 1.64,
           "adSpend": null,
           "adSpendRaw": "--"
+        },
+        {
+          "ts": "2026-11-26 11:28:02",
+          "tsWest": "2026-11-25 19:28:02",
+          "sales": 5.0,
+          "views": 159.0,
+          "visitors": 115.0,
+          "disputes": 1.0,
+          "balance": 927.38,
+          "popDisputes": 0.0,
+          "popPay": 58.04,
+          "popVisitors": 61.0,
+          "popOrders": 1.0,
+          "cvr": 1.64,
+          "adSpend": 0.0,
+          "adSpendRaw": "¥0.00"
         }
       ]
     },
     {
       "name": "Ella",
-      "ts": "2026-11-26 10:26:48",
-      "tsWest": "2026-11-25 18:26:48",
+      "ts": "2026-11-26 11:25:07",
+      "tsWest": "2026-11-25 19:25:07",
       "sales": 11.0,
-      "views": 530.0,
-      "visitors": 219.0,
+      "views": 552.0,
+      "visitors": 230.0,
       "disputes": 0.0,
-      "balance": 1390.25,
+      "balance": 1492.25,
       "popDisputes": 0.0,
       "popPay": 212.78,
-      "popVisitors": 436.0,
+      "popVisitors": 458.0,
       "popOrders": 5.0,
-      "cvr": 1.15,
+      "cvr": 1.09,
       "adSpend": 0.0,
       "adSpendRaw": "¥0.00",
       "roi": null,
       "acos": null,
-      "version": "2026-11-26 10:43:07",
+      "version": "2026-11-26 11:41:07",
       "history": [
         {
           "ts": "2026-10-28 12:28:21",
@@ -65036,28 +65132,44 @@ window.SHOP_DATA = {
           "cvr": 1.15,
           "adSpend": 0.0,
           "adSpendRaw": "¥0.00"
+        },
+        {
+          "ts": "2026-11-26 11:25:07",
+          "tsWest": "2026-11-25 19:25:07",
+          "sales": 11.0,
+          "views": 552.0,
+          "visitors": 230.0,
+          "disputes": 0.0,
+          "balance": 1492.25,
+          "popDisputes": 0.0,
+          "popPay": 212.78,
+          "popVisitors": 458.0,
+          "popOrders": 5.0,
+          "cvr": 1.09,
+          "adSpend": 0.0,
+          "adSpendRaw": "¥0.00"
         }
       ]
     },
     {
       "name": "Otmil",
-      "ts": "2026-11-26 10:24:52",
-      "tsWest": "2026-11-25 18:24:52",
+      "ts": "2026-11-26 11:22:57",
+      "tsWest": "2026-11-25 19:22:57",
       "sales": 12.0,
-      "views": 510.0,
-      "visitors": 262.0,
+      "views": 537.0,
+      "visitors": 274.0,
       "disputes": 1.0,
-      "balance": 522.28,
+      "balance": 740.53,
       "popDisputes": 1.0,
       "popPay": 536.42,
-      "popVisitors": 588.0,
+      "popVisitors": 605.0,
       "popOrders": 11.0,
-      "cvr": 1.87,
+      "cvr": 1.82,
       "adSpend": 0.0,
       "adSpendRaw": "¥0.00",
       "roi": null,
       "acos": null,
-      "version": "2026-11-26 10:43:07",
+      "version": "2026-11-26 11:41:06",
       "history": [
         {
           "ts": "2026-10-28 12:26:27",
@@ -74754,16 +74866,32 @@ window.SHOP_DATA = {
           "cvr": 1.87,
           "adSpend": 0.0,
           "adSpendRaw": "¥0.00"
+        },
+        {
+          "ts": "2026-11-26 11:22:57",
+          "tsWest": "2026-11-25 19:22:57",
+          "sales": 12.0,
+          "views": 537.0,
+          "visitors": 274.0,
+          "disputes": 1.0,
+          "balance": 740.53,
+          "popDisputes": 1.0,
+          "popPay": 536.42,
+          "popVisitors": 605.0,
+          "popOrders": 11.0,
+          "cvr": 1.82,
+          "adSpend": 0.0,
+          "adSpendRaw": "¥0.00"
         }
       ]
     },
     {
       "name": "bana",
-      "ts": "2026-11-26 10:22:42",
-      "tsWest": "2026-11-25 18:22:42",
+      "ts": "2026-11-26 11:20:51",
+      "tsWest": "2026-11-25 19:20:51",
       "sales": 11.0,
-      "views": 206.0,
-      "visitors": 115.0,
+      "views": 214.0,
+      "visitors": 120.0,
       "disputes": 0.0,
       "balance": 808.17,
       "popDisputes": 0.0,
@@ -74775,7 +74903,7 @@ window.SHOP_DATA = {
       "adSpendRaw": "未采集到",
       "roi": null,
       "acos": null,
-      "version": "2026-11-26 10:43:07",
+      "version": "2026-11-26 11:41:06",
       "history": [
         {
           "ts": "2026-10-28 12:24:23",
@@ -84568,16 +84696,32 @@ window.SHOP_DATA = {
           "cvr": 0.0,
           "adSpend": null,
           "adSpendRaw": "未采集到"
+        },
+        {
+          "ts": "2026-11-26 11:20:51",
+          "tsWest": "2026-11-25 19:20:51",
+          "sales": 11.0,
+          "views": 214.0,
+          "visitors": 120.0,
+          "disputes": 0.0,
+          "balance": 808.17,
+          "popDisputes": 0.0,
+          "popPay": 0.0,
+          "popVisitors": 0.0,
+          "popOrders": 0.0,
+          "cvr": 0.0,
+          "adSpend": null,
+          "adSpendRaw": "未采集到"
         }
       ]
     },
     {
       "name": "Linda",
-      "ts": "2026-11-26 10:20:40",
-      "tsWest": "2026-11-25 18:20:40",
+      "ts": "2026-11-26 11:18:49",
+      "tsWest": "2026-11-25 19:18:49",
       "sales": 12.0,
-      "views": 594.0,
-      "visitors": 280.0,
+      "views": 614.0,
+      "visitors": 292.0,
       "disputes": 0.0,
       "balance": 978.25,
       "popDisputes": 0.0,
@@ -84589,7 +84733,7 @@ window.SHOP_DATA = {
       "adSpendRaw": "未采集到",
       "roi": null,
       "acos": null,
-      "version": "2026-11-26 10:43:07",
+      "version": "2026-11-26 11:41:06",
       "history": [
         {
           "ts": "2026-10-28 12:22:30",
@@ -94446,18 +94590,34 @@ window.SHOP_DATA = {
           "cvr": 0.0,
           "adSpend": null,
           "adSpendRaw": "未采集到"
+        },
+        {
+          "ts": "2026-11-26 11:18:49",
+          "tsWest": "2026-11-25 19:18:49",
+          "sales": 12.0,
+          "views": 614.0,
+          "visitors": 292.0,
+          "disputes": 0.0,
+          "balance": 978.25,
+          "popDisputes": 0.0,
+          "popPay": 0.0,
+          "popVisitors": 0.0,
+          "popOrders": 0.0,
+          "cvr": 0.0,
+          "adSpend": null,
+          "adSpendRaw": "未采集到"
         }
       ]
     },
     {
       "name": "nancytuo",
-      "ts": "2026-11-26 10:18:49",
-      "tsWest": "2026-11-25 18:18:49",
-      "sales": 19.0,
-      "views": 891.0,
-      "visitors": 439.0,
+      "ts": "2026-11-26 11:17:05",
+      "tsWest": "2026-11-25 19:17:05",
+      "sales": 20.0,
+      "views": 932.0,
+      "visitors": 454.0,
       "disputes": 1.0,
-      "balance": 1303.03,
+      "balance": 1330.03,
       "popDisputes": 0.0,
       "popPay": 0.0,
       "popVisitors": 0.0,
@@ -94467,7 +94627,7 @@ window.SHOP_DATA = {
       "adSpendRaw": "未采集到",
       "roi": null,
       "acos": null,
-      "version": "2026-11-26 10:43:07",
+      "version": "2026-11-26 11:41:06",
       "history": [
         {
           "ts": "2026-10-28 11:57:29",
@@ -104340,16 +104500,32 @@ window.SHOP_DATA = {
           "cvr": 0.0,
           "adSpend": null,
           "adSpendRaw": "未采集到"
+        },
+        {
+          "ts": "2026-11-26 11:17:05",
+          "tsWest": "2026-11-25 19:17:05",
+          "sales": 20.0,
+          "views": 932.0,
+          "visitors": 454.0,
+          "disputes": 1.0,
+          "balance": 1330.03,
+          "popDisputes": 0.0,
+          "popPay": 0.0,
+          "popVisitors": 0.0,
+          "popOrders": 0.0,
+          "cvr": 0.0,
+          "adSpend": null,
+          "adSpendRaw": "未采集到"
         }
       ]
     },
     {
       "name": "David",
-      "ts": "2026-11-26 10:16:19",
-      "tsWest": "2026-11-25 18:16:19",
+      "ts": "2026-11-26 11:14:28",
+      "tsWest": "2026-11-25 19:14:28",
       "sales": 18.0,
-      "views": 783.0,
-      "visitors": 383.0,
+      "views": 812.0,
+      "visitors": 401.0,
       "disputes": 0.0,
       "balance": 1199.82,
       "popDisputes": 0.0,
@@ -104361,7 +104537,7 @@ window.SHOP_DATA = {
       "adSpendRaw": "¥0.00",
       "roi": null,
       "acos": null,
-      "version": "2026-11-26 10:43:07",
+      "version": "2026-11-26 11:41:06",
       "history": [
         {
           "ts": "2026-10-28 11:57:29",
@@ -114330,13 +114506,29 @@ window.SHOP_DATA = {
           "cvr": 0.0,
           "adSpend": 0.0,
           "adSpendRaw": "¥0.00"
+        },
+        {
+          "ts": "2026-11-26 11:14:28",
+          "tsWest": "2026-11-25 19:14:28",
+          "sales": 18.0,
+          "views": 812.0,
+          "visitors": 401.0,
+          "disputes": 0.0,
+          "balance": 1199.82,
+          "popDisputes": 0.0,
+          "popPay": 0.0,
+          "popVisitors": 2.0,
+          "popOrders": 0.0,
+          "cvr": 0.0,
+          "adSpend": 0.0,
+          "adSpendRaw": "¥0.00"
         }
       ]
     },
     {
       "name": "NexusPOP",
-      "ts": "2026-11-26 10:14:41",
-      "tsWest": "2026-11-25 18:14:41",
+      "ts": "2026-11-26 11:12:55",
+      "tsWest": "2026-11-25 19:12:55",
       "sales": 0.0,
       "views": 0.0,
       "visitors": 0.0,
@@ -114344,14 +114536,14 @@ window.SHOP_DATA = {
       "balance": 0.0,
       "popDisputes": 0.0,
       "popPay": 0.0,
-      "popVisitors": 18.0,
+      "popVisitors": 19.0,
       "popOrders": 0.0,
       "cvr": 0.0,
-      "adSpend": null,
-      "adSpendRaw": "--",
+      "adSpend": 0.0,
+      "adSpendRaw": "¥0.00",
       "roi": null,
       "acos": null,
-      "version": "2026-11-26 10:43:07",
+      "version": "2026-11-26 11:41:06",
       "history": [
         {
           "ts": "2026-10-28 11:57:29",
@@ -124352,18 +124544,34 @@ window.SHOP_DATA = {
           "cvr": 0.0,
           "adSpend": null,
           "adSpendRaw": "--"
+        },
+        {
+          "ts": "2026-11-26 11:12:55",
+          "tsWest": "2026-11-25 19:12:55",
+          "sales": 0.0,
+          "views": 0.0,
+          "visitors": 0.0,
+          "disputes": 0.0,
+          "balance": 0.0,
+          "popDisputes": 0.0,
+          "popPay": 0.0,
+          "popVisitors": 19.0,
+          "popOrders": 0.0,
+          "cvr": 0.0,
+          "adSpend": 0.0,
+          "adSpendRaw": "¥0.00"
         }
       ]
     },
     {
       "name": "nexusclick",
-      "ts": "2026-11-26 10:12:52",
-      "tsWest": "2026-11-25 18:12:52",
-      "sales": 58.0,
-      "views": 2607.0,
-      "visitors": 1369.0,
+      "ts": "2026-11-26 11:11:07",
+      "tsWest": "2026-11-25 19:11:07",
+      "sales": 60.0,
+      "views": 2800.0,
+      "visitors": 1457.0,
       "disputes": 4.0,
-      "balance": 4541.91,
+      "balance": 4586.73,
       "popDisputes": 0.0,
       "popPay": 0.0,
       "popVisitors": 0.0,
@@ -124373,7 +124581,7 @@ window.SHOP_DATA = {
       "adSpendRaw": "未采集到",
       "roi": null,
       "acos": null,
-      "version": "2026-11-26 10:43:07",
+      "version": "2026-11-26 11:41:06",
       "history": [
         {
           "ts": "2026-10-28 11:57:29",
@@ -134502,13 +134710,29 @@ window.SHOP_DATA = {
           "cvr": 0.0,
           "adSpend": null,
           "adSpendRaw": "未采集到"
+        },
+        {
+          "ts": "2026-11-26 11:11:07",
+          "tsWest": "2026-11-25 19:11:07",
+          "sales": 60.0,
+          "views": 2800.0,
+          "visitors": 1457.0,
+          "disputes": 4.0,
+          "balance": 4586.73,
+          "popDisputes": 0.0,
+          "popPay": 0.0,
+          "popVisitors": 0.0,
+          "popOrders": 0.0,
+          "cvr": 0.0,
+          "adSpend": null,
+          "adSpendRaw": "未采集到"
         }
       ]
     },
     {
       "name": "Imice",
-      "ts": "2026-11-26 10:11:23",
-      "tsWest": "2026-11-25 18:11:23",
+      "ts": "2026-11-26 11:09:35",
+      "tsWest": "2026-11-25 19:09:35",
       "sales": 0.0,
       "views": 0.0,
       "visitors": 0.0,
@@ -134516,14 +134740,14 @@ window.SHOP_DATA = {
       "balance": 0.0,
       "popDisputes": 1.0,
       "popPay": 185.03,
-      "popVisitors": 223.0,
+      "popVisitors": 238.0,
       "popOrders": 9.0,
-      "cvr": 2.69,
+      "cvr": 2.52,
       "adSpend": 0.0,
       "adSpendRaw": "¥0.00",
       "roi": null,
       "acos": null,
-      "version": "2026-11-26 10:43:07",
+      "version": "2026-11-26 11:41:06",
       "history": [
         {
           "ts": "2026-10-28 11:57:29",
@@ -144828,28 +145052,44 @@ window.SHOP_DATA = {
           "cvr": 2.69,
           "adSpend": 0.0,
           "adSpendRaw": "¥0.00"
+        },
+        {
+          "ts": "2026-11-26 11:09:35",
+          "tsWest": "2026-11-25 19:09:35",
+          "sales": 0.0,
+          "views": 0.0,
+          "visitors": 0.0,
+          "disputes": 0.0,
+          "balance": 0.0,
+          "popDisputes": 1.0,
+          "popPay": 185.03,
+          "popVisitors": 238.0,
+          "popOrders": 9.0,
+          "cvr": 2.52,
+          "adSpend": 0.0,
+          "adSpendRaw": "¥0.00"
         }
       ]
     },
     {
       "name": "Catherine",
-      "ts": "2026-11-26 10:09:10",
-      "tsWest": "2026-11-25 18:09:10",
+      "ts": "2026-11-26 11:07:26",
+      "tsWest": "2026-11-25 19:07:26",
       "sales": 3.0,
-      "views": 242.0,
-      "visitors": 173.0,
+      "views": 243.0,
+      "visitors": 174.0,
       "disputes": 0.0,
       "balance": 956.38,
       "popDisputes": 0.0,
       "popPay": 919.91,
-      "popVisitors": 835.0,
+      "popVisitors": 863.0,
       "popOrders": 21.0,
-      "cvr": 2.16,
-      "adSpend": 71.66,
-      "adSpendRaw": "¥71.66",
-      "roi": 12.84,
-      "acos": 7.79,
-      "version": "2026-11-26 10:43:07",
+      "cvr": 2.09,
+      "adSpend": null,
+      "adSpendRaw": "--",
+      "roi": null,
+      "acos": null,
+      "version": "2026-11-26 11:41:06",
       "history": [
         {
           "ts": "2026-10-28 11:09:21",
@@ -155250,28 +155490,44 @@ window.SHOP_DATA = {
           "cvr": 2.16,
           "adSpend": 71.66,
           "adSpendRaw": "¥71.66"
+        },
+        {
+          "ts": "2026-11-26 11:07:26",
+          "tsWest": "2026-11-25 19:07:26",
+          "sales": 3.0,
+          "views": 243.0,
+          "visitors": 174.0,
+          "disputes": 0.0,
+          "balance": 956.38,
+          "popDisputes": 0.0,
+          "popPay": 919.91,
+          "popVisitors": 863.0,
+          "popOrders": 21.0,
+          "cvr": 2.09,
+          "adSpend": null,
+          "adSpendRaw": "--"
         }
       ]
     },
     {
       "name": "8Li",
-      "ts": "2026-11-26 10:06:48",
-      "tsWest": "2026-11-25 18:06:48",
+      "ts": "2026-11-26 11:04:55",
+      "tsWest": "2026-11-25 19:04:55",
       "sales": 4.0,
-      "views": 174.0,
-      "visitors": 124.0,
+      "views": 183.0,
+      "visitors": 127.0,
       "disputes": 0.0,
       "balance": 157.06,
       "popDisputes": 0.0,
-      "popPay": 1799.29,
-      "popVisitors": 1087.0,
-      "popOrders": 44.0,
-      "cvr": 3.86,
-      "adSpend": 57.61,
-      "adSpendRaw": "¥57.61",
-      "roi": 31.23,
-      "acos": 3.2,
-      "version": "2026-11-26 10:43:07",
+      "popPay": 1835.02,
+      "popVisitors": 1120.0,
+      "popOrders": 45.0,
+      "cvr": 3.84,
+      "adSpend": 61.44,
+      "adSpendRaw": "¥61.44",
+      "roi": 29.87,
+      "acos": 3.35,
+      "version": "2026-11-26 11:41:06",
       "history": [
         {
           "ts": "2026-10-28 11:09:21",
@@ -165992,16 +166248,32 @@ window.SHOP_DATA = {
           "cvr": 3.86,
           "adSpend": 57.61,
           "adSpendRaw": "¥57.61"
+        },
+        {
+          "ts": "2026-11-26 11:04:55",
+          "tsWest": "2026-11-25 19:04:55",
+          "sales": 4.0,
+          "views": 183.0,
+          "visitors": 127.0,
+          "disputes": 0.0,
+          "balance": 157.06,
+          "popDisputes": 0.0,
+          "popPay": 1835.02,
+          "popVisitors": 1120.0,
+          "popOrders": 45.0,
+          "cvr": 3.84,
+          "adSpend": 61.44,
+          "adSpendRaw": "¥61.44"
         }
       ]
     },
     {
       "name": "NKtuo",
-      "ts": "2026-11-26 10:04:32",
-      "tsWest": "2026-11-25 18:04:32",
-      "sales": 49.0,
-      "views": 2932.0,
-      "visitors": 1489.0,
+      "ts": "2026-11-26 11:03:19",
+      "tsWest": "2026-11-25 19:03:19",
+      "sales": 55.0,
+      "views": 3074.0,
+      "visitors": 1568.0,
       "disputes": 2.0,
       "balance": 2252.57,
       "popDisputes": 0.0,
@@ -166013,7 +166285,7 @@ window.SHOP_DATA = {
       "adSpendRaw": "未采集到",
       "roi": null,
       "acos": null,
-      "version": "2026-11-26 10:43:08",
+      "version": "2026-11-26 11:41:07",
       "history": [
         {
           "ts": "2026-10-28 12:39:45",
@@ -176798,28 +177070,44 @@ window.SHOP_DATA = {
           "cvr": 0.0,
           "adSpend": null,
           "adSpendRaw": "未采集到"
+        },
+        {
+          "ts": "2026-11-26 11:03:19",
+          "tsWest": "2026-11-25 19:03:19",
+          "sales": 55.0,
+          "views": 3074.0,
+          "visitors": 1568.0,
+          "disputes": 2.0,
+          "balance": 2252.57,
+          "popDisputes": 0.0,
+          "popPay": 0.0,
+          "popVisitors": 0.0,
+          "popOrders": 0.0,
+          "cvr": 0.0,
+          "adSpend": null,
+          "adSpendRaw": "未采集到"
         }
       ]
     },
     {
       "name": "Sara",
-      "ts": "2026-11-26 10:01:18",
-      "tsWest": "2026-11-25 18:01:18",
+      "ts": "2026-11-26 11:01:10",
+      "tsWest": "2026-11-25 19:01:10",
       "sales": 4.0,
-      "views": 373.0,
-      "visitors": 258.0,
+      "views": 392.0,
+      "visitors": 269.0,
       "disputes": 0.0,
       "balance": 520.67,
       "popDisputes": 9.0,
-      "popPay": 3497.72,
-      "popVisitors": 2068.0,
-      "popOrders": 70.0,
-      "cvr": 3.19,
-      "adSpend": 248.88,
-      "adSpendRaw": "¥248.88",
-      "roi": 14.05,
-      "acos": 7.12,
-      "version": "2026-11-26 10:43:07",
+      "popPay": 3561.16,
+      "popVisitors": 2116.0,
+      "popOrders": 72.0,
+      "cvr": 3.21,
+      "adSpend": 249.16,
+      "adSpendRaw": "¥249.16",
+      "roi": 14.29,
+      "acos": 7.0,
+      "version": "2026-11-26 11:41:06",
       "history": [
         {
           "ts": "2026-10-28 11:02:29",
@@ -187876,6 +188164,22 @@ window.SHOP_DATA = {
           "cvr": 3.19,
           "adSpend": 248.88,
           "adSpendRaw": "¥248.88"
+        },
+        {
+          "ts": "2026-11-26 11:01:10",
+          "tsWest": "2026-11-25 19:01:10",
+          "sales": 4.0,
+          "views": 392.0,
+          "visitors": 269.0,
+          "disputes": 0.0,
+          "balance": 520.67,
+          "popDisputes": 9.0,
+          "popPay": 3561.16,
+          "popVisitors": 2116.0,
+          "popOrders": 72.0,
+          "cvr": 3.21,
+          "adSpend": 249.16,
+          "adSpendRaw": "¥249.16"
         }
       ]
     }
@@ -204342,6 +204646,18 @@ window.SHOP_DATA = {
             "visitors": 5.0,
             "bad": 0.0,
             "ret": 1.59
+          },
+          {
+            "ts": "2026-11-26 10:43:18",
+            "tsWest": "2026-11-25 18:43:18",
+            "units": 0.0,
+            "short": 0.0,
+            "live": 0.0,
+            "sku": 0.0,
+            "expo": 423.0,
+            "visitors": 8.0,
+            "bad": 0.0,
+            "ret": 1.59
           }
         ],
         "Sinbeda Store": [
@@ -212096,6 +212412,18 @@ window.SHOP_DATA = {
             "visitors": 28.0,
             "bad": 0.0,
             "ret": 0.93
+          },
+          {
+            "ts": "2026-11-26 10:43:03",
+            "tsWest": "2026-11-25 18:43:03",
+            "units": 0.0,
+            "short": 0.0,
+            "live": 0.0,
+            "sku": 0.0,
+            "expo": 807.0,
+            "visitors": 40.0,
+            "bad": 0.0,
+            "ret": 0.93
           }
         ],
         "Rhode direct": [
@@ -219610,6 +219938,18 @@ window.SHOP_DATA = {
             "visitors": 1.0,
             "bad": 0.0,
             "ret": 0.0
+          },
+          {
+            "ts": "2026-11-26 10:43:47",
+            "tsWest": "2026-11-25 18:43:47",
+            "units": 0.0,
+            "short": 0.0,
+            "live": 0.0,
+            "sku": 0.0,
+            "expo": 149.0,
+            "visitors": 1.0,
+            "bad": 0.0,
+            "ret": 0.0
           }
         ]
       }
@@ -224924,6 +225264,16 @@ window.SHOP_DATA = {
             "cvr": 0.0,
             "sold": 0.0,
             "price": 0.0
+          },
+          {
+            "ts": "2026-11-26 10:45:53",
+            "tsWest": "2026-11-25 18:45:53",
+            "visits": 12.0,
+            "buyers": 0.0,
+            "orders": 0.0,
+            "cvr": 0.0,
+            "sold": 0.0,
+            "price": 0.0
           }
         ],
         "nexusclick-MLi-巴西": [
@@ -230186,6 +230536,16 @@ window.SHOP_DATA = {
             "cvr": 0.0,
             "sold": 0.0,
             "price": 0.0
+          },
+          {
+            "ts": "2026-11-26 10:46:11",
+            "tsWest": "2026-11-25 18:46:11",
+            "visits": 12.0,
+            "buyers": 0.0,
+            "orders": 0.0,
+            "cvr": 0.0,
+            "sold": 0.0,
+            "price": 0.0
           }
         ],
         "nexusclick-MLi-阿根廷": [
@@ -235388,6 +235748,16 @@ window.SHOP_DATA = {
             "cvr": 0.0,
             "sold": 0.0,
             "price": 0.0
+          },
+          {
+            "ts": "2026-11-26 10:46:19",
+            "tsWest": "2026-11-25 18:46:19",
+            "visits": 4.0,
+            "buyers": 0.0,
+            "orders": 0.0,
+            "cvr": 0.0,
+            "sold": 0.0,
+            "price": 0.0
           }
         ],
         "nexusclick-MLi-智利": [
@@ -240550,6 +240920,16 @@ window.SHOP_DATA = {
             "cvr": 0.0,
             "sold": 0.0,
             "price": 0.0
+          },
+          {
+            "ts": "2026-11-26 10:46:27",
+            "tsWest": "2026-11-25 18:46:27",
+            "visits": 0.0,
+            "buyers": 0.0,
+            "orders": 0.0,
+            "cvr": 0.0,
+            "sold": 0.0,
+            "price": 0.0
           }
         ],
         "nexusclick-MLi-哥伦比亚": [
@@ -245652,6 +246032,16 @@ window.SHOP_DATA = {
             "cvr": 0.0,
             "sold": 0.0,
             "price": 0.0
+          },
+          {
+            "ts": "2026-11-26 10:46:35",
+            "tsWest": "2026-11-25 18:46:35",
+            "visits": 1.0,
+            "buyers": 0.0,
+            "orders": 0.0,
+            "cvr": 0.0,
+            "sold": 0.0,
+            "price": 0.0
           }
         ]
       }
@@ -245675,25 +246065,23 @@ window.SHOP_DATA = {
     "近亚马逊24h数据"
   ],
   "adCoverage": {
-    "known": 8,
+    "known": 10,
     "total": 19,
     "missing": [
-      "Elong",
-      "Eric",
+      "Catherine",
       "Linda",
       "NKtuo",
-      "NexusPOP",
+      "Petery",
       "bana",
       "nancytuo",
       "nexusclick",
-      "profile",
       "sam",
       "yoyo"
     ],
     "spending": [
       "8Li",
-      "Catherine",
-      "Sara"
+      "Sara",
+      "profile"
     ]
   }
 };
